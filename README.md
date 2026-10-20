@@ -7,21 +7,21 @@ implementing the *Participant Registration Portal: Question Set* PDF.
 ## Run
 
 ```bash
-go build -o bin/ifest .
-ADMIN_TOKEN=choose-a-secret ./bin/ifest        # listens on :8090 (override with ADDR=:port)
+npm install
+cp .env.example .env.local     # fill in real DATABASE_URL + ADMIN_TOKEN
+npm start                      # listens on :8090 (override with PORT=:port)
 ```
 
 - Site: http://localhost:8090/
 - Admin (view registrations): http://localhost:8090/admin — unlock with `ADMIN_TOKEN`
-  (if unset, the server prints a one-time token at startup)
+  (admin routes return 401 while it is unset)
 
 ## Stack
 
-- **Backend (local):** single Go binary, SQLite via pure-Go `modernc.org/sqlite` (no cgo).
-  Data in `data/ifest.db`, uploads in `data/uploads/<TEAM-CODE>/`.
-- **Backend (hosted):** Node.js Vercel functions in `api/` on **Neon Postgres**
-  (registrations, member-email index, uploads as `bytea`). Same public API paths,
-  so `web/` is identical for both backends.
+- **Backend:** single Node.js app. `server.js` serves `web/` statically and routes
+  `/api/*` to the same handlers in `api/` used on Vercel. Database is
+  **Neon Postgres** (`pg` pool in `api/_lib/db.js`): registrations, member-email
+  index, uploads as `bytea`. Schema is created automatically on first call.
 - **Frontend:** static files in `web/` (Tailwind CDN + vanilla JS). No build step.
 
 ## Deploy to Vercel (Neon)
@@ -31,12 +31,12 @@ ADMIN_TOKEN=choose-a-secret ./bin/ifest        # listens on :8090 (override with
    `vercel env add DATABASE_URL` and `vercel env add ADMIN_TOKEN` (or the dashboard).
    `ADMIN_TOKEN` is required — the Node port refuses admin access without it.
 3. `vercel --prod`. `vercel.json` rewrites `/`, `/admin`, `/assets/*` to `web/`;
-   functions come from `api/`. `.vercelignore` keeps `data/` (real local records)
-   and Go files out of the deploy.
+   functions come from `api/`. `.vercelignore` keeps `data/` and env files out
+   of the deploy. `server.js` is not used on Vercel (functions only).
 4. Schema (`registrations`, `member_emails`, `uploads`) is created automatically on
    the first function call.
 
-Ported behavior differences vs the Go server:
+Behavior notes:
 - Uploads are stored in Neon (`bytea`) and served admin-side at
   `/api/file/<code>/<field>/<secret>` — capability URLs surfaced as clickable
   "open" links in `/admin`.
@@ -55,7 +55,10 @@ Ported behavior differences vs the Go server:
 | `GET /api/check-member?email=` | public | duplicate-registration auto-check |
 | `GET /api/registrations?q=&category=` | admin | list / search |
 | `GET /api/registrations/{id}` | admin | full detail incl. files |
-| `GET /api/export.csv` | admin | CSV export (`?token=` or `X-Admin-Token`) |
+| `GET /api/export.csv` | admin | CSV export (`X-Admin-Token` header) |
+
+Legacy `data/` (old Go/SQLite database + uploaded files) is no longer read by the
+app and remains git-ignored; the real IF26-YTDH2B registration lives there only.
 
 ## Enforced rules (client + server)
 

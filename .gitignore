@@ -1,11 +1,10 @@
-# Local data — real registrations, uploaded ID scans, SQLite db. Never commit.
+# Legacy local data (old Go/SQLite era) — never commit.
 data/
 .env
 .env.*
 !.env.example
 
 # Build artifacts / deps
-bin/
 node_modules/
 .vercel
 *.log
