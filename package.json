@@ -1,0 +1,13 @@
+{
+  "name": "ifest-form-system",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18.14" },
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "pg": "^8.13.1"
+  }
+}

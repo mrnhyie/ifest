@@ -1,0 +1,13 @@
+{
+  "framework": null,
+  "functions": {
+    "api/register.js": { "memory": 1024, "maxDuration": 30 }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/web/index.html" },
+    { "source": "/index.html", "destination": "/web/index.html" },
+    { "source": "/admin", "destination": "/web/admin.html" },
+    { "source": "/admin.html", "destination": "/web/admin.html" },
+    { "source": "/assets/(.*)", "destination": "/web/assets/$1" }
+  ]
+}

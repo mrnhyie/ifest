@@ -1,0 +1,12 @@
+# Local data — real registrations, uploaded ID scans, SQLite db. Never commit.
+data/
+.env
+.env.*
+!.env.example
+
+# Build artifacts / deps
+bin/
+node_modules/
+.vercel
+*.log
+.DS_Store

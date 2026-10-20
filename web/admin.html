@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iFESTIVAL '26 — Registrations Admin</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink: { DEFAULT: '#161d6e', soft: '#2a338f' }, mint: { DEFAULT: '#2ee08a' }, gold: { DEFAULT: '#ffc21a' } },
+  fontFamily: { sans: ['"IBM Plex Sans"','ui-sans-serif','system-ui'], mono: ['"JetBrains Mono"','ui-monospace'] }
+} } }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+<style>
+  .grid-bg{background-image:linear-gradient(rgba(22,29,110,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(22,29,110,.045) 1px,transparent 1px);background-size:44px 44px}
+  .field{width:100%;border-radius:4px;border:1px solid #cbd5e1;background:#fff;padding:.5rem .75rem;font-size:.875rem;outline:none;transition:border-color .15s, box-shadow .15s}
+  .field:focus{border-color:#161d6e;box-shadow:0 0 0 3px rgba(46,224,138,.3)}
+  ::selection{background:#2ee08a;color:#161d6e}
+  a:focus-visible,button:focus-visible,tr:focus-visible,[tabindex]:focus-visible{outline:2px solid #161d6e;outline-offset:2px}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important;scroll-behavior:auto !important}}
+  .ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;direction:ltr;display:inline-block;-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 20,'FILL' 0,'wght' 500,'GRAD' 0}
+  table{border-collapse:separate;border-spacing:0}
+  tbody tr:hover{background:rgba(46,224,138,.07)}
+  tbody tr:not(:last-child) td{border-bottom:1px solid #eef1f6}
+</style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+
+<!-- login -->
+<section id="login" class="grid-bg flex min-h-screen items-center justify-center px-4">
+  <div class="w-full max-w-sm rounded-md border border-slate-200 bg-white p-8">
+    <p class="font-mono text-xs font-bold uppercase tracking-[.25em] text-slate-500">Admin access</p>
+    <h1 class="mt-1 text-2xl font-bold text-ink">iFESTIVAL '26 Portal</h1>
+    <p class="mt-1 text-sm text-slate-500">Enter the admin token to view registrations.</p>
+    <form id="login-form" class="mt-6 space-y-3">
+      <input id="token" type="password" class="field" placeholder="ADMIN_TOKEN" autocomplete="current-password">
+      <button class="w-full rounded bg-ink py-2.5 text-sm font-semibold text-white transition hover:bg-ink-soft">Unlock dashboard</button>
+      <p id="login-err" class="hidden items-center gap-1.5 text-sm font-semibold text-red-600"><span class="ms !text-[18px]">error</span>Invalid token.</p>
+    </form>
+  </div>
+</section>
+
+<!-- dashboard -->
+<main id="dash" class="hidden">
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+      <p class="font-mono text-sm font-bold tracking-widest text-ink">iFESTIVAL<span class="text-slate-400">'26</span> <span class="font-normal text-slate-400">/ admin</span></p>
+      <div class="flex items-center gap-2">
+        <a id="csv" href="#" class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink"><span class="ms !text-[16px]">download</span>Export CSV</a>
+        <button id="refresh" class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink"><span class="ms !text-[16px]">refresh</span>Refresh</button>
+        <button id="logout" class="inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-red-600"><span class="ms !text-[16px]">lock</span>Lock</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <div id="stats"></div>
+
+    <div class="mt-7 flex flex-wrap items-center gap-2.5">
+      <div class="relative">
+        <span class="ms absolute left-3 top-1/2 -translate-y-1/2 !text-[18px] text-slate-400">search</span>
+        <input id="q" class="field max-w-xs !pl-10" placeholder="Search team, institution, email, code…">
+      </div>
+      <select id="cat" class="field !w-auto">
+        <option value="">All competitions</option>
+        <option value="hackathon">AI Hackathon</option>
+        <option value="robot_wars">Robot Wars</option>
+        <option value="pitch">Innovation Pitch</option>
+      </select>
+      <p id="count" class="ml-auto font-mono text-xs text-slate-500"></p>
+    </div>
+
+    <div class="mt-4 overflow-hidden rounded-md border border-slate-200 bg-white">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-50/80">
+              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Team</th>
+              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Institution</th>
+              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Competitions</th>
+              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Lead</th>
+              <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">Members</th>
+              <th class="px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">Registered</th>
+              <th class="w-10 px-3 py-3"></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="hidden flex-col items-center justify-center gap-1.5 px-4 py-14 text-slate-400">
+        <span class="ms !text-[28px]">inbox</span>
+        <span class="font-mono text-sm">No registrations match.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- detail drawer -->
+  <div id="drawer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-ink/50" onclick="closeDrawer()"></div>
+    <aside class="absolute right-0 top-0 flex h-full w-full max-w-2xl flex-col bg-white shadow-2xl">
+      <div class="flex items-center justify-between gap-4 border-b border-slate-200 px-6 py-4">
+        <div>
+          <p id="d-code" class="font-mono text-[11px] font-bold uppercase tracking-widest text-slate-500"></p>
+          <p class="text-lg font-bold text-ink" id="d-title"></p>
+        </div>
+        <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded text-slate-400 transition hover:bg-slate-100 hover:text-ink" aria-label="Close"><span class="ms">close</span></button>
+      </div>
+      <div id="d-body" class="flex-1 overflow-y-auto px-6 py-5 text-sm"></div>
+    </aside>
+  </div>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+let token = sessionStorage.getItem('admin_token') || '';
+const CATS = {
+  hackathon:  { full: 'AI Hackathon',     pill: 'bg-ink text-white' },
+  robot_wars: { full: 'Robot Wars',       pill: 'bg-mint text-ink' },
+  pitch:      { full: 'Innovation Pitch', pill: 'bg-gold text-ink' },
+};
+const CATN = Object.fromEntries(Object.entries(CATS).map(([k, v]) => [k, v.full]));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtDate = s => {
+  const d = new Date(s);
+  if (!s || isNaN(d)) return esc(s || '—');
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+    + ' <span class="text-slate-400">·</span> '
+    + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+};
+let all = [];
+
+async function api(path) {
+  const r = await fetch(path, { headers: { 'X-Admin-Token': token } });
+  if (r.status === 401) { showLogin(); throw new Error('unauthorized'); }
+  return r;
+}
+
+function showLogin() { $('#login').classList.remove('hidden'); $('#dash').classList.add('hidden'); }
+function showDash() { $('#login').classList.add('hidden'); $('#dash').classList.remove('hidden'); }
+
+$('#login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  token = $('#token').value.trim();
+  try {
+    const r = await fetch('/api/registrations', { headers: { 'X-Admin-Token': token } });
+    if (!r.ok) { $('#login-err').classList.replace('hidden', 'flex'); return; }
+    sessionStorage.setItem('admin_token', token);
+    $('#login-err').classList.replace('flex', 'hidden');
+    showDash(); load();
+  } catch (_) { $('#login-err').classList.replace('hidden', 'flex'); }
+});
+
+$('#logout').addEventListener('click', () => { sessionStorage.removeItem('admin_token'); token = ''; showLogin(); });
+$('#refresh').addEventListener('click', load);
+$('#q').addEventListener('input', render);
+$('#cat').addEventListener('change', render);
+
+async function load() {
+  all = await (await api('/api/registrations')).json();
+  render();
+}
+
+$('#csv').addEventListener('click', async e => {
+  e.preventDefault();
+  try {
+    const r = await api('/api/export.csv');
+    if (!r.ok) return;
+    const blob = await r.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ifest2026-registrations.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  } catch (_) {}
+});
+
+function render() {
+  const q = $('#q').value.trim().toLowerCase(), cat = $('#cat').value;
+  const rows = all.filter(r =>
+    (!cat || (r.payload?.categories || []).includes(cat)) &&
+    (!q || [r.teamName, r.institution, r.leadEmail, r.code].join(' ').toLowerCase().includes(q)));
+  $('#count').textContent = rows.length + ' of ' + all.length + ' registrations';
+
+  const catCounts = { hackathon: 0, robot_wars: 0, pitch: 0 };
+  all.forEach(r => (r.payload?.categories || []).forEach(c => catCounts[c]++));
+  $('#stats').innerHTML = `<div class="grid grid-cols-2 divide-x divide-y divide-slate-200 rounded-md border border-slate-200 bg-white sm:grid-cols-4 sm:divide-y-0">` + [
+    ['Total teams', all.length], ['AI Hackathon', catCounts.hackathon],
+    ['Robot Wars', catCounts.robot_wars], ['Innovation Pitch', catCounts.pitch],
+  ].map(([label, value]) => `<div class="px-5 py-4">
+      <p class="text-xs font-medium text-slate-500">${label}</p>
+      <p class="mt-0.5 font-mono text-xl font-semibold tabular-nums text-ink">${value}</p>
+    </div>`).join('') + '</div>';
+
+  $('#rows').innerHTML = rows.map(r => {
+    const pills = (r.payload?.categories || []).map(c => {
+      const k = CATS[c] || { full: c, pill: 'bg-slate-200 text-slate-700' };
+      return `<span class="inline-flex rounded-[3px] px-2 py-0.5 text-[11px] font-semibold ${k.pill}">${esc(k.full)}</span>`;
+    }).join('<span class="block h-1"></span>');
+    return `
+    <tr class="cursor-pointer transition" onclick="openDetail(${r.id})">
+      <td class="px-5 py-3.5">
+        <p class="font-semibold text-ink">${esc(r.teamName)}</p>
+        <p class="mt-0.5 font-mono text-[11px] font-semibold tracking-wide text-slate-400">${esc(r.code)}</p>
+      </td>
+      <td class="px-5 py-3.5 text-slate-600">${esc(r.institution)}</td>
+      <td class="px-5 py-3.5">${pills || '<span class="text-slate-400">—</span>'}</td>
+      <td class="px-5 py-3.5 text-slate-600">${esc(r.leadEmail)}</td>
+      <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-slate-600">${r.members}</td>
+      <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-slate-500">${fmtDate(r.createdAt || r.created_at)}</td>
+      <td class="px-3 py-3.5 text-right"><span class="ms !text-[20px] text-slate-300">chevron_right</span></td>
+    </tr>`;
+  }).join('');
+  $('#empty').classList.toggle('hidden', rows.length > 0);
+  $('#empty').classList.toggle('flex', rows.length === 0);
+}
+
+const field = (k, v) => v === '' || v == null ? '' :
+  `<div class="flex items-baseline justify-between gap-6 border-b border-slate-100 py-2 last:border-0"><span class="shrink-0 text-slate-500">${esc(k)}</span><span class="break-words text-right font-semibold text-ink">${v === true ? 'Yes' : esc(v)}</span></div>`;
+const fieldHtml = (k, html) => `<div class="flex items-baseline justify-between gap-6 border-b border-slate-100 py-2 last:border-0"><span class="shrink-0 text-slate-500">${esc(k)}</span><span class="text-right font-semibold text-ink">${html}</span></div>`;
+const fieldFile = (k, v) => v ? fieldHtml(k, /^\/api\//.test(v)
+  ? `<a href="${esc(v)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 underline underline-offset-2">open<span class="ms !text-[15px]">open_in_new</span></a>`
+  : esc(v)) : '';
+const block = (t, html) => html.trim() ? `<section class="mt-4 rounded-md border border-slate-200 bg-slate-50/70 p-4">
+    <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-ink">${t}</p>
+    <div class="mt-2">${html}</div></section>` : '';
+const yes = v => `<span class="inline-flex items-center gap-1 rounded-[3px] px-2 py-0.5 text-xs font-semibold ${v ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}"><span class="ms !text-[14px]">${v ? 'check_circle' : 'cancel'}</span>${v ? 'agreed' : 'missing'}</span>`;
+
+async function openDetail(id) {
+  const r = await (await api('/api/registrations/' + id)).json();
+  const p = r.payload || {};
+  $('#d-code').textContent = r.code;
+  $('#d-title').textContent = r.teamName;
+  const c = p.categories || [];
+  let html = block('Registration',
+    field('Registered', (r.createdAt || r.created_at)) +
+    fieldHtml('Competitions', c.map(x => {
+      const k = CATS[x] || { full: x, pill: 'bg-slate-200 text-slate-700' };
+      return `<span class="ml-1 inline-flex rounded-[3px] px-2 py-0.5 text-[11px] font-semibold ${k.pill}">${esc(k.full)}</span>`;
+    }).join('') || '—') +
+    field('Team', p.team?.name) + field('Institution', p.team?.institution) +
+    field('Size', p.team?.size) +
+    field('Lead', p.team?.leadName) + field('Lead email', p.team?.leadEmail) + field('Lead phone', p.team?.leadPhone) +
+    field('Lead programme', (p.team?.leadProgram || '') + (p.team?.leadLevel ? ' · ' + p.team.leadLevel : '')));
+  (p.members || []).forEach((m, i) => {
+    html += block('Member ' + (i + 1),
+      field('Name', m.name) + field('Email', m.email) + field('Phone', m.phone) +
+      field('Institution', (m.institution || '') + (m.institutionType ? ' (' + m.institutionType + ')' : '')) +
+      field('Programme', (m.program || '') + (m.level ? ' · ' + m.level : '')) +
+      field('Student ID', m.studentId) + field('Gender', m.gender) + field('Dietary/accessibility', m.dietary) +
+      fieldFile('ID scan', p.files?.['memberId_' + i]));
+  });
+  if (p.hackathon) html += block('AI Hackathon',
+    field('Focus areas', (p.hackathon.focusAreas||[]).join(', ')) + field('Track', p.hackathon.track) +
+    field('Skills', (p.hackathon.skills||[]).join(', ')) + field('Languages', p.hackathon.languages) +
+    field('All have laptops', p.hackathon.laptopsAll) + field('Equipment needs', p.hackathon.equipment) +
+    field('Also pitching', p.hackathon.alsoPitch));
+  if (p.robotWars) html += block('Robot Wars',
+    field('Robot', p.robotWars.robotName) + field('Type', p.robotWars.robotType) +
+    field('Weapons', (p.robotWars.weapons||[]).join(', ')) + field('Weight', p.robotWars.weightKg + ' kg') +
+    field('Box side / extension', p.robotWars.boxSideCm + ' cm / ' + p.robotWars.extensionCm + ' cm') +
+    field('Battery', p.robotWars.batteryType + ' · ' + p.robotWars.batteryV + ' V') +
+    field('Kill switch', p.robotWars.killSwitch) + field('Wireless', p.robotWars.wireless) +
+    field('LiPo on site', p.robotWars.lipoCount) + field('Build status', p.robotWars.buildStatus) +
+    field('Pit & power', p.robotWars.pitPower) + field('Notebook', p.robotWars.notebook) +
+    field('Awards', (p.robotWars.awards||[]).join(', ')) + fieldFile('Robot photos', p.files?.robotPhoto));
+  if (p.pitch) html += block('Innovation Pitch',
+    field('Project', p.pitch.projectName) + field('Tagline', p.pitch.tagline) + field('Sector', p.pitch.sector) +
+    field('SDG', p.pitch.sdgPrimary + (p.pitch.sdgTarget ? ' · ' + p.pitch.sdgTarget : '')) +
+    field('Secondary SDGs', (p.pitch.sdgSecondary||[]).join(', ')) +
+    field('Problem', p.pitch.problem) + field('Affected', p.pitch.affected) +
+    field('Gap', p.pitch.whyExisting) + field('Impact', p.pitch.impact) +
+    field('Stage', p.pitch.stage) + field('Demo', p.pitch.demoUrl) + field('Demo style', p.pitch.demoStyle) +
+    field('Traction', p.pitch.traction) + field('Business model', p.pitch.businessModel) +
+    field('Existing startup', p.pitch.existingStartup + (p.pitch.startupDetails ? ' — ' + p.pitch.startupDetails : '')) +
+    field('The ask', (p.pitch.ask||[]).join(', ')) + fieldFile('Deck', p.files?.pitchDeck));
+  html += block('Declarations',
+    fieldHtml('All enrolled students', yes(p.declarations?.enrolled)) +
+    fieldHtml('IDs verified at check-in', yes(p.declarations?.ids)) +
+    fieldHtml('Originality & IP rules', yes(p.declarations?.ip)) +
+    fieldHtml('Code of conduct', yes(p.declarations?.conduct)) +
+    fieldHtml('Photo/video consent', yes(p.declarations?.media)) +
+    fieldHtml('Minor consent', yes(p.declarations?.minorConsent)) +
+    fieldFile('Consent form', p.files?.consent));
+  html += block('Logistics',
+    field('Travel from outside', p.logistics?.travel + (p.logistics?.travelNotes ? ' — ' + p.logistics.travelNotes : '')) +
+    field('Arrival date', p.logistics?.arrivalDate) + field('Emergency contact', (p.logistics?.emergencyName || '') + ' · ' + (p.logistics?.emergencyPhone || '')) +
+    field('T-shirt sizes', (p.logistics?.tshirtSizes || []).join(', ')) + field('Heard via', p.logistics?.heardVia) +
+    field('Comments', p.logistics?.comments));
+  $('#d-body').innerHTML = html;
+  $('#drawer').classList.remove('hidden');
+}
+function closeDrawer() { $('#drawer').classList.add('hidden'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+if (token) { api('/api/registrations').then(r => { if (r.ok) { showDash(); load(); } else showLogin(); }).catch(showLogin); }
+else showLogin();
+</script>
+</body>
+</html>
