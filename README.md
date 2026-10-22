@@ -51,7 +51,7 @@ Behavior notes:
 
 | Route | Auth | Purpose |
 |---|---|---|
-| `POST /api/register` | public | multipart: `payload` (JSON) + files (`memberId_N`, `consent`, `robotPhoto`, `pitchDeck`) → `{code: IF26-XXXXXX}` |
+| `POST /api/register` | public | multipart: `payload` (JSON) + files (`consent`, `robotPhoto`, `pitchDeck`) → `{code: IF26-XXXXXX}` |
 | `GET /api/check-member?email=` | public | duplicate-registration auto-check |
 | `GET /api/registrations?q=&category=` | admin | list / search |
 | `GET /api/registrations/{id}` | admin | full detail incl. files |
@@ -63,7 +63,7 @@ app and remains git-ignored; the real IF26-YTDH2B registration lives there only.
 ## Enforced rules (client + server)
 
 - AI Hackathon ⇄ Robot Wars mutually exclusive; Pitch combinable with either.
-- Team size 2–5; every member needs details + student ID scan upload.
+- Team size 2–5; every member needs details + student ID number (no ID photo upload — physical cards verified on-site).
 - No member email may appear in two teams; max 2 teams per institution per competition.
 - Robot Wars limits: ≤5 kg, 30 cm box, ≤60 cm extension, ≤14.8 V, kill switch = Yes, 5 safety declarations + inspection confirmation.
 - Pitch: student-led, valid demo link, primary SDG, ≥1 "ask".

@@ -8,52 +8,81 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { theme: { extend: {
-  colors: { ink: { DEFAULT: '#161d6e', soft: '#2a338f' }, mint: { DEFAULT: '#2ee08a' }, gold: { DEFAULT: '#ffc21a' } },
-  fontFamily: { sans: ['"IBM Plex Sans"','ui-sans-serif','system-ui'], mono: ['"JetBrains Mono"','ui-monospace'] }
+  colors: {
+    navy: '#171464', cream: '#fff8e9', blush: '#e7f4f1', sage: '#ecf6ea',
+    tang: { DEFAULT: '#4356c0', deep: '#2e3f9e' },
+    plum: { DEFAULT: '#12897f', deep: '#0c6b64' },
+    sky: { DEFAULT: '#4c82c4', deep: '#35659e' },
+    leaf: { DEFAULT: '#43a04f', deep: '#2e7d37' },
+    mint: { DEFAULT: '#1fd7a0', deep: '#0a7a5c', soft: '#e2f7ef' },
+    line: '#eadfc4'
+  },
+  fontFamily: {
+    sans: ['"Nunito Sans"','ui-sans-serif','system-ui'],
+    display: ['"Baloo 2"','"Nunito Sans"','ui-rounded','system-ui'],
+    mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular']
+  },
+  boxShadow: { card: '0 12px 32px -12px rgba(23,20,100,.14)', soft: '0 6px 20px -8px rgba(23,20,100,.10)' }
 } } }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
-<style>
-  .grid-bg{background-image:linear-gradient(rgba(22,29,110,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(22,29,110,.045) 1px,transparent 1px);background-size:44px 44px}
-  .field{width:100%;border-radius:4px;border:1px solid #cbd5e1;background:#fff;padding:.5rem .75rem;font-size:.875rem;outline:none;transition:border-color .15s, box-shadow .15s}
-  .field:focus{border-color:#161d6e;box-shadow:0 0 0 3px rgba(46,224,138,.3)}
-  ::selection{background:#2ee08a;color:#161d6e}
-  a:focus-visible,button:focus-visible,tr:focus-visible,[tabindex]:focus-visible{outline:2px solid #161d6e;outline-offset:2px}
+<style type="text/tailwindcss">
+  input[type="checkbox"], input[type="radio"] { accent-color: #171464; }
+  ::selection { background:#1fd7a0; color:#171464; }
+  a:focus-visible,button:focus-visible,tr:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible { outline:2px solid #171464; outline-offset:2px; }
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important;scroll-behavior:auto !important}}
-  .ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;direction:ltr;display:inline-block;-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 20,'FILL' 0,'wght' 500,'GRAD' 0}
-  table{border-collapse:separate;border-spacing:0}
-  tbody tr:hover{background:rgba(46,224,138,.07)}
-  tbody tr:not(:last-child) td{border-bottom:1px solid #eef1f6}
+  .ms { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; line-height:1; letter-spacing:normal; text-transform:none; white-space:nowrap; direction:ltr; display:inline-block; -webkit-font-smoothing:antialiased; font-variation-settings:'opsz' 20,'FILL' 0,'wght' 500,'GRAD' 0; }
+  .h-display { @apply font-display font-extrabold tracking-tight; }
+  html { background:#fff8e9; }
+  .card { @apply rounded-[24px] border border-white/70 bg-white/60 shadow-card backdrop-blur-md; }
+  .btn { @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold transition-colors; }
+  .btn .arw { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-white text-navy; }
+  .field { @apply w-full rounded-2xl border border-line bg-white/70 px-3.5 py-2.5 text-sm text-navy outline-none backdrop-blur-sm transition placeholder:text-navy/40 focus:border-navy focus:ring-[3px] focus:ring-navy/15; }
+  .field:focus-visible { outline: none; }
+  .border, .border-2, .border-t, .border-b, .border-l, .border-r, .border-x, .border-y { border-style: dotted; }
+  .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-extrabold; }
+  table { border-collapse:separate; border-spacing:0; }
+  tbody tr:hover { background:#e7f4f1; }
+  tbody tr:not(:last-child) td { border-bottom:1px dotted #f3ead6; }
 </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+<body class="font-sans text-navy antialiased">
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full bg-mint/30 blur-3xl"></div>
+  <div class="absolute -right-40 top-1/3 h-[520px] w-[520px] rounded-full bg-sky/25 blur-3xl"></div>
+  <div class="absolute bottom-0 left-1/4 h-[440px] w-[440px] rounded-full bg-plum/20 blur-3xl"></div>
+</div>
 
 <!-- login -->
-<section id="login" class="grid-bg flex min-h-screen items-center justify-center px-4">
-  <div class="w-full max-w-sm rounded-md border border-slate-200 bg-white p-8">
-    <p class="font-mono text-xs font-bold uppercase tracking-[.25em] text-slate-500">Admin access</p>
-    <h1 class="mt-1 text-2xl font-bold text-ink">iFESTIVAL '26 Portal</h1>
-    <p class="mt-1 text-sm text-slate-500">Enter the admin token to view registrations.</p>
+<section id="login" class="flex min-h-screen items-center justify-center px-4 py-10">
+  <div class="card w-full max-w-sm p-8">
+    <img src="/assets/logo.png" alt="iFESTIVAL '26" class="h-24 w-auto">
+    <p class="mt-5 inline-flex rounded-full bg-blush px-3 py-1 text-[11px] font-extrabold uppercase tracking-[.2em] text-plum-deep">Admin access</p>
+    <h1 class="h-display mt-3 text-2xl">iFESTIVAL ’26 Portal</h1>
+    <p class="mt-1 text-sm text-navy/60">Enter the admin token to view registrations.</p>
     <form id="login-form" class="mt-6 space-y-3">
       <input id="token" type="password" class="field" placeholder="ADMIN_TOKEN" autocomplete="current-password">
-      <button class="w-full rounded bg-ink py-2.5 text-sm font-semibold text-white transition hover:bg-ink-soft">Unlock dashboard</button>
-      <p id="login-err" class="hidden items-center gap-1.5 text-sm font-semibold text-red-600"><span class="ms !text-[18px]">error</span>Invalid token.</p>
+      <button class="btn w-full justify-center bg-navy text-white hover:bg-navy/90">Unlock dashboard <span class="arw"><span class="ms !text-[15px]">arrow_forward</span></span></button>
+      <p id="login-err" class="hidden items-center gap-1.5 text-sm font-bold text-red-600"><span class="ms !text-[18px]">error</span>Invalid token.</p>
     </form>
   </div>
 </section>
 
 <!-- dashboard -->
 <main id="dash" class="hidden">
-  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white">
-    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-      <p class="font-mono text-sm font-bold tracking-widest text-ink">iFESTIVAL<span class="text-slate-400">'26</span> <span class="font-normal text-slate-400">/ admin</span></p>
+  <header class="sticky top-0 z-30 px-4 pt-4">
+    <div class="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 rounded-full border border-white/70 bg-white/60 px-5 shadow-soft backdrop-blur-md">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/assets/logo.png" alt="iFESTIVAL '26" class="h-11 w-auto">
+        <span class="hidden font-mono text-[11px] font-bold uppercase tracking-widest text-navy/50 sm:block">/ admin</span>
+      </a>
       <div class="flex items-center gap-2">
-        <a id="csv" href="#" class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink"><span class="ms !text-[16px]">download</span>Export CSV</a>
-        <button id="refresh" class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-ink"><span class="ms !text-[16px]">refresh</span>Refresh</button>
-        <button id="logout" class="inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-red-600"><span class="ms !text-[16px]">lock</span>Lock</button>
+        <a id="csv" href="#" class="btn !py-1.5 text-xs !text-navy ring-1 ring-line hover:bg-blush"><span class="ms !text-[16px]">download</span>Export CSV</a>
+        <button id="refresh" class="btn !py-1.5 text-xs !text-navy ring-1 ring-line hover:bg-blush"><span class="ms !text-[16px]">refresh</span>Refresh</button>
+        <button id="logout" class="btn !py-1.5 text-xs !text-navy/60 hover:bg-blush hover:!text-red-600"><span class="ms !text-[16px]">lock</span>Lock</button>
       </div>
     </div>
   </header>
@@ -63,8 +92,8 @@ tailwind.config = { theme: { extend: {
 
     <div class="mt-7 flex flex-wrap items-center gap-2.5">
       <div class="relative">
-        <span class="ms absolute left-3 top-1/2 -translate-y-1/2 !text-[18px] text-slate-400">search</span>
-        <input id="q" class="field max-w-xs !pl-10" placeholder="Search team, institution, email, code…">
+        <span class="ms absolute left-3.5 top-1/2 -translate-y-1/2 !text-[18px] text-navy/40">search</span>
+        <input id="q" class="field max-w-xs !pl-11" placeholder="Search team, institution, email, code…">
       </div>
       <select id="cat" class="field !w-auto">
         <option value="">All competitions</option>
@@ -72,27 +101,27 @@ tailwind.config = { theme: { extend: {
         <option value="robot_wars">Robot Wars</option>
         <option value="pitch">Innovation Pitch</option>
       </select>
-      <p id="count" class="ml-auto font-mono text-xs text-slate-500"></p>
+      <p id="count" class="ml-auto font-mono text-xs text-navy/50"></p>
     </div>
 
-    <div class="mt-4 overflow-hidden rounded-md border border-slate-200 bg-white">
+    <div class="card mt-4 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead>
-            <tr class="border-b border-slate-200 bg-slate-50/80">
-              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Team</th>
-              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Institution</th>
-              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Competitions</th>
-              <th class="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Lead</th>
-              <th class="px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">Members</th>
-              <th class="px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">Registered</th>
+            <tr class="border-b border-line bg-blush/50">
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Team</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Institution</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Competitions</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Lead</th>
+              <th class="px-5 py-3 text-center text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Members</th>
+              <th class="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Registered</th>
               <th class="w-10 px-3 py-3"></th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
         </table>
       </div>
-      <p id="empty" class="hidden flex-col items-center justify-center gap-1.5 px-4 py-14 text-slate-400">
+      <p id="empty" class="hidden flex-col items-center justify-center gap-1.5 px-4 py-14 text-navy/40">
         <span class="ms !text-[28px]">inbox</span>
         <span class="font-mono text-sm">No registrations match.</span>
       </p>
@@ -101,14 +130,14 @@ tailwind.config = { theme: { extend: {
 
   <!-- detail drawer -->
   <div id="drawer" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-ink/50" onclick="closeDrawer()"></div>
-    <aside class="absolute right-0 top-0 flex h-full w-full max-w-2xl flex-col bg-white shadow-2xl">
-      <div class="flex items-center justify-between gap-4 border-b border-slate-200 px-6 py-4">
+    <div class="absolute inset-0 bg-navy/40" onclick="closeDrawer()"></div>
+    <aside class="absolute right-0 top-0 flex h-full w-full max-w-2xl flex-col rounded-l-[32px] bg-cream/90 shadow-2xl backdrop-blur-lg">
+      <div class="flex items-center justify-between gap-4 rounded-t-none border-b border-line bg-white px-6 py-4">
         <div>
-          <p id="d-code" class="font-mono text-[11px] font-bold uppercase tracking-widest text-slate-500"></p>
-          <p class="text-lg font-bold text-ink" id="d-title"></p>
+          <p id="d-code" class="font-mono text-[11px] font-bold uppercase tracking-widest text-navy/50"></p>
+          <p class="h-display text-lg" id="d-title"></p>
         </div>
-        <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded text-slate-400 transition hover:bg-slate-100 hover:text-ink" aria-label="Close"><span class="ms">close</span></button>
+        <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-blush hover:text-navy" aria-label="Close"><span class="ms">close</span></button>
       </div>
       <div id="d-body" class="flex-1 overflow-y-auto px-6 py-5 text-sm"></div>
     </aside>
@@ -119,9 +148,9 @@ tailwind.config = { theme: { extend: {
 const $ = s => document.querySelector(s);
 let token = sessionStorage.getItem('admin_token') || '';
 const CATS = {
-  hackathon:  { full: 'AI Hackathon',     pill: 'bg-ink text-white' },
-  robot_wars: { full: 'Robot Wars',       pill: 'bg-mint text-ink' },
-  pitch:      { full: 'Innovation Pitch', pill: 'bg-gold text-ink' },
+  hackathon:  { full: 'AI Hackathon',     pill: 'bg-plum-deep text-white' },
+  robot_wars: { full: 'Robot Wars',       pill: 'bg-sky-deep text-white' },
+  pitch:      { full: 'Innovation Pitch', pill: 'bg-tang-deep text-white' },
 };
 const CATN = Object.fromEntries(Object.entries(CATS).map(([k, v]) => [k, v.full]));
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -129,7 +158,7 @@ const fmtDate = s => {
   const d = new Date(s);
   if (!s || isNaN(d)) return esc(s || '—');
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-    + ' <span class="text-slate-400">·</span> '
+    + ' <span class="text-navy/40">·</span> '
     + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 };
 let all = [];
@@ -190,31 +219,31 @@ function render() {
 
   const catCounts = { hackathon: 0, robot_wars: 0, pitch: 0 };
   all.forEach(r => (r.payload?.categories || []).forEach(c => catCounts[c]++));
-  $('#stats').innerHTML = `<div class="grid grid-cols-2 divide-x divide-y divide-slate-200 rounded-md border border-slate-200 bg-white sm:grid-cols-4 sm:divide-y-0">` + [
-    ['Total teams', all.length], ['AI Hackathon', catCounts.hackathon],
-    ['Robot Wars', catCounts.robot_wars], ['Innovation Pitch', catCounts.pitch],
-  ].map(([label, value]) => `<div class="px-5 py-4">
-      <p class="text-xs font-medium text-slate-500">${label}</p>
-      <p class="mt-0.5 font-mono text-xl font-semibold tabular-nums text-ink">${value}</p>
+  $('#stats').innerHTML = `<div class="grid grid-cols-2 gap-3 sm:grid-cols-4">` + [
+    ['Total teams', all.length, 'text-navy'], ['AI Hackathon', catCounts.hackathon, 'text-plum-deep'],
+    ['Robot Wars', catCounts.robot_wars, 'text-sky-deep'], ['Innovation Pitch', catCounts.pitch, 'text-tang-deep'],
+  ].map(([label, value, color]) => `<div class="card px-5 py-4">
+      <p class="text-xs font-bold text-navy/50">${label}</p>
+      <p class="h-display mt-0.5 ${color} text-3xl tabular-nums">${value}</p>
     </div>`).join('') + '</div>';
 
   $('#rows').innerHTML = rows.map(r => {
     const pills = (r.payload?.categories || []).map(c => {
-      const k = CATS[c] || { full: c, pill: 'bg-slate-200 text-slate-700' };
-      return `<span class="inline-flex rounded-[3px] px-2 py-0.5 text-[11px] font-semibold ${k.pill}">${esc(k.full)}</span>`;
+      const k = CATS[c] || { full: c, pill: 'bg-sage text-navy' };
+      return `<span class="pill ${k.pill}">${esc(k.full)}</span>`;
     }).join('<span class="block h-1"></span>');
     return `
     <tr class="cursor-pointer transition" onclick="openDetail(${r.id})">
       <td class="px-5 py-3.5">
-        <p class="font-semibold text-ink">${esc(r.teamName)}</p>
-        <p class="mt-0.5 font-mono text-[11px] font-semibold tracking-wide text-slate-400">${esc(r.code)}</p>
+        <p class="font-extrabold text-navy">${esc(r.teamName)}</p>
+        <p class="mt-0.5 font-mono text-[11px] font-bold tracking-wide text-navy/40">${esc(r.code)}</p>
       </td>
-      <td class="px-5 py-3.5 text-slate-600">${esc(r.institution)}</td>
-      <td class="px-5 py-3.5">${pills || '<span class="text-slate-400">—</span>'}</td>
-      <td class="px-5 py-3.5 text-slate-600">${esc(r.leadEmail)}</td>
-      <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-slate-600">${r.members}</td>
-      <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-slate-500">${fmtDate(r.createdAt || r.created_at)}</td>
-      <td class="px-3 py-3.5 text-right"><span class="ms !text-[20px] text-slate-300">chevron_right</span></td>
+      <td class="px-5 py-3.5 text-navy/70">${esc(r.institution)}</td>
+      <td class="px-5 py-3.5">${pills || '<span class="text-navy/40">—</span>'}</td>
+      <td class="px-5 py-3.5 text-navy/70">${esc(r.leadEmail)}</td>
+      <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-navy/70">${r.members}</td>
+      <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-navy/50">${fmtDate(r.createdAt || r.created_at)}</td>
+      <td class="px-3 py-3.5 text-right"><span class="ms !text-[20px] text-navy/30">chevron_right</span></td>
     </tr>`;
   }).join('');
   $('#empty').classList.toggle('hidden', rows.length > 0);
@@ -222,15 +251,15 @@ function render() {
 }
 
 const field = (k, v) => v === '' || v == null ? '' :
-  `<div class="flex items-baseline justify-between gap-6 border-b border-slate-100 py-2 last:border-0"><span class="shrink-0 text-slate-500">${esc(k)}</span><span class="break-words text-right font-semibold text-ink">${v === true ? 'Yes' : esc(v)}</span></div>`;
-const fieldHtml = (k, html) => `<div class="flex items-baseline justify-between gap-6 border-b border-slate-100 py-2 last:border-0"><span class="shrink-0 text-slate-500">${esc(k)}</span><span class="text-right font-semibold text-ink">${html}</span></div>`;
+  `<div class="flex items-baseline justify-between gap-6 border-b border-line/70 py-2 last:border-0"><span class="shrink-0 text-navy/50">${esc(k)}</span><span class="break-words text-right font-bold text-navy">${v === true ? 'Yes' : esc(v)}</span></div>`;
+const fieldHtml = (k, html) => `<div class="flex items-baseline justify-between gap-6 border-b border-line/70 py-2 last:border-0"><span class="shrink-0 text-navy/50">${esc(k)}</span><span class="text-right font-bold text-navy">${html}</span></div>`;
 const fieldFile = (k, v) => v ? fieldHtml(k, /^\/api\//.test(v)
-  ? `<a href="${esc(v)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 underline underline-offset-2">open<span class="ms !text-[15px]">open_in_new</span></a>`
+  ? `<a href="${esc(v)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-mint-deep underline decoration-mint underline-offset-2 hover:no-underline">open<span class="ms !text-[15px]">open_in_new</span></a>`
   : esc(v)) : '';
-const block = (t, html) => html.trim() ? `<section class="mt-4 rounded-md border border-slate-200 bg-slate-50/70 p-4">
-    <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-ink">${t}</p>
+const block = (t, html) => html.trim() ? `<section class="card mt-4 p-4">
+    <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-plum-deep">${t}</p>
     <div class="mt-2">${html}</div></section>` : '';
-const yes = v => `<span class="inline-flex items-center gap-1 rounded-[3px] px-2 py-0.5 text-xs font-semibold ${v ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}"><span class="ms !text-[14px]">${v ? 'check_circle' : 'cancel'}</span>${v ? 'agreed' : 'missing'}</span>`;
+const yes = v => `<span class="pill ${v ? 'bg-mint-soft text-mint-deep' : 'bg-red-50 text-red-700'}"><span class="ms !text-[14px]">${v ? 'check_circle' : 'cancel'}</span>${v ? 'agreed' : 'missing'}</span>`;
 
 async function openDetail(id) {
   const r = await (await api('/api/registrations/' + id)).json();
@@ -241,8 +270,8 @@ async function openDetail(id) {
   let html = block('Registration',
     field('Registered', (r.createdAt || r.created_at)) +
     fieldHtml('Competitions', c.map(x => {
-      const k = CATS[x] || { full: x, pill: 'bg-slate-200 text-slate-700' };
-      return `<span class="ml-1 inline-flex rounded-[3px] px-2 py-0.5 text-[11px] font-semibold ${k.pill}">${esc(k.full)}</span>`;
+      const k = CATS[x] || { full: x, pill: 'bg-sage text-navy' };
+      return `<span class="pill ml-1 ${k.pill}">${esc(k.full)}</span>`;
     }).join('') || '—') +
     field('Team', p.team?.name) + field('Institution', p.team?.institution) +
     field('Size', p.team?.size) +

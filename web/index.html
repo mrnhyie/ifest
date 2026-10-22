@@ -9,297 +9,337 @@
 <script>
 tailwind.config = {
   theme: { extend: {
-    colors: { ink: '#14151a', bone: '#f7f6f2', line: '#e4e0d7', mint: { DEFAULT: '#1be064', deep: '#0b6b3a', soft: '#f0fbf4' } },
-    fontFamily: { sans: ['"Space Grotesk"','ui-sans-serif','system-ui'], mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular'] }
+    colors: {
+      navy: '#171464', cream: '#fff8e9', blush: '#e7f4f1', sage: '#ecf6ea',
+      tang: { DEFAULT: '#4356c0', deep: '#2e3f9e' }, plum: { DEFAULT: '#12897f', deep: '#0c6b64' },
+      sky: { DEFAULT: '#4c82c4', deep: '#35659e' }, leaf: { DEFAULT: '#43a04f', deep: '#2e7d37' },
+      mint: { DEFAULT: '#1fd7a0', deep: '#0a7a5c', soft: '#e2f7ef' }, line: '#eadfc4'
+    },
+    fontFamily: {
+      sans: ['"Nunito Sans"','ui-sans-serif','system-ui'],
+      display: ['"Baloo 2"','"Nunito Sans"','ui-rounded','sans-serif'],
+      mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular']
+    },
+    boxShadow: { card: '0 12px 32px -12px rgba(23,20,100,.14)', soft: '0 6px 20px -8px rgba(23,20,100,.10)' }
   } }
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <style type="text/tailwindcss">
-  input[type="checkbox"], input[type="radio"] { accent-color: #14151a; }
-  .wrap { @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12; }
-  .eyebrow { @apply font-mono text-xs font-bold uppercase tracking-[0.2em] text-ink/60; }
-  .field { @apply w-full rounded-[6px] border border-line bg-white px-3.5 py-2.5 text-[15px] text-ink outline-none transition placeholder:text-ink/40 focus:border-ink; }
+  input[type="checkbox"], input[type="radio"] { accent-color: #171464; }
+  .wrap { @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10; }
+  .eyebrow { @apply inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 font-display text-sm font-bold text-navy shadow-soft; }
+  .h-display { @apply font-display font-extrabold tracking-tight; }
+  .btn { @apply inline-flex items-center gap-2.5 rounded-full px-6 py-3 font-display text-sm font-bold transition-transform hover:-translate-y-0.5 active:translate-y-0; }
+  .btn .arw { @apply flex h-6 w-6 items-center justify-center rounded-[7px] bg-white/95; }
+  html { background:#fff8e9; }
+  .card { @apply rounded-[24px] border border-white/70 bg-white/60 shadow-card backdrop-blur-md; }
+  .field { @apply w-full rounded-2xl border border-line bg-white/70 px-4 py-2.5 text-[15px] text-navy outline-none backdrop-blur-sm transition placeholder:text-navy/35 focus:border-navy focus:ring-[3px] focus:ring-navy/15; }
+  .field:focus-visible, .filein:focus-visible, select.field:focus { outline: none; }
+  .border, .border-2, .border-t, .border-b, .border-l, .border-r, .border-x, .border-y { border-style: dotted; }
   details summary { cursor: pointer; list-style: none; }
   details summary::-webkit-details-marker { display: none; }
-  .chip { @apply inline-flex items-center gap-1.5 rounded-[4px] border border-line bg-white px-3 py-1.5 text-xs font-medium text-ink/70 cursor-pointer transition hover:border-ink; }
-  .chip:has(input:checked) { @apply border-ink bg-ink text-white; }
-  .chip:has(input:disabled) { @apply opacity-40 cursor-not-allowed; }
+  .chip { @apply inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-white/70 px-3.5 py-1.5 text-xs font-bold text-navy/70 backdrop-blur-sm transition hover:border-navy; }
+  .chip:has(input:checked) { @apply border-navy bg-navy text-white; }
+  .chip:has(input:checked) .tick { @apply opacity-100; }
+  .chip .tick { @apply text-[14px] opacity-0; }
+  .chip:has(input:disabled) { @apply cursor-not-allowed opacity-40; }
   .ms { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; line-height:1; letter-spacing:normal; text-transform:none; white-space:nowrap; direction:ltr; display:inline-block; -webkit-font-smoothing:antialiased; font-variation-settings:'opsz' 20,'FILL' 0,'wght' 400,'GRAD' 0; }
-  #steplist li { @apply flex cursor-pointer select-none items-center gap-2.5 rounded-[4px] px-2 py-1.5 text-[13px] font-semibold text-ink/60 transition-colors hover:text-ink; }
-  #steplist li .num { @apply flex h-6 w-6 shrink-0 items-center justify-center border border-line bg-white font-mono text-[10px] font-bold text-ink/60; }
-  #steplist li .chk { @apply hidden h-6 w-6 shrink-0 items-center justify-center bg-mint text-ink text-[14px]; }
-  #steplist li.on { @apply bg-ink text-white; }
-  #steplist li.on .num { @apply border-transparent bg-mint text-ink; }
-  #steplist li.done { @apply text-ink; }
+  .wm { position:absolute; right:-0.06em; bottom:-0.28em; font-family:'Baloo 2',sans-serif; font-weight:800; line-height:1; pointer-events:none; user-select:none; }
+  #steplist li { @apply flex cursor-pointer select-none items-center gap-2.5 rounded-full px-3 py-2 text-[13px] font-bold text-navy/55 transition-colors hover:text-navy; }
+  #steplist li .num { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line bg-white/70 font-mono text-[10px] font-bold text-navy/55; }
+  #steplist li .chk { @apply hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-mint text-navy text-[14px]; }
+  #steplist li.on { @apply bg-navy text-white; }
+  #steplist li.on .num { @apply border-transparent bg-mint text-navy; }
+  #steplist li.done { @apply bg-white/70 text-navy shadow-soft backdrop-blur-sm; }
   #steplist li.done .num { @apply hidden; }
   #steplist li.done .chk { @apply flex; }
-  ::selection { background:#1be064; color:#14151a; }
-  :focus-visible { outline: 2px solid #14151a; outline-offset: 2px; }
-  .on-dark :focus-visible { outline-color: #1be064; }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration:.01ms !important; animation-duration:.01ms !important; scroll-behavior:auto !important; } }
+  ::selection { background:#1fd7a0; color:#171464; }
+  :focus-visible { outline: 2px solid #171464; outline-offset: 2px; }
+  .on-dark :focus-visible { outline-color: #1fd7a0; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration:.01ms !important; animation-duration:.01ms !important; scroll-behavior:auto !important; } .btn:hover { transform:none; } }
 </style>
 </head>
-<body class="bg-bone font-sans text-ink antialiased">
+<body class="font-sans text-navy antialiased">
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full bg-mint/30 blur-3xl"></div>
+  <div class="absolute -right-40 top-1/3 h-[520px] w-[520px] rounded-full bg-sky/25 blur-3xl"></div>
+  <div class="absolute bottom-0 left-1/4 h-[440px] w-[440px] rounded-full bg-plum/20 blur-3xl"></div>
+  <div class="absolute left-0 top-2/3 h-[360px] w-[360px] rounded-full bg-tang/20 blur-3xl"></div>
+</div>
 
 <!-- NAV -->
-<header class="sticky top-0 z-40 border-b border-line bg-bone/95">
-  <div class="wrap flex h-16 items-center justify-between gap-6">
-    <a href="#" class="text-lg font-bold tracking-tight">iFESTIVAL<span class="text-mint-deep">'26</span></a>
-    <nav class="hidden items-center gap-7 text-sm font-medium text-ink/60 lg:flex" aria-label="Primary">
-      <a href="#tracks" class="transition-colors hover:text-ink">Competitions</a>
-      <a href="#schedule" class="transition-colors hover:text-ink">Programme</a>
-      <a href="#docs" class="transition-colors hover:text-ink">How it works</a>
-      <a href="#faq" class="transition-colors hover:text-ink">FAQ</a>
-      <a href="#sponsors" class="transition-colors hover:text-ink">Sponsors</a>
-    </nav>
-    <div class="flex items-center gap-3">
-      <a href="#register" class="hidden rounded-[4px] bg-ink px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-ink/85 sm:inline-block">Register</a>
-      <button id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" class="flex h-9 w-9 items-center justify-center rounded-[4px] border border-line bg-white text-ink lg:hidden"><span class="ms !text-[20px]">menu</span></button>
+<header class="sticky top-0 z-40 pt-4">
+  <div class="wrap">
+    <div class="card flex items-center justify-between gap-4 rounded-full px-4 py-2.5 sm:px-6">
+      <a href="#" class="flex items-center gap-2">
+        <img src="/assets/logo.png" alt="iFESTIVAL '26 logo" class="h-12 w-auto sm:h-14">
+      </a>
+      <nav class="hidden items-center gap-7 font-display text-[15px] font-semibold text-navy/70 lg:flex" aria-label="Primary">
+        <a href="#tracks" class="transition-colors hover:text-navy">Competitions</a>
+        <a href="#schedule" class="transition-colors hover:text-navy">Programme</a>
+        <a href="#docs" class="transition-colors hover:text-navy">How it works</a>
+        <a href="#faq" class="transition-colors hover:text-navy">FAQ</a>
+        <a href="#sponsors" class="transition-colors hover:text-navy">Sponsors</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#register" class="btn hidden !px-5 !py-2.5 bg-tang-deep text-white sm:inline-flex">Register <span class="arw !h-5 !w-5 text-tang-deep"><span class="ms !text-[13px]">arrow_outward</span></span></a>
+        <button id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" class="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-navy lg:hidden"><span class="ms !text-[22px]">menu</span></button>
+      </div>
     </div>
   </div>
-  <div id="mobile-menu" class="hidden border-t border-line bg-bone px-5 pb-4 lg:hidden">
-    <p class="pt-3 font-mono text-xs uppercase tracking-wider text-ink/60"><span class="font-bold text-ink">16–20 NOV 2026</span> · KAAF University · Sefwi</p>
-    <nav class="mt-2 divide-y divide-line text-[15px] font-medium" aria-label="Mobile">
-      <a href="#tracks" class="block py-2.5">Competitions</a>
-      <a href="#schedule" class="block py-2.5">Programme</a>
-      <a href="#docs" class="block py-2.5">How it works</a>
-      <a href="#rules" class="block py-2.5">Rules</a>
-      <a href="#faq" class="block py-2.5">FAQ</a>
-      <a href="#sponsors" class="block py-2.5">Sponsors</a>
-      <a href="#register" class="block py-2.5 text-mint-deep">Register</a>
-    </nav>
+  <div id="mobile-menu" class="wrap mt-2 hidden lg:hidden">
+    <div class="card px-5 py-4">
+      <p class="font-display text-sm font-bold text-navy/70"><span class="text-navy">16–20 NOV 2026</span> · KAAF University · Sefwi</p>
+      <nav class="mt-2 divide-y divide-line text-[15px] font-bold" aria-label="Mobile">
+        <a href="#tracks" class="block py-2.5">Competitions</a>
+        <a href="#schedule" class="block py-2.5">Programme</a>
+        <a href="#docs" class="block py-2.5">How it works</a>
+        <a href="#rules" class="block py-2.5">Rules</a>
+        <a href="#faq" class="block py-2.5">FAQ</a>
+        <a href="#sponsors" class="block py-2.5">Sponsors</a>
+        <a href="#register" class="block py-2.5 text-plum-deep">Register</a>
+      </nav>
+    </div>
   </div>
 </header>
 
 <!-- HERO -->
-<section>
-  <div class="wrap grid grid-cols-1 items-center gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-16">
+<section class="overflow-hidden">
+  <div class="wrap grid grid-cols-1 items-center gap-12 pb-10 pt-14 md:pt-20 lg:grid-cols-12">
     <div class="lg:col-span-7">
-      <p class="eyebrow">16–20 November 2026 · KAAF University</p>
-      <h1 class="mt-6 text-[clamp(2.25rem,14.4vw,6.5rem)] font-bold leading-[0.88] tracking-tight lg:text-[clamp(2rem,9vw,5.25rem)] xl:text-[6.5rem]">iFESTIVAL<span class="text-mint-deep">'26</span></h1>
-      <p class="mt-8 font-mono text-xs font-bold uppercase tracking-[0.25em]">Build. Battle. Pitch.</p>
-      <p class="mt-4 max-w-xl text-3xl font-light leading-[1.12] tracking-tight sm:text-4xl">The premier innovation &amp; technology festival for tertiary students.</p>
-      <p class="mt-5 max-w-md text-[15px] leading-relaxed text-ink/70">Five days of AI hackathon, robot combat and student startup pitching — organized by SparkLab Africa, hosted at KAAF University, 16–20 November 2026.</p>
-      <div class="mt-10 flex flex-wrap items-center gap-6">
-        <a href="#register" class="inline-flex items-center gap-2.5 rounded-[4px] bg-ink py-3 pl-5 pr-3.5 text-sm font-bold text-white transition-colors hover:bg-ink/85">
-          Register your team <span class="flex h-6 w-6 items-center justify-center rounded-[3px] bg-mint text-ink"><span class="ms !text-[15px]">arrow_forward</span></span>
-        </a>
-        <a href="#sponsors" class="text-sm font-semibold text-ink/70 underline underline-offset-4 transition-colors hover:text-ink">Sponsor the festival</a>
+      <p class="eyebrow"><span class="ms !text-[16px] text-tang-deep">event</span> 16–20 November 2026 · KAAF University</p>
+      <h1 class="sr-only">iFESTIVAL '26 — The Tertiary Innovation &amp; Technology Festival</h1>
+      <img src="/assets/logo.png" alt="iFESTIVAL '26" width="1869" height="685" class="mt-2 w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[500px]">
+      <p class="mt-4 font-mono text-xs font-bold uppercase tracking-[0.3em] text-plum-deep">Build. Battle. Pitch.</p>
+      <p class="mt-5 max-w-xl text-2xl font-light leading-snug text-navy/80 sm:text-3xl">Shaping innovators, problem-solvers &amp; leaders for the future — at Ghana's premier tech festival for tertiary students.</p>
+      <p class="mt-4 max-w-md text-[15px] leading-relaxed text-navy/60">Five days of AI hackathon, robot combat and student startup pitching — organized by SparkLab Africa, hosted at KAAF University.</p>
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <a href="#register" class="btn bg-navy text-white">Register your team <span class="arw !bg-mint text-navy"><span class="ms !text-[15px]">arrow_forward</span></span></a>
+        <a href="#sponsors" class="font-display text-sm font-bold text-navy/60 underline decoration-line decoration-2 underline-offset-4 transition-colors hover:text-navy">Sponsor the festival</a>
       </div>
     </div>
-    <div class="mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
-      <img src="/assets/hero-handshake.jpg" alt="iFESTIVAL 2026 — human and robot handshake" width="1280" height="1600" class="w-full rounded-[6px] border border-line">
+    <div class="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
+      <div class="card overflow-hidden rounded-[32px] p-0">
+        <img src="/assets/hero-handshake.jpg" alt="iFESTIVAL 2026 — human and robot handshake" width="1280" height="1600" class="h-full max-h-[460px] w-full object-cover">
+      </div>
+      <div class="absolute -bottom-4 -left-4 hidden items-center gap-3 rounded-full bg-white/85 px-5 py-3 shadow-card backdrop-blur-md sm:flex">
+        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-mint text-navy"><span class="ms !text-[20px]">groups</span></span>
+        <p class="font-display text-sm font-bold">Teams of 2–5 <span class="font-sans font-normal text-navy/60">· one lead</span></p>
+      </div>
     </div>
   </div>
-  <div class="border-y border-line bg-white">
-    <dl class="wrap grid grid-cols-1 gap-x-10 gap-y-3 py-6 text-sm sm:grid-cols-3">
-      <div class="flex gap-4"><dt class="eyebrow">When</dt><dd class="font-semibold">Mon 16 – Fri 20 Nov 2026</dd></div>
-      <div class="flex gap-4"><dt class="eyebrow">Where</dt><dd class="font-semibold">KAAF University · Sefwi Block KBA5</dd></div>
-      <div class="flex gap-4"><dt class="eyebrow">Who</dt><dd class="font-semibold">Enrolled tertiary students · teams of 2–5</dd></div>
+  <div class="wrap pb-14">
+    <dl class="card grid grid-cols-1 gap-4 rounded-[28px] px-7 py-6 text-sm sm:grid-cols-3">
+      <div class="flex items-center gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blush text-plum-deep"><span class="ms !text-[20px]">event</span></span><div><dt class="text-xs font-bold uppercase tracking-wide text-navy/50">When</dt><dd class="font-display text-[15px] font-bold">Mon 16 – Fri 20 Nov 2026</dd></div></div>
+      <div class="flex items-center gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sage text-leaf-deep"><span class="ms !text-[20px]">location_on</span></span><div><dt class="text-xs font-bold uppercase tracking-wide text-navy/50">Where</dt><dd class="font-display text-[15px] font-bold">KAAF University · Sefwi Block KBA5</dd></div></div>
+      <div class="flex items-center gap-3"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint-soft text-mint-deep"><span class="ms !text-[20px]">school</span></span><div><dt class="text-xs font-bold uppercase tracking-wide text-navy/50">Who</dt><dd class="font-display text-[15px] font-bold">Enrolled tertiary students</dd></div></div>
     </dl>
   </div>
 </section>
 
 <!-- FACTS -->
-<section class="wrap py-16 md:py-20">
-  <div class="grid grid-cols-1 gap-y-8 border-t border-line pt-10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-3">
-    <div><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">5</p><p class="mt-2 text-[15px] text-ink/70">Festival days, Mon–Fri</p></div>
-    <div class="lg:border-l lg:border-line lg:pl-8"><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">3</p><p class="mt-2 text-[15px] text-ink/70">Competition tracks — build, battle, pitch</p></div>
-    <div class="lg:border-l lg:border-line lg:pl-8"><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">2–5</p><p class="mt-2 text-[15px] text-ink/70">Members per team, one lead</p></div>
-    <div class="border-t border-line pt-8 sm:border-t-0 sm:pt-0"><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">≤5<span class="ml-1 text-2xl text-ink/50">kg</span></p><p class="mt-2 text-[15px] text-ink/70">Robot Wars arena class</p></div>
-    <div class="border-t border-line pt-8 sm:border-t-0 sm:pt-0 lg:border-l lg:border-line lg:pl-8"><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">7</p><p class="mt-2 text-[15px] text-ink/70">Short steps to register</p></div>
-    <div class="border-t border-line pt-8 sm:border-t-0 sm:pt-0 lg:border-l lg:border-line lg:pl-8"><p class="text-5xl font-bold tabular-nums tracking-tight lg:text-6xl">~10<span class="ml-1 text-2xl text-ink/50">min</span></p><p class="mt-2 text-[15px] text-ink/70">Typical time to complete the form</p></div>
+<section class="bg-blush/60">
+  <div class="wrap grid grid-cols-2 gap-5 py-14 lg:grid-cols-6">
+    <div class="card p-5 text-center"><p class="h-display text-4xl text-plum-deep">5</p><p class="mt-1 text-[13px] font-semibold text-navy/60">Festival days, Mon–Fri</p></div>
+    <div class="card p-5 text-center"><p class="h-display text-4xl text-tang-deep">3</p><p class="mt-1 text-[13px] font-semibold text-navy/60">Tracks — build, battle, pitch</p></div>
+    <div class="card p-5 text-center"><p class="h-display text-4xl text-sky-deep">2–5</p><p class="mt-1 text-[13px] font-semibold text-navy/60">Members per team, one lead</p></div>
+    <div class="card p-5 text-center"><p class="h-display text-4xl text-leaf-deep">≤5<span class="text-xl">kg</span></p><p class="mt-1 text-[13px] font-semibold text-navy/60">Robot Wars arena class</p></div>
+    <div class="card p-5 text-center"><p class="h-display text-4xl text-navy">7</p><p class="mt-1 text-[13px] font-semibold text-navy/60">Short steps to register</p></div>
+    <div class="card col-span-2 p-5 text-center lg:col-span-1"><p class="h-display text-4xl text-mint-deep">~10<span class="text-xl">min</span></p><p class="mt-1 text-[13px] font-semibold text-navy/60">Typical time to complete the form</p></div>
   </div>
 </section>
 
 <!-- AGENDA PROMO -->
-<section class="wrap pb-16 md:pb-24">
-  <div class="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12">
-    <div class="lg:col-span-5">
-      <img src="/assets/program-outline.jpg" alt="iFESTIVAL 2026 programme outline poster" width="1454" height="1600" class="h-full max-h-[520px] w-full rounded-[6px] border border-line object-cover object-top">
+<section class="wrap py-16 md:py-24">
+  <div class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12">
+    <div class="card overflow-hidden rounded-[28px] p-0 lg:col-span-5">
+      <img src="/assets/program-outline.jpg" alt="iFESTIVAL 2026 programme outline poster" width="1454" height="1600" class="h-full max-h-[520px] w-full object-cover object-top">
     </div>
-    <div class="on-dark flex flex-col justify-center rounded-[6px] bg-ink p-8 text-white sm:p-12 lg:col-span-7">
-      <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-mint">Plan your week</p>
-      <h2 class="mt-4 text-3xl font-light tracking-tight sm:text-5xl">Festival Programme</h2>
-      <p class="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">From the AI Hackathon and Robot Wars battles to breakout sessions and the climax pitch on Friday — here's what to expect each day.</p>
-      <a href="#schedule" class="mt-10 inline-flex w-fit items-center gap-2.5 rounded-[4px] bg-mint py-3 pl-5 pr-3.5 text-sm font-bold text-ink transition-colors hover:bg-mint/85">
-        See the agenda <span class="ms !text-[15px]">arrow_forward</span>
-      </a>
+    <div class="on-dark relative flex flex-col justify-center overflow-hidden rounded-[28px] bg-navy/85 p-8 text-white shadow-card backdrop-blur-md sm:p-12 lg:col-span-7">
+      <span class="wm !text-[16rem] text-white/10">iF</span>
+      <p class="eyebrow !bg-white/10 !text-white">Plan your week</p>
+      <h2 class="h-display mt-5 text-3xl sm:text-5xl">Festival Programme</h2>
+      <p class="mt-4 max-w-md text-[15px] leading-relaxed text-white/75">From the AI Hackathon and Robot Wars battles to breakout sessions and the climax pitch on Friday — here's what to expect each day.</p>
+      <a href="#schedule" class="btn relative z-10 mt-9 w-fit bg-mint text-navy">See the agenda <span class="arw text-navy"><span class="ms !text-[15px]">arrow_forward</span></span></a>
     </div>
   </div>
 </section>
 
 <!-- TRACKS -->
-<section id="tracks" class="wrap pb-16 md:pb-24">
-  <div class="flex items-end justify-between gap-6 border-b border-ink pb-4">
-    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">2026 Competitions</h2>
-    <p class="hidden font-mono text-xs uppercase tracking-wider text-ink/60 sm:block">Three tracks · one festival</p>
+<section id="tracks" class="bg-blush/60 py-16 md:py-24">
+  <div class="wrap">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="h-display text-3xl sm:text-5xl">2026 <span class="text-plum-deep">Competitions</span></h2>
+      <p class="font-display text-sm font-bold text-navy/50">Three tracks · one festival</p>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+      <article class="on-dark relative overflow-hidden rounded-[28px] bg-plum p-7 text-white shadow-card">
+        <span class="wm !text-[11rem] text-white/10">A</span>
+        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15"><span class="ms !text-[26px]">code</span></span>
+        <h3 class="h-display relative z-10 mt-5 text-2xl">AI Hackathon</h3>
+        <p class="relative z-10 mt-1 font-display text-sm font-bold text-white/70">Build · Days 2–4</p>
+        <p class="relative z-10 mt-3 text-sm leading-relaxed text-white/85">Teams of 2–5 build an AI-powered prototype from scratch. Focus areas span ML, generative AI, computer vision, NLP, automation, smart systems and social impact.</p>
+        <p class="relative z-10 mt-4 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-bold">No pre-built product · live demo required</p>
+      </article>
+      <article class="on-dark relative overflow-hidden rounded-[28px] bg-sky-deep p-7 text-white shadow-card">
+        <span class="wm !text-[11rem] text-white/10">B</span>
+        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15"><span class="ms !text-[26px]">sports_esports</span></span>
+        <h3 class="h-display relative z-10 mt-5 text-2xl">Robot Wars</h3>
+        <p class="relative z-10 mt-1 font-display text-sm font-bold text-white/70">Battle · Days 2–4</p>
+        <p class="relative z-10 mt-3 text-sm leading-relaxed text-white/85">Combat robots, max 5 kg, fitting a 30×30×30 cm box at match start. Remote-controlled, autonomous or hybrid, with mandatory kill switch and technical inspection.</p>
+        <p class="relative z-10 mt-4 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-bold">≤5 kg · ≤14.8 V · safety-checked</p>
+      </article>
+      <article class="on-dark relative overflow-hidden rounded-[28px] bg-leaf-deep p-7 text-white shadow-card">
+        <span class="wm !text-[11rem] text-white/10">C</span>
+        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15"><span class="ms !text-[26px]">present_to_all</span></span>
+        <h3 class="h-display relative z-10 mt-5 text-2xl">Innovation Pitch</h3>
+        <p class="relative z-10 mt-1 font-display text-sm font-bold text-white/70">Pitch · Day 5</p>
+        <p class="relative z-10 mt-3 text-sm leading-relaxed text-white/85">Student-led startups pitch against a mapped SDG goal. Working prototype or live product with users, a demo link, and a clear ask: funding, mentorship, partnerships or pilots.</p>
+        <p class="relative z-10 mt-4 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-bold">Deck: PDF, max 12 slides</p>
+      </article>
+    </div>
+    <p class="card mt-8 flex items-start gap-3 px-6 py-5 text-sm leading-relaxed text-navy/80">
+      <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-tang/20 text-tang-deep"><span class="ms !text-[16px]">info</span></span>
+      <span><strong class="font-display">Combination rule:</strong> AI Hackathon and Robot Wars are mutually exclusive (both run Days 2–4). The Innovation Pitch can be combined with either — it is judged on Day 5.</span>
+    </p>
   </div>
-  <div class="divide-y divide-line">
-    <article class="grid grid-cols-1 gap-4 py-10 md:grid-cols-12 md:gap-8">
-      <p class="font-mono text-sm font-bold text-mint-deep md:col-span-1">01</p>
-      <div class="md:col-span-4">
-        <h3 class="text-2xl font-medium tracking-tight">AI Hackathon</h3>
-        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-ink/60">Build · Days 2–4</p>
-      </div>
-      <div class="md:col-span-5"><p class="text-[15px] leading-relaxed text-ink/70">Teams of 2–5 build an AI-powered prototype from scratch. Focus areas span ML, generative AI, computer vision, NLP, automation, smart systems and social impact.</p></div>
-      <p class="font-mono text-xs font-bold uppercase tracking-wider text-mint-deep md:col-span-2">No pre-built product · live demo required</p>
-    </article>
-    <article class="grid grid-cols-1 gap-4 py-10 md:grid-cols-12 md:gap-8">
-      <p class="font-mono text-sm font-bold text-mint-deep md:col-span-1">02</p>
-      <div class="md:col-span-4">
-        <h3 class="text-2xl font-medium tracking-tight">Robot Wars</h3>
-        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-ink/60">Battle · Days 2–4</p>
-      </div>
-      <div class="md:col-span-5"><p class="text-[15px] leading-relaxed text-ink/70">Combat robots, max 5 kg, fitting a 30×30×30 cm box at match start. Remote-controlled, autonomous or hybrid, with mandatory kill switch and technical inspection.</p></div>
-      <p class="font-mono text-xs font-bold uppercase tracking-wider text-mint-deep md:col-span-2">≤5 kg · ≤14.8 V · safety-checked</p>
-    </article>
-    <article class="grid grid-cols-1 gap-4 py-10 md:grid-cols-12 md:gap-8">
-      <p class="font-mono text-sm font-bold text-mint-deep md:col-span-1">03</p>
-      <div class="md:col-span-4">
-        <h3 class="text-2xl font-medium tracking-tight">Innovation Pitch</h3>
-        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-ink/60">Pitch · Day 5</p>
-      </div>
-      <div class="md:col-span-5"><p class="text-[15px] leading-relaxed text-ink/70">Student-led startups pitch against a mapped SDG goal. Working prototype or live product with users, a demo link, and a clear ask: funding, mentorship, partnerships or pilots.</p></div>
-      <p class="font-mono text-xs font-bold uppercase tracking-wider text-mint-deep md:col-span-2">Deck: PDF, max 12 slides</p>
-    </article>
-  </div>
-  <p class="mt-8 border-l-2 border-mint bg-white px-5 py-4 text-sm leading-relaxed text-ink/80">
-    <strong>Combination rule:</strong> AI Hackathon and Robot Wars are mutually exclusive (both run Days 2–4). The Innovation Pitch can be combined with either — it is judged on Day 5.
-  </p>
 </section>
 
 <!-- SCHEDULE -->
-<section id="schedule" class="on-dark bg-ink text-white">
-  <div class="wrap py-16 md:py-24">
-    <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-mint">16–20 November 2026 · KAAF University</p>
-    <h2 class="mt-3 text-3xl font-light tracking-tight sm:text-5xl">Five days at iFESTIVAL</h2>
-    <ol class="mt-12 border-t border-white/15">
-      <li class="flex flex-col gap-1 border-b border-white/15 py-5 sm:flex-row sm:items-baseline sm:gap-8"><span class="w-32 shrink-0 font-mono text-xs font-bold uppercase tracking-wider text-mint">Mon 16 Nov</span><span class="font-semibold">Arrival of participants</span></li>
-      <li class="flex flex-col gap-1 border-b border-white/15 py-5 sm:flex-row sm:items-baseline sm:gap-8"><span class="w-32 shrink-0 font-mono text-xs font-bold uppercase tracking-wider text-mint">Tue 17 Nov</span><span class="font-semibold">Event launch · AI Hackathon</span></li>
-      <li class="flex flex-col gap-1 border-b border-white/15 py-5 sm:flex-row sm:items-baseline sm:gap-8"><span class="w-32 shrink-0 font-mono text-xs font-bold uppercase tracking-wider text-mint">Wed 18 Nov</span><span class="font-semibold">AI Hackathon · Robot Wars · Breakout sessions</span></li>
-      <li class="flex flex-col gap-1 border-b border-white/15 py-5 sm:flex-row sm:items-baseline sm:gap-8"><span class="w-32 shrink-0 font-mono text-xs font-bold uppercase tracking-wider text-mint">Thu 19 Nov</span><span class="font-semibold">AI Hackathon · Robot Wars · Breakout sessions</span></li>
-      <li class="mt-6 flex flex-col gap-1 rounded-[4px] bg-mint px-5 py-5 text-ink sm:flex-row sm:items-baseline sm:gap-8 sm:px-6"><span class="w-32 shrink-0 font-mono text-xs font-bold uppercase tracking-wider">Fri 20 Nov</span><span class="font-semibold">Climax with Innovation Pitch · winners announcement for AI Hackathon and Robot Wars</span></li>
-    </ol>
+<section id="schedule" class="wrap py-16 md:py-24">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h2 class="h-display text-3xl sm:text-5xl">Five days at <span class="text-mint-deep">iFESTIVAL</span></h2>
+    <p class="font-display text-sm font-bold text-navy/50">16–20 November 2026 · KAAF University</p>
   </div>
+  <ol class="card mt-10 divide-y divide-line overflow-hidden">
+    <li class="flex flex-col gap-2 px-6 py-5 sm:flex-row sm:items-center sm:gap-6"><span class="inline-flex w-fit shrink-0 items-center rounded-full bg-blush px-4 py-1.5 font-display text-xs font-extrabold uppercase text-plum-deep">Mon 16 Nov</span><span class="font-bold">Arrival of participants</span></li>
+    <li class="flex flex-col gap-2 px-6 py-5 sm:flex-row sm:items-center sm:gap-6"><span class="inline-flex w-fit shrink-0 items-center rounded-full bg-mint-soft px-4 py-1.5 font-display text-xs font-extrabold uppercase text-mint-deep">Tue 17 Nov</span><span class="font-bold">Event launch · AI Hackathon</span></li>
+    <li class="flex flex-col gap-2 px-6 py-5 sm:flex-row sm:items-center sm:gap-6"><span class="inline-flex w-fit shrink-0 items-center rounded-full bg-[#e8f0fa] px-4 py-1.5 font-display text-xs font-extrabold uppercase text-sky-deep">Wed 18 Nov</span><span class="font-bold">AI Hackathon · Robot Wars · Breakout sessions</span></li>
+    <li class="flex flex-col gap-2 px-6 py-5 sm:flex-row sm:items-center sm:gap-6"><span class="inline-flex w-fit shrink-0 items-center rounded-full bg-[#fbf0dd] px-4 py-1.5 font-display text-xs font-extrabold uppercase text-tang-deep">Thu 19 Nov</span><span class="font-bold">AI Hackathon · Robot Wars · Breakout sessions</span></li>
+    <li class="flex flex-col gap-2 bg-navy px-6 py-6 text-white sm:flex-row sm:items-center sm:gap-6"><span class="inline-flex w-fit shrink-0 items-center rounded-full bg-mint px-4 py-1.5 font-display text-xs font-extrabold uppercase text-navy">Fri 20 Nov</span><span class="font-bold">Climax with Innovation Pitch · winners announcement for AI Hackathon and Robot Wars</span></li>
+  </ol>
 </section>
 
 <!-- DOCS -->
-<section id="docs" class="wrap py-16 md:py-24">
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
-    <div class="lg:col-span-5">
-      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">How registration works</h2>
-      <p class="mt-3 text-[15px] leading-relaxed text-ink/70">The portal shows only the sections that apply to your chosen competitions.</p>
+<section id="docs" class="bg-sage/60 py-16 md:py-24">
+  <div class="wrap">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <h2 class="h-display text-3xl sm:text-5xl">How registration <span class="text-tang-deep">works</span></h2>
+        <p class="mt-3 text-[15px] leading-relaxed text-navy/70">The portal shows only the sections that apply to your chosen competitions.</p>
+      </div>
+      <ol class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7">
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-plum font-display text-sm font-extrabold text-white">1</span><h3 class="h-display mt-3 text-lg">Choose your competition</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70">Multi-select: AI Hackathon, Robot Wars, Innovation Pitch. The portal disables Robot Wars if you pick the Hackathon (and vice-versa), and only shows the sections that apply to you.</p></li>
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-tang font-display text-sm font-extrabold text-white">2</span><h3 class="h-display mt-3 text-lg">Team details</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70">Team name, the institution you compete for (the lead's institution), team size (validated 2–5), and the team lead's full name, email, phone/WhatsApp, programme and year of study.</p></li>
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-sky-deep font-display text-sm font-extrabold text-white">3</span><h3 class="h-display mt-3 text-lg">Member details (×2–5)</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70">For every member: name, email + phone, institution and type, programme and level/year, and student ID number — no ID photos needed, physical cards are verified on-site. Emails are auto-checked against existing registrations.</p></li>
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-leaf-deep font-display text-sm font-extrabold text-white">4</span><h3 class="h-display mt-3 text-lg">Category questions</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70"><strong>Hackathon:</strong> focus areas, track, skills, laptops, equipment. <strong>Robot Wars:</strong> robot spec, weight, dimensions, battery, safety, inspection. <strong>Pitch:</strong> project, sector, SDG mapping, problem, impact, demo link, the ask.</p></li>
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-sm font-extrabold text-white">5</span><h3 class="h-display mt-3 text-lg">Declarations</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70">Six required confirmations: enrolled students, ID verification, originality &amp; IP rules, code of conduct, photo/video consent, and parental consent upload if any member is under 18.</p></li>
+        <li class="card p-6"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-mint font-display text-sm font-extrabold text-navy">6</span><h3 class="h-display mt-3 text-lg">Logistics &amp; confirmation</h3><p class="mt-1.5 text-sm leading-relaxed text-navy/70">Travel &amp; accommodation, arrival date, emergency contact, T-shirt sizes, and how you heard about us. You receive a <span class="font-mono text-xs font-bold">IF26-XXXXXX</span> team code — quote it in all correspondence.</p></li>
+      </ol>
     </div>
-    <ol class="divide-y divide-line border-t border-line lg:col-span-7">
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">01</span><div><h3 class="font-semibold">Choose your competition</h3><p class="mt-1 text-sm leading-relaxed text-ink/70">Multi-select: AI Hackathon, Robot Wars, Innovation Pitch. The portal disables Robot Wars if you pick the Hackathon (and vice-versa), and only shows the sections that apply to you.</p></div></li>
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">02</span><div><h3 class="font-semibold">Team details</h3><p class="mt-1 text-sm leading-relaxed text-ink/70">Team name, the institution you compete for (the lead's institution), team size (validated 2–5), and the team lead's full name, email, phone/WhatsApp, programme and year of study.</p></div></li>
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">03</span><div><h3 class="font-semibold">Member details (×2–5)</h3><p class="mt-1 text-sm leading-relaxed text-ink/70">For every member: name, email + phone, institution and type, programme and level/year, student ID number, and a scan or photo of a valid student ID. Emails are auto-checked against existing registrations.</p></div></li>
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">04</span><div><h3 class="font-semibold">Category questions</h3><p class="mt-1 text-sm leading-relaxed text-ink/70"><strong>Hackathon:</strong> focus areas, track, skills, laptops, equipment. <strong>Robot Wars:</strong> robot spec, weight, dimensions, battery, safety, inspection. <strong>Pitch:</strong> project, sector, SDG mapping, problem, impact, demo link, the ask.</p></div></li>
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">05</span><div><h3 class="font-semibold">Declarations</h3><p class="mt-1 text-sm leading-relaxed text-ink/70">Six required confirmations: enrolled students, ID verification, originality &amp; IP rules, code of conduct, photo/video consent, and parental consent upload if any member is under 18.</p></div></li>
-      <li class="flex gap-6 py-5"><span class="w-8 shrink-0 font-mono text-sm font-bold text-mint-deep">06</span><div><h3 class="font-semibold">Logistics &amp; confirmation</h3><p class="mt-1 text-sm leading-relaxed text-ink/70">Travel &amp; accommodation, arrival date, emergency contact, T-shirt sizes, and how you heard about us. You receive a <span class="font-mono text-xs font-bold">IF26-XXXXXX</span> team code — quote it in all correspondence.</p></div></li>
-    </ol>
-  </div>
 
-  <div id="rules" class="mt-16 grid gap-x-12 gap-y-10 border-t border-line pt-12 md:grid-cols-2">
-    <div>
-      <h3 class="text-lg font-semibold">Automatic validation</h3>
-      <ul class="mt-4 space-y-2.5 text-[15px] text-ink/80">
-        <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 text-mint-deep">check_circle</span>Team size between 2 and 5 members.</li>
-        <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 text-mint-deep">check_circle</span>Maximum 2 teams per institution, per competition.</li>
-        <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 text-mint-deep">check_circle</span>No member may appear in both Hackathon and Robot Wars, or in two teams.</li>
-        <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 text-mint-deep">check_circle</span>Robot Wars limits enforced at registration: ≤5 kg, 30 cm box, ≤60 cm extension, ≤14.8 V, kill switch mandatory.</li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="text-lg font-semibold">Key rules to know</h3>
-      <ul class="mt-4 space-y-2.5 text-[15px] text-ink/80">
-        <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 bg-ink/50"></span>Hackathon: nothing pre-built. Ideas, wireframes and data-gathering beforehand are fine; the prototype must run live (recorded video only as backup).</li>
-        <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 bg-ink/50"></span>Organizers provide power and internet only — every member needs their own laptop.</li>
-        <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 bg-ink/50"></span>Robots: no fire/flammables, projectiles, nets, tethers, jammers, high-voltage or spinning weapons.</li>
-        <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 bg-ink/50"></span>Pitch decks: PDF, max 12 slides — deadline ~7 days before the festival (TBC with your team code).</li>
-        <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 bg-ink/50"></span>Judges' decisions are final; harassment, cheating or unsafe behaviour means a warning, then disqualification.</li>
-      </ul>
+    <div id="rules" class="mt-14 grid gap-6 md:grid-cols-2">
+      <div class="card p-7">
+        <h3 class="h-display text-xl">Automatic validation</h3>
+        <ul class="mt-4 space-y-2.5 text-[15px] text-navy/80">
+          <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 shrink-0 text-leaf-deep">check_circle</span>Team size between 2 and 5 members.</li>
+          <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 shrink-0 text-leaf-deep">check_circle</span>Maximum 2 teams per institution, per competition.</li>
+          <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 shrink-0 text-leaf-deep">check_circle</span>No member may appear in both Hackathon and Robot Wars, or in two teams.</li>
+          <li class="flex gap-2.5"><span class="ms !text-[18px] mt-0.5 shrink-0 text-leaf-deep">check_circle</span>Robot Wars limits enforced at registration: ≤5 kg, 30 cm box, ≤60 cm extension, ≤14.8 V, kill switch mandatory.</li>
+        </ul>
+      </div>
+      <div class="card p-7">
+        <h3 class="h-display text-xl">Key rules to know</h3>
+        <ul class="mt-4 space-y-2.5 text-[15px] text-navy/80">
+          <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tang"></span>Hackathon: nothing pre-built. Ideas, wireframes and data-gathering beforehand are fine; the prototype must run live (recorded video only as backup).</li>
+          <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tang"></span>Organizers provide power and internet only — every member needs their own laptop.</li>
+          <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tang"></span>Robots: no fire/flammables, projectiles, nets, tethers, jammers, high-voltage or spinning weapons.</li>
+          <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tang"></span>Pitch decks: PDF, max 12 slides — deadline ~7 days before the festival (TBC with your team code).</li>
+          <li class="flex gap-2.5"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tang"></span>Judges' decisions are final; harassment, cheating or unsafe behaviour means a warning, then disqualification.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="wrap pb-16 md:pb-24">
+<section id="faq" class="wrap py-16 md:py-24">
   <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
-    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl lg:col-span-4">Frequently asked questions</h2>
-    <div class="border-t border-line lg:col-span-8">
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">Who can compete?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">Currently enrolled tertiary students. Every member's student ID is verified at registration on Day 1 — bring the physical ID.</p></details>
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">Can we enter two competitions?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">You may combine the Innovation Pitch (Day 5) with either the AI Hackathon or Robot Wars — never both, since they share Days 2–4. The form enforces this.</p></details>
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">Can members come from different institutions?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">Yes. Members may study elsewhere, but the team competes for the team lead's institution, and the 2-teams-per-institution cap applies to the lead's institution.</p></details>
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">What do we bring to Robot Wars?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">Your robot (already built, in progress, or built on site), your LiPo batteries for safe on-site charging, and a 2-page engineering notebook (recommended — also the tiebreaker). The robot must pass technical inspection on Day 1 or early Day 2.</p></details>
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">Is there a fee?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">Registration details, deadlines and any logistics fees are confirmed in your confirmation email after you register. For partnership &amp; sponsorship, contact SparkLab Africa.</p></details>
-      <details class="group border-b border-line"><summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-medium">Accommodation for out-of-town teams?<span class="ms !text-[22px] text-ink/60 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-ink/70">Tell us in the logistics step — the form asks whether members travel from outside the host location and whether accommodation is needed.</p></details>
+    <h2 class="h-display text-3xl sm:text-5xl lg:col-span-4">Frequently asked <span class="text-plum-deep">questions</span></h2>
+    <div class="space-y-3 lg:col-span-8">
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Who can compete?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Currently enrolled tertiary students. Every member's student ID is verified at registration on Day 1 — bring the physical ID.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Can we enter two competitions?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">You may combine the Innovation Pitch (Day 5) with either the AI Hackathon or Robot Wars — never both, since they share Days 2–4. The form enforces this.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Can members come from different institutions?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Yes. Members may study elsewhere, but the team competes for the team lead's institution, and the 2-teams-per-institution cap applies to the lead's institution.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">What do we bring to Robot Wars?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Your robot (already built, in progress, or built on site), your LiPo batteries for safe on-site charging, and a 2-page engineering notebook (recommended — also the tiebreaker). The robot must pass technical inspection on Day 1 or early Day 2.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Is there a fee?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Registration details, deadlines and any logistics fees are confirmed in your confirmation email after you register. For partnership &amp; sponsorship, contact SparkLab Africa.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Accommodation for out-of-town teams?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Tell us in the logistics step — the form asks whether members travel from outside the host location and whether accommodation is needed.</p></details>
     </div>
   </div>
 </section>
 
 <!-- SPONSORS -->
-<section id="sponsors" class="wrap pb-16 md:pb-24">
-  <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+<section id="sponsors" class="bg-blush/60 py-16 md:py-24">
+  <div class="wrap grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
     <div class="lg:col-span-5">
-      <img src="/assets/call-sponsors-b.jpg" alt="iFESTIVAL 2026 call for sponsors poster" width="1454" height="1600" class="mx-auto w-full max-w-[460px] rounded-[6px] border border-line lg:max-w-none">
+      <div class="card overflow-hidden rounded-[28px] p-0">
+        <img src="/assets/call-sponsors-b.jpg" alt="iFESTIVAL 2026 call for sponsors poster" width="1454" height="1600" class="mx-auto w-full max-w-[460px] lg:max-w-none">
+      </div>
     </div>
-    <div class="flex flex-col justify-center lg:col-span-7">
-      <p class="eyebrow">Partnership</p>
-      <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Call for sponsors</h2>
-      <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-ink/70">iFESTIVAL '26 brings together tertiary innovators from across the country for five days of building, battling and pitching. For partnership and sponsorship opportunities, reach the SparkLab Africa team directly.</p>
-      <dl class="mt-8 divide-y divide-line border-y border-line text-sm">
-        <div class="flex flex-col gap-1 py-3.5 sm:flex-row sm:items-center sm:gap-3"><dt class="eyebrow sm:w-44 sm:shrink-0">Phone / WhatsApp</dt><dd class="break-words font-mono font-bold">+233 249 332 626</dd></div>
-        <div class="flex flex-col gap-1 py-3.5 sm:flex-row sm:items-center sm:gap-3"><dt class="eyebrow sm:w-44 sm:shrink-0">Email</dt><dd class="break-words font-bold"><a href="mailto:info@sparklabafrica.com" class="underline underline-offset-2 hover:no-underline">info@sparklabafrica.com</a></dd></div>
-        <div class="flex flex-col gap-1 py-3.5 sm:flex-row sm:items-center sm:gap-3"><dt class="eyebrow sm:w-44 sm:shrink-0">Website</dt><dd class="break-words font-bold"><a href="https://www.sparklabafrica.com" class="underline underline-offset-2 hover:no-underline">www.sparklabafrica.com</a></dd></div>
+    <div class="lg:col-span-7">
+      <p class="eyebrow"><span class="ms !text-[16px] text-plum-deep">favorite</span> Partnership</p>
+      <h2 class="h-display mt-5 text-3xl sm:text-5xl">Call for <span class="text-tang-deep">sponsors</span></h2>
+      <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-navy/70">iFESTIVAL '26 brings together tertiary innovators from across the country for five days of building, battling and pitching. For partnership and sponsorship opportunities, reach the SparkLab Africa team directly.</p>
+      <dl class="card mt-8 divide-y divide-line">
+        <div class="flex flex-col gap-1 px-6 py-4 sm:flex-row sm:items-center sm:gap-4"><dt class="font-display text-sm font-bold uppercase tracking-wide text-navy/50 sm:w-44 sm:shrink-0">Phone / WhatsApp</dt><dd class="break-words font-mono font-bold">+233 249 332 626</dd></div>
+        <div class="flex flex-col gap-1 px-6 py-4 sm:flex-row sm:items-center sm:gap-4"><dt class="font-display text-sm font-bold uppercase tracking-wide text-navy/50 sm:w-44 sm:shrink-0">Email</dt><dd class="break-words font-bold"><a href="mailto:info@sparklabafrica.com" class="underline decoration-mint decoration-2 underline-offset-2 hover:no-underline">info@sparklabafrica.com</a></dd></div>
+        <div class="flex flex-col gap-1 px-6 py-4 sm:flex-row sm:items-center sm:gap-4"><dt class="font-display text-sm font-bold uppercase tracking-wide text-navy/50 sm:w-44 sm:shrink-0">Website</dt><dd class="break-words font-bold"><a href="https://www.sparklabafrica.com" class="underline decoration-mint decoration-2 underline-offset-2 hover:no-underline">www.sparklabafrica.com</a></dd></div>
       </dl>
-      <p class="mt-6 text-sm text-ink/60">Powered by SparkLab Africa &amp; KECSA.</p>
+      <p class="mt-5 text-sm text-navy/60">Powered by SparkLab Africa &amp; KECSA.</p>
     </div>
   </div>
 </section>
 
 <!-- REGISTER -->
-<section id="register" class="border-t border-line bg-white">
-  <div class="wrap grid grid-cols-1 items-start gap-12 py-16 md:py-20 lg:grid-cols-[320px_1fr]">
-    <aside class="lg:sticky lg:top-24">
-      <p class="eyebrow">Participant Registration Portal</p>
-      <h2 class="mt-2 text-3xl font-bold tracking-tight">Register your team</h2>
-      <p class="mt-3 text-sm leading-relaxed text-ink/70">Seven short steps — about 10 minutes. Have every member's name, student ID and a scan of their ID ready. The form shows only the sections that apply to your chosen competitions, and issues a team code on submission.</p>
-      <ol id="steplist" class="mt-6 space-y-0.5"></ol>
-      <p class="mt-6 text-xs leading-relaxed text-ink/60">Questions before submitting? Phone / WhatsApp <a href="tel:+233249332626" class="font-mono font-bold underline underline-offset-2">+233 249 332 626</a> or <a href="mailto:info@sparklabafrica.com" class="font-semibold underline underline-offset-2">info@sparklabafrica.com</a>.</p>
+<section id="register" class="wrap py-16 md:py-24">
+  <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-[340px_1fr]">
+    <aside class="card p-7 lg:sticky lg:top-28">
+      <p class="font-display text-sm font-extrabold uppercase tracking-wide text-plum-deep">Participant Registration Portal</p>
+      <h2 class="h-display mt-2 text-3xl">Register your team</h2>
+      <p class="mt-3 text-sm leading-relaxed text-navy/70">Seven short steps — about 10 minutes. Have every member's name and student ID number ready. The form shows only the sections that apply to your chosen competitions, and issues a team code on submission.</p>
+      <ol id="steplist" class="mt-6 space-y-1"></ol>
+      <p class="mt-6 text-xs leading-relaxed text-navy/60">Questions before submitting? Phone / WhatsApp <a href="tel:+233249332626" class="font-mono font-bold underline underline-offset-2">+233 249 332 626</a> or <a href="mailto:info@sparklabafrica.com" class="font-semibold underline underline-offset-2">info@sparklabafrica.com</a>.</p>
     </aside>
     <div>
       <div class="mb-4">
         <div class="flex items-baseline justify-between">
-          <p id="step-label" class="font-mono text-xs font-bold uppercase tracking-wider"></p>
-          <p id="step-pct" class="font-mono text-xs text-ink/60"></p>
+          <p id="step-label" class="font-display text-sm font-extrabold uppercase tracking-wide"></p>
+          <p id="step-pct" class="font-mono text-xs text-navy/60"></p>
         </div>
-        <div class="mt-2 h-1 bg-line"><div id="step-bar" class="h-1 bg-ink transition-all duration-200" style="width:0%"></div></div>
+        <div class="mt-2 h-2 rounded-full bg-white/70 shadow-inner"><div id="step-bar" class="h-2 rounded-full bg-gradient-to-r from-mint to-leaf transition-all duration-200" style="width:0%"></div></div>
       </div>
 
-      <form id="reg-form" class="rounded-[6px] border border-line bg-bone/40 p-6 md:p-10" novalidate>
+      <form id="reg-form" class="card p-6 md:p-10" novalidate>
 
       <!-- STEP 1: categories -->
       <fieldset class="step" data-step="0">
-        <legend class="text-lg font-bold">Step 1 · Which competition(s) are you registering for?</legend>
-        <p class="mt-1 text-xs text-ink/60">Multi-select. Hackathon and Robot Wars are mutually exclusive (Days 2–4). Pitch can be combined with either (Day 5).</p>
+        <legend class="h-display text-xl">Step 1 · Which competition(s) are you registering for?</legend>
+        <p class="mt-1 text-xs text-navy/60">Multi-select. Hackathon and Robot Wars are mutually exclusive (Days 2–4). Pitch can be combined with either (Day 5).</p>
         <div class="mt-5 grid grid-cols-1 gap-3">
-          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-[6px] border border-line bg-white p-4 transition hover:border-ink has-[:checked]:border-ink has-[:checked]:bg-mint-soft">
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-plum has-[:checked]:bg-blush">
             <input type="checkbox" name="cat" value="hackathon" class="h-5 w-5">
-            <span><span class="block font-bold">AI Hackathon <span class="font-mono text-xs font-normal text-ink/60">(Build)</span></span><span class="block text-xs text-ink/60">Build an AI prototype live over 3 days</span></span>
+            <span><span class="block font-display font-bold">AI Hackathon <span class="font-sans text-xs font-normal text-navy/60">(Build)</span></span><span class="block text-xs text-navy/60">Build an AI prototype live over 3 days</span></span>
           </label>
-          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-[6px] border border-line bg-white p-4 transition hover:border-ink has-[:checked]:border-ink has-[:checked]:bg-mint-soft">
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-sky-deep has-[:checked]:bg-[#e8f0fa]">
             <input type="checkbox" name="cat" value="robot_wars" class="h-5 w-5">
-            <span><span class="block font-bold">Robot Wars <span class="font-mono text-xs font-normal text-ink/60">(Battle)</span></span><span class="block text-xs text-ink/60">Combat robots ≤5 kg in the arena</span></span>
+            <span><span class="block font-display font-bold">Robot Wars <span class="font-sans text-xs font-normal text-navy/60">(Battle)</span></span><span class="block text-xs text-navy/60">Combat robots ≤5 kg in the arena</span></span>
           </label>
-          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-[6px] border border-line bg-white p-4 transition hover:border-ink has-[:checked]:border-ink has-[:checked]:bg-mint-soft">
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-leaf-deep has-[:checked]:bg-sage">
             <input type="checkbox" name="cat" value="pitch" class="h-5 w-5">
-            <span><span class="block font-bold">Innovation Pitch <span class="font-mono text-xs font-normal text-ink/60">(Pitch)</span></span><span class="block text-xs text-ink/60">Student-led startup pitch on Day 5</span></span>
+            <span><span class="block font-display font-bold">Innovation Pitch <span class="font-sans text-xs font-normal text-navy/60">(Pitch)</span></span><span class="block text-xs text-navy/60">Student-led startup pitch on Day 5</span></span>
           </label>
         </div>
         <p id="cat-err" class="mt-3 hidden text-sm font-semibold text-red-600">Select at least one competition to continue.</p>
@@ -307,7 +347,7 @@ tailwind.config = {
 
       <!-- STEP 2: team -->
       <fieldset class="step hidden" data-step="1">
-        <legend class="text-lg font-bold">Step 2 · Team details <span class="text-sm font-normal text-ink/60">(all categories)</span></legend>
+        <legend class="h-display text-xl">Step 2 · Team details <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
           <label class="block"><span class="lbl">Team name</span><input name="name" class="field" required maxlength="80" placeholder="e.g. Circuit Breakers"></label>
           <label class="block"><span class="lbl">Number of members (2–5)</span><input name="size" type="number" min="2" max="5" value="4" class="field" required></label>
@@ -326,30 +366,30 @@ tailwind.config = {
 
       <!-- STEP 3: members -->
       <fieldset class="step hidden" data-step="2">
-        <legend class="text-lg font-bold">Step 3 · Member details <span class="text-sm font-normal text-ink/60">(repeat for each of your 2–5 members)</span></legend>
+        <legend class="h-display text-xl">Step 3 · Member details <span class="text-sm font-sans font-normal text-navy/60">(repeat for each of your 2–5 members)</span></legend>
         <div id="members" class="mt-5 space-y-6"></div>
       </fieldset>
 
       <!-- STEP 4: category sections -->
       <fieldset class="step hidden" data-step="3">
-        <legend class="text-lg font-bold">Step 4 · Competition questions</legend>
-        <p class="mt-1 text-xs text-ink/60">Only the sections for your selected competitions appear below.</p>
+        <legend class="h-display text-xl">Step 4 · Competition questions</legend>
+        <p class="mt-1 text-xs text-navy/60">Only the sections for your selected competitions appear below.</p>
 
-        <div id="sec-hackathon" data-cat="hackathon" class="catsec mt-6 hidden rounded-[6px] border border-line bg-white p-5">
-          <p class="font-mono text-xs font-bold uppercase tracking-widest text-ink/60">Category A</p>
-          <p class="font-bold">AI Hackathon (Build)</p>
+        <div id="sec-hackathon" data-cat="hackathon" class="catsec mt-6 hidden rounded-[24px] border-2 border-plum/25 bg-white/60 p-5 backdrop-blur-md">
+          <p class="font-display text-xs font-extrabold uppercase tracking-widest text-plum-deep">Category A</p>
+          <p class="h-display text-lg">AI Hackathon (Build)</p>
           <div class="mt-4 space-y-5">
             <div><span class="lbl">Preferred focus area(s) *</span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI/ML">AI/ML</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Generative AI">Generative AI</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Computer vision">Computer vision</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="NLP">NLP</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI automation">AI automation</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Data-driven solutions">Data-driven solutions</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Smart systems">Smart systems</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI for social impact">AI for social impact</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Other">Other</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI/ML"><span class="ms tick">check</span>AI/ML</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Generative AI"><span class="ms tick">check</span>Generative AI</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Computer vision"><span class="ms tick">check</span>Computer vision</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="NLP"><span class="ms tick">check</span>NLP</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI automation"><span class="ms tick">check</span>AI automation</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Data-driven solutions"><span class="ms tick">check</span>Data-driven solutions</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Smart systems"><span class="ms tick">check</span>Smart systems</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="AI for social impact"><span class="ms tick">check</span>AI for social impact</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="focusAreas[]" value="Other"><span class="ms tick">check</span>Other</label>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -362,27 +402,27 @@ tailwind.config = {
             </div>
             <div><span class="lbl">Team's main skills</span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Backend">Backend</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Frontend">Frontend</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="ML/Data">ML/Data</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Hardware/IoT">Hardware/IoT</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Design">Design</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Product">Product</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Backend"><span class="ms tick">check</span>Backend</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Frontend"><span class="ms tick">check</span>Frontend</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="ML/Data"><span class="ms tick">check</span>ML/Data</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Hardware/IoT"><span class="ms tick">check</span>Hardware/IoT</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Design"><span class="ms tick">check</span>Design</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="skills[]" value="Product"><span class="ms tick">check</span>Product</label>
               </div>
             </div>
             <label class="block"><span class="lbl">Primary languages &amp; frameworks <span class="hint">(optional)</span></span><textarea name="languages" rows="2" class="field" placeholder="e.g. Python, FastAPI, React, ESP32/C++"></textarea></label>
             <label class="block"><span class="lbl">Special equipment needed, e.g. GPU or specific hardware? <span class="hint">(optional)</span></span><textarea name="equipment" rows="2" class="field"></textarea></label>
-            <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3 text-sm"><input type="checkbox" name="noPrebuilt" required class="mt-0.5 h-4 w-4"><span>We will <strong>not bring a pre-built product</strong>. Ideas, wireframes and data-gathering beforehand are fine. <span class="req">*</span></span></label>
-            <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3 text-sm"><input type="checkbox" name="liveDemo" required class="mt-0.5 h-4 w-4"><span>Our prototype will <strong>run live</strong>. A pre-recorded video is allowed only as a backup. <span class="req">*</span></span></label>
+            <label class="flex items-start gap-3 rounded-2xl border border-line bg-blush/60 p-3 text-sm"><input type="checkbox" name="noPrebuilt" required class="mt-0.5 h-4 w-4"><span>We will <strong>not bring a pre-built product</strong>. Ideas, wireframes and data-gathering beforehand are fine. <span class="req">*</span></span></label>
+            <label class="flex items-start gap-3 rounded-2xl border border-line bg-blush/60 p-3 text-sm"><input type="checkbox" name="liveDemo" required class="mt-0.5 h-4 w-4"><span>Our prototype will <strong>run live</strong>. A pre-recorded video is allowed only as a backup. <span class="req">*</span></span></label>
             <div><span class="lbl">Are you also entering the Innovation Pitch?</span>
               <div class="mt-2 flex gap-4 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alsoPitch" value="yes" class="h-4 w-4">Yes</label><label class="flex items-center gap-2"><input type="radio" name="alsoPitch" value="no" class="h-4 w-4">No</label></div>
             </div>
           </div>
         </div>
 
-        <div id="sec-robot" data-cat="robot_wars" class="catsec mt-6 hidden rounded-[6px] border border-line bg-white p-5">
-          <p class="font-mono text-xs font-bold uppercase tracking-widest text-ink/60">Category B</p>
-          <p class="font-bold">Robot Wars (Battle)</p>
+        <div id="sec-robot" data-cat="robot_wars" class="catsec mt-6 hidden rounded-[24px] border-2 border-sky-deep/25 bg-white/60 p-5 backdrop-blur-md">
+          <p class="font-display text-xs font-extrabold uppercase tracking-widest text-sky-deep">Category B</p>
+          <p class="h-display text-lg">Robot Wars (Battle)</p>
           <div class="mt-4 space-y-5">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label class="block"><span class="lbl">Robot name *</span><input name="robotName" class="field" maxlength="60"></label>
@@ -390,11 +430,11 @@ tailwind.config = {
             </div>
             <div><span class="lbl">Weapon / mechanism type</span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
-                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Pusher">Pusher</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Wedge">Wedge</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Lifter">Lifter</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Flipper">Flipper</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="None">None</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Pusher"><span class="ms tick">check</span>Pusher</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Wedge"><span class="ms tick">check</span>Wedge</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Lifter"><span class="ms tick">check</span>Lifter</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="Flipper"><span class="ms tick">check</span>Flipper</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="weapons[]" value="None"><span class="ms tick">check</span>None</label>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -424,33 +464,33 @@ tailwind.config = {
             <label class="block"><span class="lbl">Pit-area and power requirements</span><textarea name="pitPower" rows="2" class="field"></textarea></label>
             <div><span class="lbl">Safety declarations <span class="req">— all required</span></span>
               <div class="mt-2 space-y-2 text-sm">
-                <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3"><input type="checkbox" name="noFire" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no fire, flammable liquids, explosives or pressurized gases</strong></span></label>
-                <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3"><input type="checkbox" name="noProjectiles" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no projectiles, nets, tethers or entangling parts</strong></span></label>
-                <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3"><input type="checkbox" name="noJammer" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no radio jammers or electronic interference</strong></span></label>
-                <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3"><input type="checkbox" name="noHighVoltage" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no high-voltage weapons</strong></span></label>
-                <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3"><input type="checkbox" name="noBlades" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no bladed or spinning weapons</strong></span></label>
+                <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3"><input type="checkbox" name="noFire" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no fire, flammable liquids, explosives or pressurized gases</strong></span></label>
+                <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3"><input type="checkbox" name="noProjectiles" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no projectiles, nets, tethers or entangling parts</strong></span></label>
+                <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3"><input type="checkbox" name="noJammer" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no radio jammers or electronic interference</strong></span></label>
+                <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3"><input type="checkbox" name="noHighVoltage" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no high-voltage weapons</strong></span></label>
+                <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3"><input type="checkbox" name="noBlades" class="mt-0.5 h-4 w-4"><span>The robot has <strong>no bladed or spinning weapons</strong></span></label>
               </div>
             </div>
             <label class="block"><span class="lbl">Photos of the robot <span class="hint">(optional now, required at inspection)</span></span><input type="file" data-file="robotPhoto" accept="image/*" multiple class="filein"><input type="hidden" name="_hasPhoto" value=""></label>
             <div><span class="lbl">Special award interest <span class="hint">(optional)</span></span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
-                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Design">Best Design</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Autonomous Robot">Best Autonomous Robot</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Comeback">Best Comeback</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Design"><span class="ms tick">check</span>Best Design</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Autonomous Robot"><span class="ms tick">check</span>Best Autonomous Robot</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Comeback"><span class="ms tick">check</span>Best Comeback</label>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div><span class="lbl">Also entering the Innovation Pitch?</span>
                 <div class="mt-2 flex gap-4 text-sm"><label class="flex items-center gap-2"><input type="radio" name="alsoPitch" value="yes" class="h-4 w-4">Yes</label><label class="flex items-center gap-2"><input type="radio" name="alsoPitch" value="no" class="h-4 w-4">No</label></div>
               </div>
-              <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3 text-sm self-end"><input type="checkbox" name="inspection" class="mt-0.5 h-4 w-4"><span>We will present the robot for <strong>technical inspection on Day 1 or early Day 2</strong>. <span class="req">*</span></span></label>
+              <label class="flex items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-3 text-sm self-end"><input type="checkbox" name="inspection" class="mt-0.5 h-4 w-4"><span>We will present the robot for <strong>technical inspection on Day 1 or early Day 2</strong>. <span class="req">*</span></span></label>
             </div>
           </div>
         </div>
 
-        <div id="sec-pitch" data-cat="pitch" class="catsec mt-6 hidden rounded-[6px] border border-line bg-white p-5">
-          <p class="font-mono text-xs font-bold uppercase tracking-widest text-ink/60">Category C</p>
-          <p class="font-bold">Innovation Pitch (Pitch)</p>
+        <div id="sec-pitch" data-cat="pitch" class="catsec mt-6 hidden rounded-[24px] border-2 border-leaf-deep/25 bg-white/60 p-5 backdrop-blur-md">
+          <p class="font-display text-xs font-extrabold uppercase tracking-widest text-leaf-deep">Category C</p>
+          <p class="h-display text-lg">Innovation Pitch (Pitch)</p>
           <div class="mt-4 space-y-5">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label class="block"><span class="lbl">Startup / project name *</span><input name="projectName" class="field" maxlength="80"></label>
@@ -479,7 +519,7 @@ tailwind.config = {
                 <label class="block"><span class="lbl">Business or sustainability model</span><textarea name="businessModel" rows="2" class="field"></textarea></label>
               </div>
             </div>
-            <label class="flex items-start gap-3 rounded-[6px] border border-line bg-bone/50 p-3 text-sm"><input type="checkbox" name="studentLed" class="mt-0.5 h-4 w-4"><span>The pitching team is <strong>student-led</strong>. <span class="req">*</span></span></label>
+            <label class="flex items-start gap-3 rounded-2xl border border-line bg-sage/70 p-3 text-sm"><input type="checkbox" name="studentLed" class="mt-0.5 h-4 w-4"><span>The pitching team is <strong>student-led</strong>. <span class="req">*</span></span></label>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div><span class="lbl">Is this an existing startup?</span>
                 <div class="mt-2 flex gap-4 text-sm"><label class="flex items-center gap-2"><input type="radio" name="existingStartup" value="yes" class="h-4 w-4">Yes</label><label class="flex items-center gap-2"><input type="radio" name="existingStartup" value="no" checked class="h-4 w-4">No</label></div>
@@ -489,10 +529,10 @@ tailwind.config = {
             <label class="block"><span class="lbl">Pitch deck <span class="hint">(PDF, max 12 slides — deadline set with your team code, suggested 7 days before the festival)</span></span><input type="file" data-file="pitchDeck" accept="application/pdf" class="filein"></label>
             <div><span class="lbl">What is 'the ask'? *</span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
-                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Funding">Funding</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Mentorship">Mentorship</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Partnerships">Partnerships</label>
-                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Pilot sites">Pilot sites</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Funding"><span class="ms tick">check</span>Funding</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Mentorship"><span class="ms tick">check</span>Mentorship</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Partnerships"><span class="ms tick">check</span>Partnerships</label>
+                <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Pilot sites"><span class="ms tick">check</span>Pilot sites</label>
               </div>
             </div>
           </div>
@@ -501,15 +541,15 @@ tailwind.config = {
 
       <!-- STEP 5: declarations -->
       <fieldset class="step hidden" data-step="4">
-        <legend class="text-lg font-bold">Step 5 · Declarations <span class="text-sm font-normal text-ink/60">(all categories)</span></legend>
+        <legend class="h-display text-xl">Step 5 · Declarations <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 space-y-2 text-sm" data-scope="declarations">
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="enrolled" required class="mt-0.5 h-4 w-4"><span>All team members are <strong>currently enrolled tertiary students</strong>. <span class="req">*</span></span></label>
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="ids" required class="mt-0.5 h-4 w-4"><span>We understand <strong>student IDs will be verified</strong> at registration. <span class="req">*</span></span></label>
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="ip" required class="mt-0.5 h-4 w-4"><span>We agree to the <strong>originality and IP rules</strong>: open-source libraries, pretrained models and APIs must be disclosed; plagiarism means disqualification. <span class="req">*</span></span></label>
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="conduct" required class="mt-0.5 h-4 w-4"><span>We agree to the <strong>code of conduct</strong>: judges' decisions are final; harassment, cheating or unsafe behaviour leads to a warning, then disqualification. <span class="req">*</span></span></label>
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="media" required class="mt-0.5 h-4 w-4"><span><strong>Consent for photos and videos</strong> taken during the festival. <span class="req">*</span></span></label>
-          <label class="flex items-start gap-3 rounded-[6px] border border-line bg-white p-3"><input type="checkbox" name="minorConsent" class="mt-0.5 h-4 w-4"><span><strong>Parental/guardian consent</strong> for any member under 18 <span class="hint">(check if applicable)</span></span></label>
-          <div class="hidden rounded-[6px] border border-mint/60 bg-mint-soft p-3" data-reveal="minorConsent">
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="enrolled" required class="mt-0.5 h-4 w-4"><span>All team members are <strong>currently enrolled tertiary students</strong>. <span class="req">*</span></span></label>
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="ids" required class="mt-0.5 h-4 w-4"><span>We understand <strong>student IDs will be verified</strong> at registration. <span class="req">*</span></span></label>
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="ip" required class="mt-0.5 h-4 w-4"><span>We agree to the <strong>originality and IP rules</strong>: open-source libraries, pretrained models and APIs must be disclosed; plagiarism means disqualification. <span class="req">*</span></span></label>
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="conduct" required class="mt-0.5 h-4 w-4"><span>We agree to the <strong>code of conduct</strong>: judges' decisions are final; harassment, cheating or unsafe behaviour leads to a warning, then disqualification. <span class="req">*</span></span></label>
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="media" required class="mt-0.5 h-4 w-4"><span><strong>Consent for photos and videos</strong> taken during the festival. <span class="req">*</span></span></label>
+          <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="minorConsent" class="mt-0.5 h-4 w-4"><span><strong>Parental/guardian consent</strong> for any member under 18 <span class="hint">(check if applicable)</span></span></label>
+          <div class="hidden rounded-2xl border-2 border-mint-deep/40 bg-mint-soft p-3" data-reveal="minorConsent">
             <span class="lbl">Upload signed parental/guardian consent <span class="req">*</span></span>
             <input type="file" data-file="consent" accept=".pdf,image/*" class="filein mt-1">
           </div>
@@ -518,7 +558,7 @@ tailwind.config = {
 
       <!-- STEP 6: logistics -->
       <fieldset class="step hidden" data-step="5">
-        <legend class="text-lg font-bold">Step 6 · Logistics <span class="text-sm font-normal text-ink/60">(all categories)</span></legend>
+        <legend class="h-display text-xl">Step 6 · Logistics <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2" data-scope="logistics">
           <div><span class="lbl">Will members travel from outside the host location? Need accommodation? *</span>
             <div class="mt-2 flex gap-4 text-sm"><label class="flex items-center gap-2"><input type="radio" name="travel" value="yes" required class="h-4 w-4">Yes</label><label class="flex items-center gap-2"><input type="radio" name="travel" value="no" class="h-4 w-4">No</label></div>
@@ -539,25 +579,25 @@ tailwind.config = {
 
       <!-- STEP 7: review -->
       <fieldset class="step hidden" data-step="6">
-        <legend class="text-lg font-bold">Step 7 · Review &amp; submit</legend>
+        <legend class="h-display text-xl">Step 7 · Review &amp; submit</legend>
         <div id="review" class="mt-5 space-y-4 text-sm"></div>
-        <p id="submit-err" class="mt-4 hidden rounded-[6px] border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"></p>
+        <p id="submit-err" class="mt-4 hidden rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"></p>
       </fieldset>
 
       <!-- SUCCESS -->
       <div id="success" class="hidden text-center">
-        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-[6px] bg-ink"><span class="ms !text-[28px] text-mint">check_circle</span></div>
-        <p class="mt-4 text-2xl font-bold">Registration received</p>
-        <p class="mt-2 text-sm text-ink/70">Your team code — quote it in all correspondence and check-in:</p>
-        <p id="team-code" class="mx-auto mt-4 inline-block rounded-[4px] bg-ink px-6 py-3 font-mono text-2xl font-bold tracking-widest text-mint"></p>
-        <p class="mt-4 text-sm text-ink/70">A confirmation with category details, deadlines and inspection requirements follows. Bring physical student IDs on Day 1.</p>
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-mint text-navy"><span class="ms !text-[32px]">check</span></div>
+        <p class="h-display mt-4 text-2xl">Registration received</p>
+        <p class="mt-2 text-sm text-navy/70">Your team code — quote it in all correspondence and check-in:</p>
+        <p id="team-code" class="mx-auto mt-4 inline-block rounded-full bg-navy px-6 py-3 font-mono text-2xl font-bold tracking-widest text-mint"></p>
+        <p class="mt-4 text-sm text-navy/70">A confirmation with category details, deadlines and inspection requirements follows. Bring physical student IDs on Day 1.</p>
       </div>
 
       <!-- nav buttons -->
       <div id="stepnav" class="mt-8 flex items-center justify-between border-t border-line pt-5">
-        <button type="button" id="prev" class="px-2 py-2 text-sm font-semibold text-ink/60 transition-colors hover:text-ink disabled:opacity-40">← Back</button>
-        <button type="button" id="next" class="inline-flex items-center gap-2.5 rounded-[4px] bg-ink py-3 pl-5 pr-3.5 text-sm font-bold text-white transition-colors hover:bg-ink/85"><span>Continue</span><span class="flex h-6 w-6 items-center justify-center rounded-[3px] bg-mint text-ink"><span class="ms !text-[15px]">arrow_forward</span></span></button>
-        <button type="submit" id="submit" class="hidden rounded-[4px] bg-mint px-6 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-mint/80">Submit registration</button>
+        <button type="button" id="prev" class="px-2 py-2 text-sm font-bold text-navy/60 transition-colors hover:text-navy disabled:opacity-40">← Back</button>
+        <button type="button" id="next" class="btn bg-navy text-white"><span>Continue</span><span class="arw !bg-mint text-navy"><span class="ms !text-[15px]">arrow_forward</span></span></button>
+        <button type="submit" id="submit" class="btn hidden bg-mint text-navy hover:bg-mint/90">Submit registration <span class="arw text-navy"><span class="ms !text-[15px]">check</span></span></button>
       </div>
     </form>
     </div>
@@ -572,13 +612,15 @@ tailwind.config = {
 </datalist>
 
 <!-- FOOTER -->
-<footer class="on-dark bg-ink text-white/70">
+<footer class="on-dark rounded-t-[36px] bg-navy/85 text-white/75 backdrop-blur-lg">
   <div class="wrap pt-16">
-    <p class="text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">iFESTIVAL<span class="text-mint">'26</span></p>
-    <p class="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">The Tertiary Innovation &amp; Technology Festival — organized by SparkLab Africa, hosted by KAAF University.</p>
+    <div class="flex flex-wrap items-center gap-6">
+      <img src="/assets/logo.png" alt="iFESTIVAL '26 logo" class="h-16 w-auto brightness-0 invert sm:h-20">
+      <p class="max-w-md text-[15px] leading-relaxed text-white/75">The Tertiary Innovation &amp; Technology Festival — organized by SparkLab Africa, hosted by KAAF University.</p>
+    </div>
     <div class="mt-14 grid grid-cols-1 gap-10 border-t border-white/15 py-12 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white/90">Quick links</p>
+        <p class="font-display text-sm font-extrabold uppercase tracking-wide text-white">Quick links</p>
         <ul class="mt-4 space-y-2 text-[15px]">
           <li><a href="#tracks" class="underline-offset-2 hover:text-white hover:underline">Competitions</a></li>
           <li><a href="#schedule" class="underline-offset-2 hover:text-white hover:underline">Programme</a></li>
@@ -588,7 +630,7 @@ tailwind.config = {
         </ul>
       </div>
       <div>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white/90">Venue</p>
+        <p class="font-display text-sm font-extrabold uppercase tracking-wide text-white">Venue</p>
         <ul class="mt-4 space-y-2 text-[15px]">
           <li>KAAF University</li>
           <li>Sefwi Block KBA5</li>
@@ -596,7 +638,7 @@ tailwind.config = {
         </ul>
       </div>
       <div>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white/90">Contact</p>
+        <p class="font-display text-sm font-extrabold uppercase tracking-wide text-white">Contact</p>
         <ul class="mt-4 space-y-2 text-[15px]">
           <li><a href="tel:+233249332626" class="font-mono underline-offset-2 hover:text-white hover:underline">+233 249 332 626</a></li>
           <li><a href="mailto:info@sparklabafrica.com" class="break-words underline-offset-2 hover:text-white hover:underline">info@sparklabafrica.com</a></li>
@@ -604,7 +646,7 @@ tailwind.config = {
         </ul>
       </div>
       <div>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white/90">Organisers</p>
+        <p class="font-display text-sm font-extrabold uppercase tracking-wide text-white">Organisers</p>
         <ul class="mt-4 space-y-2 text-[15px]">
           <li>SparkLab Africa</li>
           <li>KECSA</li>
@@ -614,14 +656,14 @@ tailwind.config = {
       </div>
     </div>
   </div>
-  <p class="border-t border-white/15 py-5 text-center font-mono text-xs text-white/70">© 2026 SparkLab Africa · iFESTIVAL '26</p>
+  <p class="border-t border-white/15 py-5 text-center font-display text-xs font-bold text-white/75">© 2026 SparkLab Africa · iFESTIVAL '26</p>
 </footer>
 
 <style type="text/tailwindcss">
-  .lbl { @apply mb-1.5 block text-[13px] font-semibold text-ink/70; }
-  .hint { @apply text-xs font-normal text-ink/60; }
+  .lbl { @apply mb-1.5 block text-[13px] font-bold text-navy/70; }
+  .hint { @apply text-xs font-normal text-navy/55; }
   .req { @apply text-red-600; }
-  .filein { @apply block w-full cursor-pointer rounded-[6px] border border-line bg-white text-sm text-ink/70 transition file:mr-3 file:rounded-l-[5px] file:border-0 file:bg-ink file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-ink/85 focus:border-ink focus:outline-none; }
+  .filein { @apply block w-full cursor-pointer rounded-2xl border border-line bg-white/70 text-sm text-navy/70 backdrop-blur-sm transition file:mr-3 file:rounded-l-[14px] file:border-0 file:bg-navy file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-navy/85 focus:border-navy focus:outline-none; }
 </style>
 
 <script>
@@ -678,8 +720,8 @@ syncExclusion();
 // members
 function memberCard(i, vals = {}) {
   const v = k => vals[k] ?? '';
-  return `<div class="member-card rounded-[6px] border border-line bg-white p-5" data-idx="${i}">
-    <p class="font-mono text-xs font-bold uppercase tracking-widest text-ink/60">Member ${i+1}${i===0?' · team lead':''}</p>
+  return `<div class="member-card rounded-[24px] border-2 border-line bg-white/60 p-5 backdrop-blur-md" data-idx="${i}">
+    <p class="font-display text-xs font-extrabold uppercase tracking-widest text-plum-deep">Member ${i+1}${i===0?' · team lead':''}</p>
     <div class="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
       <label class="block"><span class="lbl">Full name *</span><input name="name" required class="field" value="${v('name')}"></label>
       <label class="block"><span class="lbl">Email *</span><input name="email" type="email" required class="field dup" value="${v('email')}"><p class="dupmsg mt-1 hidden text-xs font-semibold text-red-600"></p></label>
@@ -691,7 +733,6 @@ function memberCard(i, vals = {}) {
       <label class="block"><span class="lbl">Student ID number *</span><input name="studentId" required class="field" value="${v('studentId')}"></label>
       <label class="block"><span class="lbl">Gender <span class="hint">(optional, for reporting)</span></span><select name="gender" class="field"><option value="">Prefer not to say</option><option ${v('gender')==='Female'?'selected':''}>Female</option><option ${v('gender')==='Male'?'selected':''}>Male</option></select></label>
       <label class="block md:col-span-2"><span class="lbl">Dietary or accessibility needs <span class="hint">(optional)</span></span><input name="dietary" class="field" value="${v('dietary')}"></label>
-      <label class="block md:col-span-2"><span class="lbl">Scan or photo of valid student ID *</span><input type="file" data-file="memberId_${i}" accept="image/*,.pdf" required class="filein"></label>
     </div>
   </div>`;
 }
@@ -714,7 +755,7 @@ function renderTshirts(size) {
   const box = $('#tshirts');
   box.innerHTML = '';
   for (let i = 0; i < size; i++)
-    box.insertAdjacentHTML('beforeend', `<label class="flex items-center gap-3 text-sm"><span class="w-20 font-mono text-xs text-ink/60">Mbr ${i+1}</span><select name="tshirtSizes[]" class="field !w-32"><option value="">—</option>${['S','M','L','XL','XXL'].map(s=>`<option>${s}</option>`).join('')}</select></label>`);
+    box.insertAdjacentHTML('beforeend', `<label class="flex items-center gap-3 text-sm"><span class="w-20 font-mono text-xs text-navy/60">Mbr ${i+1}</span><select name="tshirtSizes[]" class="field !w-32"><option value="">—</option>${['S','M','L','XL','XXL'].map(s=>`<option>${s}</option>`).join('')}</select></label>`);
 }
 
 // duplicate email auto-check
@@ -834,17 +875,17 @@ function showStep(i) {
 function renderReview() {
   const p = buildPayload();
   const catNames = { hackathon: 'AI Hackathon', robot_wars: 'Robot Wars', pitch: 'Innovation Pitch' };
-  const row = (k, v) => v ? `<div class="flex justify-between gap-4 border-b border-line py-1.5 last:border-b-0"><span class="text-ink/60">${k}</span><span class="text-right font-semibold">${v}</span></div>` : '';
-  const box = 'rounded-[6px] border border-line bg-white p-4';
+  const row = (k, v) => v ? `<div class="flex justify-between gap-4 border-b border-line py-1.5 last:border-b-0"><span class="text-navy/60">${k}</span><span class="text-right font-bold">${v}</span></div>` : '';
+  const box = 'rounded-[24px] border border-line bg-white/60 p-4 backdrop-blur-sm';
   $('#review').innerHTML = `
     <div class="${box}">${row('Competitions', p.categories.map(c => catNames[c]).join(' + '))}${row('Team', p.team.name)}${row('Institution', p.team.institution)}${row('Lead', p.team.leadName + ' · ' + p.team.leadEmail)}${row('Members', p.team.size)}</div>
-    <div class="${box}">${p.members.map((m, i) => `<div class="flex justify-between gap-4 border-b border-line py-1.5 last:border-b-0"><span class="font-mono text-xs text-ink/60">${i + 1}.</span><span class="flex-1 text-right"><span class="font-semibold">${m.name || '—'}</span> <span class="text-ink/60">${m.email || ''}</span></span></div>`).join('')}</div>
+    <div class="${box}">${p.members.map((m, i) => `<div class="flex justify-between gap-4 border-b border-line py-1.5 last:border-b-0"><span class="font-mono text-xs text-navy/60">${i + 1}.</span><span class="flex-1 text-right"><span class="font-bold">${m.name || '—'}</span> <span class="text-navy/60">${m.email || ''}</span></span></div>`).join('')}</div>
     ${p.hackathon ? `<div class="${box}">${row('Focus areas', (p.hackathon.focusAreas || []).join(', '))}${row('Laptops for all', p.hackathon.laptopsAll)}</div>` : ''}
     ${p.robotWars ? `<div class="${box}">${row('Robot', p.robotWars.robotName)}${row('Type', p.robotWars.robotType)}${row('Weight', p.robotWars.weightKg + ' kg')}${row('Battery', p.robotWars.batteryV + ' V ' + p.robotWars.batteryType)}${row('Build status', p.robotWars.buildStatus)}</div>` : ''}
     ${p.pitch ? `<div class="${box}">${row('Project', p.pitch.projectName)}${row('Sector', p.pitch.sector)}${row('SDG', p.pitch.sdgPrimary)}${row('Stage', p.pitch.stage)}</div>` : ''}
     <div class="${box}">${row('Travel needed', p.logistics.travel)}${row('Arrival', p.logistics.arrivalDate)}${row('Emergency contact', p.logistics.emergencyName)}
-    ${row('Declarations', Object.values(p.declarations).filter(Boolean).length + ' of 6')} — all member student-ID scans${p.declarations.minorConsent ? ', consent form, robot photos and pitch deck' : ', robot photos and pitch deck'} are attached on submit.</div>
-    <p class="text-xs text-ink/60">By submitting you confirm the declarations above. You will receive a team code (IF26-XXXXXX) to quote in all correspondence.</p>`;
+    ${row('Declarations', Object.values(p.declarations).filter(Boolean).length + ' of 6')} — student IDs are verified on-site with your physical card on Day 1${p.declarations.minorConsent ? '; the parental consent form' : ''}${p.declarations.minorConsent ? ', robot photos and pitch deck' : (p.categories.includes('robot_wars') || p.categories.includes('pitch') ? ', robot photos and pitch deck' : '')} are attached on submit.</div>
+    <p class="text-xs text-navy/60">By submitting you confirm the declarations above. You will receive a team code (IF26-XXXXXX) to quote in all correspondence.</p>`;
 }
 
 // submit
