@@ -309,7 +309,7 @@ tailwind.config = {
     <aside class="card p-7 lg:sticky lg:top-28">
       <p class="font-display text-sm font-extrabold uppercase tracking-wide text-plum-deep">Participant Registration Portal</p>
       <h2 class="h-display mt-2 text-3xl">Register your team</h2>
-      <p class="mt-3 text-sm leading-relaxed text-navy/70">Seven short steps — about 10 minutes. Have every member's name and student ID number ready. The form shows only the sections that apply to your chosen competitions, and issues a team code on submission.</p>
+      <p class="mt-3 text-sm leading-relaxed text-navy/70">Participants choose how they're attending first — competitors get the full team registration (about 10 minutes; have every member's name and student ID number ready), audience, sponsors, security and other guests get a short two-step form. The form shows only the sections that apply to your chosen competitions, and issues a code on submission.</p>
       <ol id="steplist" class="mt-6 space-y-1"></ol>
       <p class="mt-6 text-xs leading-relaxed text-navy/60">Questions before submitting? Phone / WhatsApp <a href="tel:+233249332626" class="font-mono font-bold underline underline-offset-2">+233 249 332 626</a> or <a href="mailto:info@sparklabafrica.com" class="font-semibold underline underline-offset-2">info@sparklabafrica.com</a>.</p>
     </aside>
@@ -325,8 +325,38 @@ tailwind.config = {
       <form id="reg-form" class="card p-6 md:p-10" novalidate>
 
       <!-- STEP 1: categories -->
+      <!-- STEP 1: who are you -->
       <fieldset class="step" data-step="0">
-        <legend class="h-display text-xl">Step 1 · Which competition(s) are you registering for?</legend>
+        <legend class="h-display text-xl">Step 1 · Who are you registering as?</legend>
+        <p class="mt-1 text-xs text-navy/60">Competitors complete the full team registration — everyone else gets a short two-step form.</p>
+        <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+            <input type="radio" name="attendingAs" value="participant" class="h-5 w-5">
+            <span><span class="block font-display font-bold">Participant</span><span class="block text-xs text-navy/60">I'm competing — Hackathon, Robot Wars or Pitch</span></span>
+          </label>
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+            <input type="radio" name="attendingAs" value="audience" class="h-5 w-5">
+            <span><span class="block font-display font-bold">Audience</span><span class="block text-xs text-navy/60">I'm coming to watch, learn and network</span></span>
+          </label>
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+            <input type="radio" name="attendingAs" value="sponsor" class="h-5 w-5">
+            <span><span class="block font-display font-bold">Sponsor / Partner</span><span class="block text-xs text-navy/60">Representing a sponsoring organisation</span></span>
+          </label>
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+            <input type="radio" name="attendingAs" value="security" class="h-5 w-5">
+            <span><span class="block font-display font-bold">Security</span><span class="block text-xs text-navy/60">Deployed security or safety personnel</span></span>
+          </label>
+          <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft sm:col-span-2">
+            <input type="radio" name="attendingAs" value="other" class="h-5 w-5">
+            <span><span class="block font-display font-bold">Other</span><span class="block text-xs text-navy/60">Guest lecturer, judge, press, staff volunteer…</span></span>
+          </label>
+        </div>
+        <p id="role-err" class="mt-3 hidden text-sm font-bold text-red-600">Choose how you're attending to continue.</p>
+      </fieldset>
+
+      <!-- STEP 2: categories -->
+      <fieldset class="step hidden" data-step="1">
+        <legend class="h-display text-xl">Step 2 · Which competition(s) are you registering for?</legend>
         <p class="mt-1 text-xs text-navy/60">Multi-select. Hackathon and Robot Wars are mutually exclusive (Days 2–4). Pitch can be combined with either (Day 5).</p>
         <div class="mt-5 grid grid-cols-1 gap-3">
           <label class="cat-card flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-line bg-white/60 p-4 backdrop-blur-sm transition has-[:checked]:border-plum has-[:checked]:bg-blush">
@@ -346,8 +376,8 @@ tailwind.config = {
       </fieldset>
 
       <!-- STEP 2: team -->
-      <fieldset class="step hidden" data-step="1">
-        <legend class="h-display text-xl">Step 2 · Team details <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
+      <fieldset class="step hidden" data-step="2">
+        <legend class="h-display text-xl">Step 3 · Team details <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
           <label class="block"><span class="lbl">Team name</span><input name="name" class="field" required maxlength="80" placeholder="e.g. Circuit Breakers"></label>
           <label class="block"><span class="lbl">Number of members (2–5)</span><input name="size" type="number" min="2" max="5" value="4" class="field" required></label>
@@ -365,14 +395,14 @@ tailwind.config = {
       </fieldset>
 
       <!-- STEP 3: members -->
-      <fieldset class="step hidden" data-step="2">
-        <legend class="h-display text-xl">Step 3 · Member details <span class="text-sm font-sans font-normal text-navy/60">(repeat for each of your 2–5 members)</span></legend>
+      <fieldset class="step hidden" data-step="3">
+        <legend class="h-display text-xl">Step 4 · Member details <span class="text-sm font-sans font-normal text-navy/60">(repeat for each of your 2–5 members)</span></legend>
         <div id="members" class="mt-5 space-y-6"></div>
       </fieldset>
 
       <!-- STEP 4: category sections -->
-      <fieldset class="step hidden" data-step="3">
-        <legend class="h-display text-xl">Step 4 · Competition questions</legend>
+      <fieldset class="step hidden" data-step="4">
+        <legend class="h-display text-xl">Step 5 · Competition questions</legend>
         <p class="mt-1 text-xs text-navy/60">Only the sections for your selected competitions appear below.</p>
 
         <div id="sec-hackathon" data-cat="hackathon" class="catsec mt-6 hidden rounded-[24px] border-2 border-plum/25 bg-white/60 p-5 backdrop-blur-md">
@@ -540,8 +570,8 @@ tailwind.config = {
       </fieldset>
 
       <!-- STEP 5: declarations -->
-      <fieldset class="step hidden" data-step="4">
-        <legend class="h-display text-xl">Step 5 · Declarations <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
+      <fieldset class="step hidden" data-step="5">
+        <legend class="h-display text-xl">Step 6 · Declarations <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 space-y-2 text-sm" data-scope="declarations">
           <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="enrolled" required class="mt-0.5 h-4 w-4"><span>All team members are <strong>currently enrolled tertiary students</strong>. <span class="req">*</span></span></label>
           <label class="flex items-start gap-3 rounded-2xl border border-line bg-white/60 p-3 backdrop-blur-sm"><input type="checkbox" name="ids" required class="mt-0.5 h-4 w-4"><span>We understand <strong>student IDs will be verified</strong> at registration. <span class="req">*</span></span></label>
@@ -557,8 +587,8 @@ tailwind.config = {
       </fieldset>
 
       <!-- STEP 6: logistics -->
-      <fieldset class="step hidden" data-step="5">
-        <legend class="h-display text-xl">Step 6 · Logistics <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
+      <fieldset class="step hidden" data-step="6">
+        <legend class="h-display text-xl">Step 7 · Logistics <span class="text-sm font-sans font-normal text-navy/60">(all categories)</span></legend>
         <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2" data-scope="logistics">
           <div><span class="lbl">Will members travel from outside the host location? Need accommodation? *</span>
             <div class="mt-2 flex gap-4 text-sm"><label class="flex items-center gap-2"><input type="radio" name="travel" value="yes" required class="h-4 w-4">Yes</label><label class="flex items-center gap-2"><input type="radio" name="travel" value="no" class="h-4 w-4">No</label></div>
@@ -577,18 +607,41 @@ tailwind.config = {
         </div>
       </fieldset>
 
-      <!-- STEP 7: review -->
-      <fieldset class="step hidden" data-step="6">
-        <legend class="h-display text-xl">Step 7 · Review &amp; submit</legend>
+      <!-- STEP 8: review (participants) -->
+      <fieldset class="step hidden" data-step="7">
+        <legend class="h-display text-xl">Step 8 · Review &amp; submit</legend>
         <div id="review" class="mt-5 space-y-4 text-sm"></div>
         <p id="submit-err" class="mt-4 hidden rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"></p>
+      </fieldset>
+
+      <!-- STEP 2 (guest flow): short details form -->
+      <fieldset class="step hidden" data-step="8">
+        <legend class="h-display text-xl">Step 2 · Your details <span class="text-sm font-sans font-normal text-navy/60">(under a minute)</span></legend>
+        <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2" data-scope="guest">
+          <label class="block"><span class="lbl">Full name *</span><input name="name" class="field" autocomplete="name"></label>
+          <label class="block"><span class="lbl">Email *</span><input name="email" type="email" class="field" autocomplete="email"></label>
+          <label class="block"><span class="lbl">Phone *</span><input name="phone" class="field" placeholder="+233 …"></label>
+          <label class="block"><span class="lbl">Organisation <span class="hint">(company / institution — required for sponsors &amp; security escorts)</span></span><input name="org" class="field"></label>
+          <div class="md:col-span-2"><span class="lbl">Which days will you attend? *</span>
+            <div class="mt-2 flex flex-wrap gap-2" data-checkgroup="days">
+              <label class="chip"><input type="checkbox" name="days[]" value="Mon 16 Nov" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>Mon 16 Nov</label>
+              <label class="chip"><input type="checkbox" name="days[]" value="Tue 17 Nov" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>Tue 17 Nov</label>
+              <label class="chip"><input type="checkbox" name="days[]" value="Wed 18 Nov" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>Wed 18 Nov</label>
+              <label class="chip"><input type="checkbox" name="days[]" value="Thu 19 Nov" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>Thu 19 Nov</label>
+              <label class="chip"><input type="checkbox" name="days[]" value="Fri 20 Nov" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>Fri 20 Nov</label>
+              <label class="chip"><input type="checkbox" name="days[]" value="All days" class="h-4 w-4"><span class="tick"><span class="ms">check</span></span>All days</label>
+            </div>
+          </div>
+          <label class="block md:col-span-2"><span class="lbl">Anything we should know? <span class="hint">(dietary needs, escort list, sessions of interest…)</span></span><textarea name="notes" rows="3" class="field"></textarea></label>
+        </div>
+        <p id="guest-err" class="mt-3 hidden text-sm font-bold text-red-600">Please fill in your name, a valid email, phone, and at least one attendance day.</p>
       </fieldset>
 
       <!-- SUCCESS -->
       <div id="success" class="hidden text-center">
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-mint text-navy"><span class="ms !text-[32px]">check</span></div>
         <p class="h-display mt-4 text-2xl">Registration received</p>
-        <p class="mt-2 text-sm text-navy/70">Your team code — quote it in all correspondence and check-in:</p>
+        <p class="mt-2 text-sm text-navy/70" id="success-sub">Your team code — quote it in all correspondence and check-in:</p>
         <p id="team-code" class="mx-auto mt-4 inline-block rounded-full bg-navy px-6 py-3 font-mono text-2xl font-bold tracking-widest text-mint"></p>
         <p class="mt-4 text-sm text-navy/70">A confirmation with category details, deadlines and inspection requirements follows. Bring physical student IDs on Day 1.</p>
       </div>
@@ -667,11 +720,16 @@ tailwind.config = {
 </style>
 
 <script>
-const STEPS = ['Categories','Team','Members','Competitions','Declarations','Logistics','Review'];
+const P_STEPS = ['Your role','Categories','Team','Members','Competitions','Declarations','Logistics','Review'];
+const G_STEPS = ['Your role','Your details'];
+const GUEST = 8;
 let step = 0;
 const $ = (s, el=document) => el.querySelector(s);
 const $$ = (s, el=document) => [...el.querySelectorAll(s)];
 const form = $('#reg-form');
+const role = () => $('input[name=attendingAs]:checked')?.value || 'participant';
+const isGuest = () => role() !== 'participant';
+const stepOrder = () => isGuest() ? [0, GUEST] : [0,1,2,3,4,5,6,7];
 
 // mobile menu
 const menuBtn = $('#menu-btn'), menuBox = $('#mobile-menu');
@@ -694,14 +752,21 @@ for (const sel of [$('#sec-pitch [name=sdgPrimary]'), $('#sec-pitch [name="sdgSe
 // stepper
 const stepLabel = $('#step-label'), stepBar = $('#step-bar'), stepPct = $('#step-pct');
 const stepList = $('#steplist');
-stepList.innerHTML = STEPS.map((s, j) => `<li data-jump="${j}" title="Go to ${s}"><span class="num">${j + 1}</span><span class="ms chk">check</span><span>${s}</span></li>`).join('');
+function renderStepList() {
+  const names = isGuest() ? G_STEPS : P_STEPS;
+  const steps = isGuest() ? [0, GUEST] : [0,1,2,3,4,5,6,7];
+  stepList.innerHTML = names.map((s, j) => `<li data-jump="${steps[j]}" title="Go to ${s}"><span class="num">${j + 1}</span><span class="ms chk">check</span><span>${s}</span></li>`).join('');
+}
+renderStepList();
+$$('input[name=attendingAs]').forEach(r => r.addEventListener('change', renderStepList));
 stepList.addEventListener('click', e => {
   const li = e.target.closest('li[data-jump]');
   if (!li) return;
   const target = +li.dataset.jump;
   if (target === step) return;
+  const order = stepOrder();
   if (target < step) { showStep(target); return; }
-  for (let k = step; k < target; k++) if (!validateStep(k)) { showStep(k); return; }
+  for (let k = order.indexOf(step); k < order.indexOf(target); k++) if (!validateStep(order[k])) { showStep(order[k]); return; }
   showStep(target);
 });
 
@@ -806,7 +871,10 @@ document.addEventListener('input', applyReveals);
 document.addEventListener('change', applyReveals);
 
 function buildPayload() {
-  const team = collectScope($('[data-step="1"]'));
+  if (isGuest()) {
+    return { attendingAs: role(), guest: collectScope($('[data-step="8"]')) };
+  }
+  const team = collectScope($('[data-step="2"]'));
   const members = $$('.member-card').map(collectScope);
   const declarations = collectScope($('[data-scope="declarations"]'));
   const logistics = collectScope($('[data-scope="logistics"]'));
@@ -822,11 +890,24 @@ function buildPayload() {
 // step validation
 function validateStep(i) {
   if (i === 0) {
+    const ok = !!$('input[name=attendingAs]:checked');
+    $('#role-err').classList.toggle('hidden', ok);
+    return ok;
+  }
+  if (i === 1) {
     const ok = cats().length > 0;
     $('#cat-err').classList.toggle('hidden', ok);
     return ok;
   }
-  if (i === 3) {
+  if (i === GUEST) {
+    const g = collectScope($('[data-step="8"]'));
+    const ok = (g.name || '').trim() && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((g.email || '').trim()) &&
+      (g.phone || '').trim() && (g.days || []).length > 0 &&
+      (!['sponsor', 'security'].includes(role()) || (g.org || '').trim() !== '');
+    $('#guest-err').classList.toggle('hidden', ok);
+    return ok;
+  }
+  if (i === 4) {
     if (cats().includes('robot_wars') && $('input[name=killSwitch]:checked')?.value !== 'yes') {
       alert('Robot Wars rule: a clearly accessible kill switch that cuts all power is mandatory. Answer "Yes".');
       return false;
@@ -853,20 +934,24 @@ function validateStep(i) {
 
 function showStep(i) {
   step = i;
+  const order = stepOrder();
+  const names = isGuest() ? G_STEPS : P_STEPS;
   $$('.step').forEach(s => s.classList.toggle('hidden', +s.dataset.step !== i));
-  if (i === 2) renderMembers();
-  if (i === 3) $$('.catsec').forEach(s => s.classList.toggle('hidden', !cats().includes(s.dataset.cat)));
-  if (i === 6) renderReview();
+  if (i === 3) renderMembers();
+  if (i === 4) $$('.catsec').forEach(s => s.classList.toggle('hidden', !cats().includes(s.dataset.cat)));
+  if (i === 7) renderReview();
+  const last = order[order.length - 1];
   $('#prev').disabled = i === 0;
-  $('#next').classList.toggle('hidden', i === STEPS.length - 1);
-  $('#submit').classList.toggle('hidden', i !== STEPS.length - 1);
-  stepLabel.textContent = 'Step ' + (i+1) + ' of ' + STEPS.length + ' — ' + STEPS[i];
-  const pct = Math.round(i / (STEPS.length - 1) * 100);
+  $('#next').classList.toggle('hidden', i === last);
+  $('#submit').classList.toggle('hidden', i !== last);
+  const pos = order.indexOf(i);
+  stepLabel.textContent = `Step ${pos + 1} of ${order.length} — ${names[pos]}`;
+  const pct = Math.round(pos / (order.length - 1) * 100);
   stepBar.style.width = pct + '%';
   stepPct.textContent = pct + '% complete';
   $$('li', stepList).forEach((li, j) => {
-    li.classList.toggle('on', j === i);
-    li.classList.toggle('done', j < i);
+    li.classList.toggle('on', +li.dataset.jump === i);
+    li.classList.toggle('done', order.indexOf(+li.dataset.jump) < pos);
   });
   applyReveals();
   $('#register').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -889,13 +974,23 @@ function renderReview() {
 }
 
 // submit
-$('#prev').addEventListener('click', () => step > 0 && showStep(step - 1));
-$('#next').addEventListener('click', () => { if (validateStep(step)) showStep(step + 1); });
+$('#prev').addEventListener('click', () => {
+  const order = stepOrder();
+  const pos = order.indexOf(step);
+  if (pos > 0) showStep(order[pos - 1]);
+});
+$('#next').addEventListener('click', () => {
+  if (!validateStep(step)) return;
+  const order = stepOrder();
+  showStep(order[order.indexOf(step) + 1] ?? step);
+});
 $('input[name=size]').addEventListener('input', () => {});
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
-  for (let i = 0; i < 6; i++) if (!validateStep(i)) { showStep(i); return; }
+  const order = stepOrder();
+  const toCheck = isGuest() ? [0, GUEST] : order.slice(0, -1);
+  for (const i of toCheck) if (!validateStep(i)) { showStep(i); return; }
   const p = buildPayload();
   const fd = new FormData();
   fd.append('payload', JSON.stringify(p));
@@ -911,6 +1006,10 @@ form.addEventListener('submit', async e => {
     $$('.step').forEach(s => s.classList.add('hidden'));
     $('#stepnav').classList.add('hidden');
     $('#team-code').textContent = j.code;
+    if (isGuest()) {
+      $('#success-sub').textContent = 'Your registration code — quote it at check-in:';
+      $('#success').querySelector('p:last-of-type').textContent = 'A confirmation with access details and the programme follows. Bring a valid photo ID on the day.';
+    }
     $('#success').classList.remove('hidden');
     stepLabel.textContent = 'Registration complete'; stepBar.style.width = '100%'; stepPct.textContent = '100%';
     $$('li', stepList).forEach(li => { li.classList.remove('on'); li.classList.add('done'); });

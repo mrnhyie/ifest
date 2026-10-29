@@ -109,9 +109,9 @@ tailwind.config = { theme: { extend: {
         <table class="w-full text-left text-sm">
           <thead>
             <tr class="border-b border-line bg-blush/50">
-              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Team</th>
-              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Institution</th>
-              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Competitions</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Name</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Institution / Org</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Competitions / Role</th>
               <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Lead</th>
               <th class="px-5 py-3 text-center text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Members</th>
               <th class="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Registered</th>
@@ -153,6 +153,14 @@ const CATS = {
   pitch:      { full: 'Innovation Pitch', pill: 'bg-tang-deep text-white' },
 };
 const CATN = Object.fromEntries(Object.entries(CATS).map(([k, v]) => [k, v.full]));
+const ROLES = {
+  participant: { full: 'Participant', pill: 'bg-sage text-navy' },
+  audience:    { full: 'Audience',    pill: 'bg-mint-soft text-mint-deep' },
+  sponsor:     { full: 'Sponsor',     pill: 'bg-tang/15 text-tang-deep' },
+  security:    { full: 'Security',    pill: 'bg-sky/15 text-sky-deep' },
+  other:       { full: 'Other guest', pill: 'bg-navy/10 text-navy/70' },
+};
+const roleOf = r => r.payload?.attendingAs || 'participant';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtDate = s => {
   const d = new Date(s);
@@ -219,19 +227,23 @@ function render() {
 
   const catCounts = { hackathon: 0, robot_wars: 0, pitch: 0 };
   all.forEach(r => (r.payload?.categories || []).forEach(c => catCounts[c]++));
-  $('#stats').innerHTML = `<div class="grid grid-cols-2 gap-3 sm:grid-cols-4">` + [
-    ['Total teams', all.length, 'text-navy'], ['AI Hackathon', catCounts.hackathon, 'text-plum-deep'],
+  const guestN = all.filter(r => roleOf(r) !== 'participant').length;
+  $('#stats').innerHTML = `<div class="grid grid-cols-2 gap-3 sm:grid-cols-5">` + [
+    ['Total teams', all.length - guestN, 'text-navy'], ['AI Hackathon', catCounts.hackathon, 'text-plum-deep'],
     ['Robot Wars', catCounts.robot_wars, 'text-sky-deep'], ['Innovation Pitch', catCounts.pitch, 'text-tang-deep'],
+    ['Guests', guestN, 'text-mint-deep'],
   ].map(([label, value, color]) => `<div class="card px-5 py-4">
       <p class="text-xs font-bold text-navy/50">${label}</p>
       <p class="h-display mt-0.5 ${color} text-3xl tabular-nums">${value}</p>
     </div>`).join('') + '</div>';
 
   $('#rows').innerHTML = rows.map(r => {
+    const guest = roleOf(r) !== 'participant';
+    const roleK = ROLES[roleOf(r)] || ROLES.other;
     const pills = (r.payload?.categories || []).map(c => {
       const k = CATS[c] || { full: c, pill: 'bg-sage text-navy' };
       return `<span class="pill ${k.pill}">${esc(k.full)}</span>`;
-    }).join('<span class="block h-1"></span>');
+    }).join('<span class="block h-1"></span>') || `<span class="pill ${roleK.pill}">${esc(roleK.full)}</span>`;
     return `
     <tr class="cursor-pointer transition" onclick="openDetail(${r.id})">
       <td class="px-5 py-3.5">
@@ -241,7 +253,7 @@ function render() {
       <td class="px-5 py-3.5 text-navy/70">${esc(r.institution)}</td>
       <td class="px-5 py-3.5">${pills || '<span class="text-navy/40">—</span>'}</td>
       <td class="px-5 py-3.5 text-navy/70">${esc(r.leadEmail)}</td>
-      <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-navy/70">${r.members}</td>
+      <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-navy/70">${guest ? '<span class="text-navy/40">—</span>' : r.members}</td>
       <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-navy/50">${fmtDate(r.createdAt || r.created_at)}</td>
       <td class="px-3 py-3.5 text-right"><span class="ms !text-[20px] text-navy/30">chevron_right</span></td>
     </tr>`;
@@ -267,6 +279,20 @@ async function openDetail(id) {
   $('#d-code').textContent = r.code;
   $('#d-title').textContent = r.teamName;
   const c = p.categories || [];
+  const role = roleOf(r);
+  if (role !== 'participant') {
+    const g = p.guest || {};
+    const k = ROLES[role] || ROLES.other;
+    let html = block('Guest registration',
+      fieldHtml('Attending as', `<span class="pill ${k.pill}">${esc(k.full)}</span>`) +
+      field('Name', g.name) + field('Email', g.email) + field('Phone', g.phone) +
+      field('Organisation', g.org) + field('Days', (g.days || []).join(', ')) +
+      field('Notes', g.notes));
+    html += `<p class="mt-4 text-center text-xs text-navy/50">Guest registrations skip the team, competition and logistics sections.</p>`;
+    $('#d-body').innerHTML = html;
+    $('#drawer').classList.remove('hidden');
+    return;
+  }
   let html = block('Registration',
     field('Registered', (r.createdAt || r.created_at)) +
     fieldHtml('Competitions', c.map(x => {

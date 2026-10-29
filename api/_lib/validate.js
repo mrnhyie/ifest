@@ -1,6 +1,7 @@
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const CATS = new Set(['hackathon', 'robot_wars', 'pitch']);
 const INST_TYPES = new Set(['University', 'Technical University', 'College']);
+const ROLES = new Set(['participant', 'audience', 'sponsor', 'security', 'other']);
 
 function req(cond, msg) {
   if (!cond) throw new Error(msg);
@@ -15,6 +16,19 @@ function hasText(s) {
 }
 
 export function validate(p) {
+  if (p.attendingAs && p.attendingAs !== 'participant') {
+    if (!ROLES.has(p.attendingAs)) throw new Error(`unknown attendee role: ${p.attendingAs}`);
+    const g = p.guest || {};
+    req(hasText(g.name), 'guest: full name is required');
+    req(EMAIL_RE.test((g.email || '').trim()), 'guest: valid email is required');
+    req(hasText(g.phone), 'guest: phone is required');
+    req(Array.isArray(g.days) && g.days.length > 0, 'guest: select at least one attendance day');
+    if ((p.attendingAs === 'sponsor' || p.attendingAs === 'security') && !hasText(g.org)) {
+      throw new Error(`guest: organisation is required for ${p.attendingAs} registrations`);
+    }
+    return;
+  }
+
   if (!Array.isArray(p.categories) || p.categories.length === 0) {
     throw new Error('select at least one competition');
   }

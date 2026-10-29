@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         leadEmail: r.lead_email,
         createdAt: r.created_at,
         members: (p.members || []).length,
-        payload: { team: p.team, categories: p.categories },
+        payload: { team: p.team, categories: p.categories, attendingAs: p.attendingAs || 'participant', guest: p.guest },
       };
     });
     sendJson(res, 200, out);

@@ -34,17 +34,25 @@ export default async function handler(req, res) {
     return jsonError(res, 422, e.message);
   }
 
-  p.team.institution = p.team.institution.trim();
-  const lowInst = p.team.institution.toLowerCase();
-  const leadEmail = p.team.leadEmail.trim().toLowerCase();
-  const memberEmails = p.members.map(m => m.email.trim().toLowerCase());
+  const guest = p.attendingAs && p.attendingAs !== 'participant';
+  let lowInst, leadEmail, memberEmails = [];
+  if (guest) {
+    p.categories = [];
+    lowInst = (p.guest.org || '').trim().toLowerCase();
+    leadEmail = p.guest.email.trim().toLowerCase();
+  } else {
+    p.team.institution = p.team.institution.trim();
+    lowInst = p.team.institution.toLowerCase();
+    leadEmail = p.team.leadEmail.trim().toLowerCase();
+    memberEmails = p.members.map(m => m.email.trim().toLowerCase());
+  }
 
   const seen = new Set();
   for (const e of memberEmails) {
     if (seen.has(e)) return jsonError(res, 409, `duplicate member email within this team: ${e}`);
     seen.add(e);
   }
-  if (p.declarations.minorConsent && !parsed.files.consent) {
+  if (p.declarations?.minorConsent && !parsed.files.consent) {
     return jsonError(res, 422, 'parental/guardian consent form upload is required when a member is under 18');
   }
 
@@ -54,15 +62,17 @@ export default async function handler(req, res) {
     const code = newCode();
     try {
       await transaction(async client => {
-        for (const cat of p.categories) {
-          await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`reg:${lowInst}:${cat}`]);
-          const { rows } = await client.query(
-            `SELECT count(*)::int AS n FROM registrations
-             WHERE lower(institution) = $1 AND categories @> jsonb_build_array($2::text)`,
-            [lowInst, cat]
-          );
-          if (rows[0].n >= 2) {
-            throw fail(409, `institution "${p.team.institution}" already has 2 teams registered for ${cat}`);
+        if (!guest) {
+          for (const cat of p.categories) {
+            await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`reg:${lowInst}:${cat}`]);
+            const { rows } = await client.query(
+              `SELECT count(*)::int AS n FROM registrations
+               WHERE lower(institution) = $1 AND categories @> jsonb_build_array($2::text)`,
+              [lowInst, cat]
+            );
+            if (rows[0].n >= 2) {
+              throw fail(409, `institution "${p.team.institution}" already has 2 teams registered for ${cat}`);
+            }
           }
         }
         for (const e of allEmails) {
@@ -90,7 +100,7 @@ export default async function handler(req, res) {
         const ins = await client.query(
           `INSERT INTO registrations (code, team_name, institution, categories, lead_email, payload)
            VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (code) DO NOTHING RETURNING id`,
-          [code, p.team.name, p.team.institution, cats, leadEmail, blob]
+          [code, guest ? p.guest.name : p.team.name, guest ? p.guest.org || '' : p.team.institution, cats, leadEmail, blob]
         );
         if (ins.rowCount === 0) throw Object.assign(new Error('code collision'), { retry: true });
       });
