@@ -42,8 +42,9 @@ Behavior notes:
   "open" links in `/admin`.
 - Admin auth is `X-Admin-Token` only (no `?token=` in URLs); CSV export downloads
   via an authenticated fetch.
-- Duplicate email / 2-teams-per-institution checks run inside one transaction with
-  advisory locks (no read-then-write race).
+- The duplicate-email check runs inside the registration transaction (advisory lock
+  on each email) so two concurrent teams cannot claim the same member. There is no
+  cap on how many teams one institution may enter.
 - Per-file limit 6 MB, total 20 MB, types jpeg/png/webp/pdf — Vercel's own request
   body cap may reject larger uploads earlier; compress big scans.
 
@@ -63,8 +64,8 @@ app and remains git-ignored; the real IF26-YTDH2B registration lives there only.
 ## Enforced rules (client + server)
 
 - AI Hackathon ⇄ Robot Wars mutually exclusive; Pitch combinable with either.
-- Team size 2–5; every member needs details + student ID number (no ID photo upload — physical cards verified on-site).
-- No member email may appear in two teams; max 2 teams per institution per competition.
+- Team size 2–5. Eligible participants: enrolled students, recent graduates, and non-tertiary learners (SHS, bootcamp, self-taught, working) — each member declares one status; enrolled members must give institution, institution type and student ID number (no ID photo upload — physical cards verified on-site).
+- No member email may appear in two teams. No limit on teams per institution.
 - Robot Wars limits: ≤5 kg, 30 cm box, ≤60 cm extension, ≤14.8 V, kill switch = Yes, 5 safety declarations + inspection confirmation.
 - Pitch: student-led, valid demo link, primary SDG, ≥1 "ask".
 - All 5 core declarations required; parental consent upload required if minors flagged.

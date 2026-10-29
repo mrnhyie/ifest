@@ -1,6 +1,10 @@
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const CATS = new Set(['hackathon', 'robot_wars', 'pitch']);
-const INST_TYPES = new Set(['University', 'Technical University', 'College']);
+const INST_TYPES = new Set([
+  'University', 'Technical University', 'College', 'Senior High School',
+  'Bootcamp / Training provider', 'Independent / self-taught', 'Other',
+]);
+const STATUSES = new Set(['enrolled', 'recent_grad', 'non_tertiary']);
 const ROLES = new Set(['participant', 'audience', 'sponsor', 'security', 'other']);
 
 function req(cond, msg) {
@@ -47,7 +51,7 @@ export function validate(p) {
   if (t.size < 2 || t.size > 5) throw new Error('team must have 2 to 5 members');
   req(hasText(t.leadName) && hasText(t.leadPhone), 'team lead name and phone are required');
   req(EMAIL_RE.test((t.leadEmail || '').trim()), 'team lead email is invalid');
-  req(hasText(t.leadProgram) && hasText(t.leadLevel), 'team lead programme and year of study are required');
+  req(hasText(t.leadProgram) && hasText(t.leadLevel), 'team lead programme and study status are required');
 
   const members = p.members || [];
   if (members.length !== t.size) throw new Error(`please provide details for all ${t.size} members`);
@@ -56,18 +60,27 @@ export function validate(p) {
     if (!hasText(m.name) || !EMAIL_RE.test((m.email || '').trim()) || !hasText(m.phone)) {
       throw new Error(`${at}: name, valid email and phone are required`);
     }
-    if (!hasText(m.institution) || !INST_TYPES.has(m.institutionType)) {
-      throw new Error(`${at}: institution and institution type are required`);
+    if (!STATUSES.has(m.status)) {
+      throw new Error(`${at}: select whether they are enrolled, recently graduated, or not in tertiary`);
+    }
+    if (m.status !== 'non_tertiary') {
+      if (!hasText(m.institution) || !INST_TYPES.has(m.institutionType)) {
+        throw new Error(`${at}: institution and institution type are required`);
+      }
+    } else if (hasText(m.institution) && !INST_TYPES.has(m.institutionType)) {
+      throw new Error(`${at}: choose an institution type, or leave the institution blank`);
     }
     if (!hasText(m.program) || !hasText(m.level)) {
       throw new Error(`${at}: programme and level/year are required`);
     }
-    if (!hasText(m.studentId)) throw new Error(`${at}: student ID number is required`);
+    if (m.status === 'enrolled' && !hasText(m.studentId)) {
+      throw new Error(`${at}: student ID number is required for enrolled students`);
+    }
   });
 
   const d = p.declarations || {};
-  req(d.enrolled, 'declaration required: all members are currently enrolled tertiary students');
-  req(d.ids, 'declaration required: student IDs will be verified at registration');
+  req(d.eligible, 'declaration required: all members are enrolled students, recent graduates, or non-tertiary students');
+  req(d.ids, 'declaration required: IDs will be verified at registration');
   req(d.ip, 'declaration required: originality and IP rules');
   req(d.conduct, 'declaration required: code of conduct');
   req(d.media, 'declaration required: consent for photos and videos');

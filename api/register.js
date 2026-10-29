@@ -35,14 +35,12 @@ export default async function handler(req, res) {
   }
 
   const guest = p.attendingAs && p.attendingAs !== 'participant';
-  let lowInst, leadEmail, memberEmails = [];
+  let leadEmail, memberEmails = [];
   if (guest) {
     p.categories = [];
-    lowInst = (p.guest.org || '').trim().toLowerCase();
     leadEmail = p.guest.email.trim().toLowerCase();
   } else {
     p.team.institution = p.team.institution.trim();
-    lowInst = p.team.institution.toLowerCase();
     leadEmail = p.team.leadEmail.trim().toLowerCase();
     memberEmails = p.members.map(m => m.email.trim().toLowerCase());
   }
@@ -62,19 +60,6 @@ export default async function handler(req, res) {
     const code = newCode();
     try {
       await transaction(async client => {
-        if (!guest) {
-          for (const cat of p.categories) {
-            await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`reg:${lowInst}:${cat}`]);
-            const { rows } = await client.query(
-              `SELECT count(*)::int AS n FROM registrations
-               WHERE lower(institution) = $1 AND categories @> jsonb_build_array($2::text)`,
-              [lowInst, cat]
-            );
-            if (rows[0].n >= 2) {
-              throw fail(409, `institution "${p.team.institution}" already has 2 teams registered for ${cat}`);
-            }
-          }
-        }
         for (const e of allEmails) {
           const ins = await client.query(
             'INSERT INTO member_emails (email, code) VALUES ($1, $2) ON CONFLICT (email) DO NOTHING RETURNING email',

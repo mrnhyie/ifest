@@ -101,6 +101,14 @@ tailwind.config = { theme: { extend: {
         <option value="robot_wars">Robot Wars</option>
         <option value="pitch">Innovation Pitch</option>
       </select>
+      <select id="role" class="field !w-auto">
+        <option value="">All registration types</option>
+        <option value="participant">Participants</option>
+        <option value="audience">Audience</option>
+        <option value="sponsor">Sponsors</option>
+        <option value="security">Security</option>
+        <option value="other">Other guests</option>
+      </select>
       <p id="count" class="ml-auto font-mono text-xs text-navy/50"></p>
     </div>
 
@@ -196,6 +204,7 @@ $('#logout').addEventListener('click', () => { sessionStorage.removeItem('admin_
 $('#refresh').addEventListener('click', load);
 $('#q').addEventListener('input', render);
 $('#cat').addEventListener('change', render);
+$('#role').addEventListener('change', render);
 
 async function load() {
   all = await (await api('/api/registrations')).json();
@@ -219,8 +228,9 @@ $('#csv').addEventListener('click', async e => {
 });
 
 function render() {
-  const q = $('#q').value.trim().toLowerCase(), cat = $('#cat').value;
+  const q = $('#q').value.trim().toLowerCase(), cat = $('#cat').value, role = $('#role').value;
   const rows = all.filter(r =>
+    (!role || roleOf(r) === role) &&
     (!cat || (r.payload?.categories || []).includes(cat)) &&
     (!q || [r.teamName, r.institution, r.leadEmail, r.code].join(' ').toLowerCase().includes(q)));
   $('#count').textContent = rows.length + ' of ' + all.length + ' registrations';
@@ -273,6 +283,8 @@ const block = (t, html) => html.trim() ? `<section class="card mt-4 p-4">
     <div class="mt-2">${html}</div></section>` : '';
 const yes = v => `<span class="pill ${v ? 'bg-mint-soft text-mint-deep' : 'bg-red-50 text-red-700'}"><span class="ms !text-[14px]">${v ? 'check_circle' : 'cancel'}</span>${v ? 'agreed' : 'missing'}</span>`;
 
+const STATUS = { enrolled: 'Enrolled', recent_grad: 'Recent graduate', non_tertiary: 'Non-tertiary' };
+
 async function openDetail(id) {
   const r = await (await api('/api/registrations/' + id)).json();
   const p = r.payload || {};
@@ -306,6 +318,7 @@ async function openDetail(id) {
   (p.members || []).forEach((m, i) => {
     html += block('Member ' + (i + 1),
       field('Name', m.name) + field('Email', m.email) + field('Phone', m.phone) +
+      (m.status ? fieldHtml('Status', `<span class="pill ${m.status === 'enrolled' ? 'bg-mint-soft text-mint-deep' : 'bg-blush text-plum-deep'}">${esc(STATUS[m.status] || m.status)}</span>`) : '') +
       field('Institution', (m.institution || '') + (m.institutionType ? ' (' + m.institutionType + ')' : '')) +
       field('Programme', (m.program || '') + (m.level ? ' · ' + m.level : '')) +
       field('Student ID', m.studentId) + field('Gender', m.gender) + field('Dietary/accessibility', m.dietary) +
@@ -336,7 +349,7 @@ async function openDetail(id) {
     field('Existing startup', p.pitch.existingStartup + (p.pitch.startupDetails ? ' — ' + p.pitch.startupDetails : '')) +
     field('The ask', (p.pitch.ask||[]).join(', ')) + fieldFile('Deck', p.files?.pitchDeck));
   html += block('Declarations',
-    fieldHtml('All enrolled students', yes(p.declarations?.enrolled)) +
+    fieldHtml('Eligible participants', yes(p.declarations?.eligible ?? p.declarations?.enrolled)) +
     fieldHtml('IDs verified at check-in', yes(p.declarations?.ids)) +
     fieldHtml('Originality & IP rules', yes(p.declarations?.ip)) +
     fieldHtml('Code of conduct', yes(p.declarations?.conduct)) +
