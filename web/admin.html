@@ -42,6 +42,12 @@ tailwind.config = { theme: { extend: {
   .btn .arw { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-white text-navy; }
   .field { @apply w-full rounded-2xl border border-line bg-white/70 px-3.5 py-2.5 text-sm text-navy outline-none backdrop-blur-sm transition placeholder:text-navy/40 focus:border-navy focus:ring-[3px] focus:ring-navy/15; }
   .field:focus-visible { outline: none; }
+  select.field {
+    @apply cursor-pointer appearance-none pl-4 pr-11;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23171464' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
   .border, .border-2, .border-t, .border-b, .border-l, .border-r, .border-x, .border-y { border-style: dotted; }
   .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-extrabold; }
   table { border-collapse:separate; border-spacing:0; }
