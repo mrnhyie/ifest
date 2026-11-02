@@ -129,7 +129,7 @@ tailwind.config = { theme: { extend: {
               <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Lead</th>
               <th class="px-5 py-3 text-center text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Members</th>
               <th class="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Registered</th>
-              <th class="w-10 px-3 py-3"></th>
+              <th class="w-24 px-3 py-3"></th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
@@ -151,7 +151,10 @@ tailwind.config = { theme: { extend: {
           <p id="d-code" class="font-mono text-[11px] font-bold uppercase tracking-widest text-navy/50"></p>
           <p class="h-display text-lg" id="d-title"></p>
         </div>
-        <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-blush hover:text-navy" aria-label="Close"><span class="ms">close</span></button>
+        <div class="flex shrink-0 items-center gap-1">
+          <button id="d-del" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-red-50 hover:text-red-600" aria-label="Delete this registration" title="Delete"><span class="ms">delete</span></button>
+          <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-blush hover:text-navy" aria-label="Close"><span class="ms">close</span></button>
+        </div>
       </div>
       <div id="d-body" class="flex-1 overflow-y-auto px-6 py-5 text-sm"></div>
     </aside>
@@ -184,9 +187,10 @@ const fmtDate = s => {
     + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 };
 let all = [];
+let openId = null;
 
-async function api(path) {
-  const r = await fetch(path, { headers: { 'X-Admin-Token': token } });
+async function api(path, opts = {}) {
+  const r = await fetch(path, { ...opts, headers: { 'X-Admin-Token': token, ...(opts.headers || {}) } });
   if (r.status === 401) { showLogin(); throw new Error('unauthorized'); }
   return r;
 }
@@ -271,12 +275,49 @@ function render() {
       <td class="px-5 py-3.5 text-navy/70">${esc(r.leadEmail)}</td>
       <td class="px-5 py-3.5 text-center font-mono text-sm tabular-nums text-navy/70">${guest ? '<span class="text-navy/40">—</span>' : r.members}</td>
       <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-navy/50">${fmtDate(r.createdAt || r.created_at)}</td>
-      <td class="px-3 py-3.5 text-right"><span class="ms !text-[20px] text-navy/30">chevron_right</span></td>
+      <td class="px-3 py-3.5">
+        <div class="flex items-center justify-end gap-0.5">
+          <button class="del flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-navy/30 transition hover:bg-red-50 hover:text-red-600 focus-visible:text-red-600" data-id="${r.id}" aria-label="Delete registration ${esc(r.code)}" title="Delete"><span class="ms !text-[19px]">delete</span></button>
+          <span class="ms !text-[20px] shrink-0 text-navy/30">chevron_right</span>
+        </div>
+      </td>
     </tr>`;
   }).join('');
   $('#empty').classList.toggle('hidden', rows.length > 0);
   $('#empty').classList.toggle('flex', rows.length === 0);
 }
+
+// capture phase: the row's own click handler opens the detail drawer, so a
+// delete-button click has to be intercepted before it bubbles to the <tr>.
+$('#rows').addEventListener('click', e => {
+  const btn = e.target.closest('.del');
+  if (!btn) return;
+  e.stopPropagation();
+  removeRegistration(Number(btn.dataset.id));
+}, true);
+
+async function removeRegistration(id) {
+  const rec = all.find(r => r.id === id);
+  if (!rec) return;
+  const ok = confirm(
+    `Delete ${rec.code} — ${rec.teamName || 'unnamed registration'}?\n\n` +
+    'Their uploaded files go with it, and members’ emails are freed so the team can register again.\n' +
+    'This cannot be undone.'
+  );
+  if (!ok) return;
+  try {
+    const res = await api('/api/registrations/' + id, { method: 'DELETE' });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) { alert('Could not delete: ' + (out.error || res.status)); return; }
+    all = all.filter(r => r.id !== id);
+    if (openId === id) closeDrawer();
+    render();
+  } catch (e) {
+    alert('Could not delete: ' + e.message);
+  }
+}
+
+$('#d-del').addEventListener('click', () => { if (openId != null) removeRegistration(openId); });
 
 const field = (k, v) => v === '' || v == null ? '' :
   `<div class="flex items-baseline justify-between gap-6 border-b border-line/70 py-2 last:border-0"><span class="shrink-0 text-navy/50">${esc(k)}</span><span class="break-words text-right font-bold text-navy">${v === true ? 'Yes' : esc(v)}</span></div>`;
@@ -293,6 +334,7 @@ const STATUS = { enrolled: 'Enrolled', recent_grad: 'Recent graduate', non_terti
 
 async function openDetail(id) {
   const r = await (await api('/api/registrations/' + id)).json();
+  openId = id;
   const p = r.payload || {};
   $('#d-code').textContent = r.code;
   $('#d-title').textContent = r.teamName;

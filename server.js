@@ -23,6 +23,12 @@ const ROUTES = [
     params: m => ({ id: m[1] }),
   },
   {
+    method: 'DELETE',
+    pattern: /^\/api\/registrations\/(\d+)$/,
+    file: 'api/registrations/[id].js',
+    params: m => ({ id: m[1] }),
+  },
+  {
     method: 'GET',
     pattern: /^\/api\/file\/([^/]+)\/([^/]+)\/([^/]+)$/,
     file: 'api/file/[code]/[key]/[secret].js',

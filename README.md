@@ -56,6 +56,7 @@ Behavior notes:
 | `GET /api/check-member?email=` | public | duplicate-registration auto-check |
 | `GET /api/registrations?q=&category=` | admin | list / search |
 | `GET /api/registrations/{id}` | admin | full detail incl. files |
+| `DELETE /api/registrations/{id}` | admin | delete a registration + its uploads, frees its member emails |
 | `GET /api/export.csv` | admin | CSV export (`X-Admin-Token` header) |
 
 Legacy `data/` (old Go/SQLite database + uploaded files) is no longer read by the

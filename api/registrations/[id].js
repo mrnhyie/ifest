@@ -1,10 +1,31 @@
-import { query } from '../_lib/db.js';
+import { query, transaction } from '../_lib/db.js';
 import { sendJson, jsonError, isAdmin } from '../_lib/http.js';
 
 export default async function handler(req, res) {
   if (!isAdmin(req)) return jsonError(res, 401, 'unauthorized');
   const id = Number(req.query.id);
   if (!Number.isInteger(id) || id <= 0) return jsonError(res, 404, 'not found');
+
+  if (req.method === 'DELETE') {
+    try {
+      const deleted = await transaction(async client => {
+        const del = await client.query('DELETE FROM registrations WHERE id = $1 RETURNING code, team_name', [id]);
+        if (!del.rowCount) return null;
+        const { code, team_name: teamName } = del.rows[0];
+        await client.query('DELETE FROM member_emails WHERE code = $1', [code]);
+        await client.query('DELETE FROM uploads WHERE code = $1', [code]);
+        return { code, teamName };
+      });
+      if (!deleted) return jsonError(res, 404, 'not found');
+      return sendJson(res, 200, { ok: true, ...deleted });
+    } catch (e) {
+      console.error('delete failed:', e);
+      return jsonError(res, 500, e.message);
+    }
+  }
+
+  if (req.method !== 'GET') return jsonError(res, 405, 'method not allowed');
+
   try {
     const { rows } = await query(
       `SELECT id, code, team_name, institution, categories, lead_email, created_at, payload::text AS payload
