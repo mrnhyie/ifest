@@ -505,6 +505,7 @@ tailwind.config = {
               </div>
             </div>
             <label class="block"><span class="lbl">Photos of the robot <span class="hint">(optional now, required at inspection)</span></span><input type="file" data-file="robotPhoto" accept="image/*" multiple class="filein"><input type="hidden" name="_hasPhoto" value=""></label>
+            <p class="hint mt-1.5">Max 4 MB per photo — JPG, PNG or WEBP. Compress phone camera shots before uploading; a larger file is rejected by the server.</p>
             <div><span class="lbl">Special award interest <span class="hint">(optional)</span></span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
                 <label class="chip"><input type="checkbox" class="hidden" name="awards[]" value="Best Design"><span class="ms tick">check</span>Best Design</label>
@@ -560,6 +561,7 @@ tailwind.config = {
               <label class="block hidden" data-reveal="existingStartup=yes"><span class="lbl">Founding date &amp; non-student co-founders</span><input name="startupDetails" class="field" placeholder="e.g. founded 2025-03; 1 non-student co-founder"></label>
             </div>
             <label class="block"><span class="lbl">Pitch deck <span class="hint">(PDF, max 12 slides — deadline set with your team code, suggested 7 days before the festival)</span></span><input type="file" data-file="pitchDeck" accept="application/pdf" class="filein"></label>
+            <p class="hint mt-1.5">Max 4 MB, PDF only. Export from Slides/PowerPoint with compressed images — a larger file is rejected by the server.</p>
             <div><span class="lbl">What is 'the ask'? *</span>
               <div class="mt-2 flex flex-wrap gap-2" data-checkgroup>
                 <label class="chip"><input type="checkbox" class="hidden" name="ask[]" value="Funding"><span class="ms tick">check</span>Funding</label>
@@ -585,6 +587,7 @@ tailwind.config = {
           <div class="hidden rounded-2xl border-2 border-mint-deep/40 bg-mint-soft p-3" data-reveal="minorConsent">
             <span class="lbl">Upload signed parental/guardian consent <span class="req">*</span></span>
             <input type="file" data-file="consent" accept=".pdf,image/*" class="filein mt-1">
+            <p class="hint mt-1.5">Max 4 MB — a clear photo/scan (JPG, PNG, WEBP) or a PDF.</p>
           </div>
         </div>
       </fieldset>

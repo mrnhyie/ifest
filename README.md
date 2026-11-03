@@ -45,8 +45,10 @@ Behavior notes:
 - The duplicate-email check runs inside the registration transaction (advisory lock
   on each email) so two concurrent teams cannot claim the same member. There is no
   cap on how many teams one institution may enter.
-- Per-file limit 6 MB, total 20 MB, types jpeg/png/webp/pdf — Vercel's own request
-  body cap may reject larger uploads earlier; compress big scans.
+- Server-side upload limits (`api/_lib/multipart.js`): 6 MB per file, 20 MB per
+  submission, types jpeg/png/webp/pdf. Vercel caps the whole request body at 4.5 MB
+  and rejects the POST before that code runs, so the wizard's file fields tell
+  applicants "max 4 MB" instead.
 
 ## API
 
