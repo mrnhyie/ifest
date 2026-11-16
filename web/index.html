@@ -87,6 +87,7 @@ tailwind.config = {
         <a href="#docs" class="transition-colors hover:text-navy">How it works</a>
         <a href="#faq" class="transition-colors hover:text-navy">FAQ</a>
         <a href="#sponsors" class="transition-colors hover:text-navy">Sponsors</a>
+        <a href="/tshirts" class="inline-flex items-center gap-1.5 transition-colors hover:text-navy"><span class="ms !text-[17px] text-plum-deep">checkroom</span>T-shirts</a>
       </nav>
       <div class="flex items-center gap-3">
         <a href="#register" class="btn hidden !px-5 !py-2.5 bg-tang-deep text-white sm:inline-flex">Register <span class="arw !h-5 !w-5 text-tang-deep"><span class="ms !text-[13px]">arrow_outward</span></span></a>
@@ -104,6 +105,7 @@ tailwind.config = {
         <a href="#rules" class="block py-2.5">Rules</a>
         <a href="#faq" class="block py-2.5">FAQ</a>
         <a href="#sponsors" class="block py-2.5">Sponsors</a>
+        <a href="/tshirts" class="block py-2.5 text-plum-deep">T-shirts · GH₵ 75</a>
         <a href="#register" class="block py-2.5 text-plum-deep">Register</a>
       </nav>
     </div>
@@ -227,6 +229,34 @@ tailwind.config = {
   </ol>
 </section>
 
+<!-- MERCH PROMO -->
+<section id="merch" class="wrap pb-16 md:pb-24">
+  <div class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12">
+    <div class="on-dark relative flex flex-col justify-center overflow-hidden rounded-[28px] bg-navy/85 p-8 text-white shadow-card backdrop-blur-md sm:p-12 lg:col-span-7">
+      <span class="wm !text-[16rem] text-white/10">iF</span>
+      <p class="eyebrow !bg-white/10 !text-white"><span class="ms !text-[16px]">checkroom</span> Festival merch</p>
+      <h2 class="h-display mt-5 text-3xl sm:text-5xl">Wear iFESTIVAL ’26</h2>
+      <p class="mt-4 max-w-md text-[15px] leading-relaxed text-white/75">Official festival tees in black or white, sizes S–XXL. Order for yourself or your whole team — no registration needed.</p>
+      <div class="relative z-10 mt-6 flex flex-wrap items-center gap-2.5 text-xs font-bold">
+        <span class="rounded-full bg-mint px-4 py-1.5 font-display text-sm font-extrabold text-navy">GH₵ 75 per shirt</span>
+        <span class="rounded-full bg-white/15 px-3.5 py-1.5">Black or white</span>
+        <span class="rounded-full bg-white/15 px-3.5 py-1.5">S · M · L · XL · XXL</span>
+        <span class="rounded-full bg-white/15 px-3.5 py-1.5">Pay by MoMo</span>
+      </div>
+      <a href="/tshirts" class="btn relative z-10 mt-9 w-fit bg-mint text-navy">Order t-shirts <span class="arw text-navy"><span class="ms !text-[15px]">arrow_forward</span></span></a>
+      <p class="relative z-10 mt-4 max-w-md text-xs leading-relaxed text-white/60">Send via MoMo, paste the payment reference into the form, and collect at the festival desk once we’ve verified it on our phone.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-4 lg:col-span-5">
+      <figure class="card overflow-hidden rounded-[28px] p-0">
+        <img src="/assets/tshirt-black.jpg" alt="Official iFESTIVAL ’26 tee — black" width="1060" height="1100" class="h-full w-full object-cover">
+      </figure>
+      <figure class="card overflow-hidden rounded-[28px] p-0">
+        <img src="/assets/tshirt-white.jpg" alt="Official iFESTIVAL ’26 tee — white" width="1060" height="1100" class="h-full w-full object-cover">
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- DOCS -->
 <section id="docs" class="bg-sage/60 py-16 md:py-24">
   <div class="wrap">
@@ -276,9 +306,10 @@ tailwind.config = {
     <div class="space-y-3 lg:col-span-8">
       <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Who can compete?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Currently enrolled students, recent graduates, and non-tertiary learners — SHS students, bootcamp or self-taught builders, and people working outside a programme. Enrolled members bring a student ID; everyone else brings any valid photo ID, verified at registration on Day 1. There is no limit on how many teams one institution can enter.</p></details>
       <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Can we enter two competitions?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">You may combine the Innovation Pitch (Day 5) with either the AI Hackathon or Robot Wars — never both, since they share Days 2–4. The form enforces this.</p></details>
-      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Can members come from different institutions?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Yes. Members may study elsewhere, but the team competes for the team lead's institution, and the 2-teams-per-institution cap applies to the lead's institution.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Can members come from different institutions?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Yes. Members may study elsewhere, but the team competes for the team lead's institution. Any number of teams may register from one institution.</p></details>
       <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">What do we bring to Robot Wars?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Your robot (already built, in progress, or built on site), your LiPo batteries for safe on-site charging, and a 2-page engineering notebook (recommended — also the tiebreaker). The robot must pass technical inspection on Day 1 or early Day 2.</p></details>
       <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Is there a fee?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Registration details, deadlines and any logistics fees are confirmed in your confirmation email after you register. For partnership &amp; sponsorship, contact SparkLab Africa.</p></details>
+      <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">How do we get festival t-shirts?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Order in the <a href="/tshirts" class="font-bold text-plum-deep underline decoration-mint decoration-2 underline-offset-2 hover:no-underline">t-shirt portal</a> — GH₵ 75 per shirt, black or white, sizes S–XXL, for yourself or your whole team. Pay by MoMo to the number shown, paste the payment reference into the form, and collect at the festival desk after we verify the payment on our phone. No team registration needed.</p></details>
       <details class="card group px-6"><summary class="flex items-center justify-between gap-4 py-5 font-display text-[17px] font-bold">Accommodation for out-of-town teams?<span class="ms !text-[22px] text-navy/50 transition-transform group-open:rotate-45">add</span></summary><p class="pb-5 text-[15px] leading-relaxed text-navy/70">Tell us in the logistics step — the form asks whether members travel from outside the host location and whether accommodation is needed.</p></details>
     </div>
   </div>
@@ -587,7 +618,7 @@ tailwind.config = {
           <div class="hidden rounded-2xl border-2 border-mint-deep/40 bg-mint-soft p-3" data-reveal="minorConsent">
             <span class="lbl">Upload signed parental/guardian consent <span class="req">*</span></span>
             <input type="file" data-file="consent" accept=".pdf,image/*" class="filein mt-1">
-            <p class="hint mt-1.5">Max 4 MB — a clear photo/scan (JPG, PNG, WEBP) or a PDF.</p>
+            <p class="hint mt-1.5">Max 4 MB — one signed page as a photo/scan (JPG, PNG, WEBP) or PDF. This is not the place for bulk documents.</p>
           </div>
         </div>
       </fieldset>
@@ -605,6 +636,7 @@ tailwind.config = {
           <label class="block"><span class="lbl">Emergency contact — phone *</span><input name="emergencyPhone" class="field" placeholder="+233 …"></label>
           <div class="md:col-span-2"><span class="lbl">T-shirt size for each member <span class="hint">(optional)</span></span>
             <div id="tshirts" class="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2"></div>
+            <p class="hint mt-2">Sizes here are for our records only — official festival tees (GH₵ 75, black or white) are ordered separately in the <a href="/tshirts" class="font-bold text-plum-deep underline decoration-mint decoration-2 underline-offset-2 hover:no-underline">t-shirt portal</a>.</p>
           </div>
           <label class="block"><span class="lbl">How did you hear about iFESTIVAL?</span>
             <select name="heardVia" class="field"><option value="">Select…</option><option>Social media</option><option>University notice</option><option>Lecturer / department</option><option>Friend or team</option><option>SparkLab Africa event</option><option>Other</option></select>
@@ -686,6 +718,7 @@ tailwind.config = {
           <li><a href="#docs" class="underline-offset-2 hover:text-white hover:underline">How it works</a></li>
           <li><a href="#faq" class="underline-offset-2 hover:text-white hover:underline">FAQ</a></li>
           <li><a href="#register" class="underline-offset-2 hover:text-white hover:underline">Register</a></li>
+          <li><a href="/tshirts" class="underline-offset-2 hover:text-white hover:underline">T-shirt portal</a></li>
         </ul>
       </div>
       <div>

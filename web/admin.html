@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iFESTIVAL '26 — Registrations Admin</title>
+<title>iFESTIVAL '26 — Admin</title>
 <meta name="robots" content="noindex">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -15,6 +15,7 @@ tailwind.config = { theme: { extend: {
     sky: { DEFAULT: '#4c82c4', deep: '#35659e' },
     leaf: { DEFAULT: '#43a04f', deep: '#2e7d37' },
     mint: { DEFAULT: '#1fd7a0', deep: '#0a7a5c', soft: '#e2f7ef' },
+    momo: { DEFAULT: '#ffcc00', deep: '#8a6d00' },
     line: '#eadfc4'
   },
   fontFamily: {
@@ -53,6 +54,18 @@ tailwind.config = { theme: { extend: {
   table { border-collapse:separate; border-spacing:0; }
   tbody tr:hover { background:#e7f4f1; }
   tbody tr:not(:last-child) td { border-bottom:1px dotted #f3ead6; }
+  * { scrollbar-width: thin; scrollbar-color: #b9b2dd #fff8e9; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #fff8e9; }
+  ::-webkit-scrollbar-thumb { background: #b9b2dd; border: 2px solid #fff8e9; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #171464; }
+  .tabbtn { @apply inline-flex items-center gap-2 rounded-full border border-line bg-white/60 px-5 py-2.5 font-display text-sm font-extrabold text-navy/60 transition hover:text-navy; }
+  .tabbtn[aria-selected="true"] { @apply border-navy bg-navy text-white; }
+  .tabbtn .n { @apply rounded-full bg-navy/10 px-2 py-0.5 font-mono text-[11px] font-bold tabular-nums; }
+  .tabbtn[aria-selected="true"] .n { @apply bg-mint text-navy; }
+  .swatch { @apply inline-block h-3 w-3 shrink-0 rounded-full border border-navy/25 align-middle; }
+  .stbtn { @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white/70 px-3.5 py-1.5 text-xs font-extrabold text-navy/60 transition hover:border-navy hover:text-navy; }
+  .stbtn[aria-pressed="true"] { @apply border-navy bg-navy text-white; }
 </style>
 </head>
 <body class="font-sans text-navy antialiased">
@@ -68,7 +81,7 @@ tailwind.config = { theme: { extend: {
     <img src="/assets/logo.png" alt="iFESTIVAL '26" class="h-24 w-auto">
     <p class="mt-5 inline-flex rounded-full bg-blush px-3 py-1 text-[11px] font-extrabold uppercase tracking-[.2em] text-plum-deep">Admin access</p>
     <h1 class="h-display mt-3 text-2xl">iFESTIVAL ’26 Portal</h1>
-    <p class="mt-1 text-sm text-navy/60">Enter the admin token to view registrations.</p>
+    <p class="mt-1 text-sm text-navy/60">Enter the admin token to view registrations and t-shirt requests.</p>
     <form id="login-form" class="mt-6 space-y-3">
       <input id="token" type="password" class="field" placeholder="ADMIN_TOKEN" autocomplete="current-password">
       <button class="btn w-full justify-center bg-navy text-white hover:bg-navy/90">Unlock dashboard <span class="arw"><span class="ms !text-[15px]">arrow_forward</span></span></button>
@@ -93,7 +106,14 @@ tailwind.config = { theme: { extend: {
     </div>
   </header>
 
-  <div class="mx-auto max-w-6xl px-4 py-8">
+  <div class="mx-auto max-w-6xl px-4 pt-6">
+    <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Admin sections">
+      <button id="tab-reg" type="button" role="tab" aria-selected="true" aria-controls="panel-reg" class="tabbtn"><span class="ms !text-[17px]">groups</span>Registrations <span class="n" id="tab-reg-n">0</span></button>
+      <button id="tab-ts" type="button" role="tab" aria-selected="false" aria-controls="panel-ts" class="tabbtn"><span class="ms !text-[17px]">checkroom</span>T-shirts <span class="n" id="tab-ts-n">0</span></button>
+    </div>
+  </div>
+
+  <div id="panel-reg" role="tabpanel" aria-labelledby="tab-reg" class="mx-auto max-w-6xl px-4 py-6">
     <div id="stats"></div>
 
     <div class="mt-7 flex flex-wrap items-center gap-2.5">
@@ -142,6 +162,65 @@ tailwind.config = { theme: { extend: {
     </div>
   </div>
 
+  <div id="panel-ts" role="tabpanel" aria-labelledby="tab-ts" class="mx-auto hidden max-w-6xl px-4 py-6">
+    <div id="ts-stats"></div>
+
+    <div class="card mt-4 p-5">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-plum-deep">Size run · all requests</p>
+        <p class="font-display text-xs font-bold text-navy/50">what to print / pull from stock</p>
+      </div>
+      <div id="ts-run" class="mt-4 grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2"></div>
+      <div id="ts-colors" class="mt-4 flex flex-wrap items-center gap-3 border-t border-line pt-4"></div>
+    </div>
+
+    <div class="mt-7 flex flex-wrap items-center gap-2.5">
+      <div class="relative w-full sm:w-auto">
+        <span class="ms absolute left-3.5 top-1/2 -translate-y-1/2 !text-[18px] text-navy/40">search</span>
+        <input id="ts-q" class="field !pl-11 sm:max-w-xs" placeholder="Search name, email, code, MoMo reference…">
+      </div>
+      <select id="ts-status" class="field flex-1 sm:flex-none sm:!w-auto">
+        <option value="">All statuses</option>
+        <option value="new">New — payment unchecked</option>
+        <option value="paid">Payment verified</option>
+        <option value="collected">Collected</option>
+      </select>
+      <select id="ts-size" class="field flex-1 sm:flex-none sm:!w-auto">
+        <option value="">All sizes</option>
+        <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <select id="ts-color" class="field flex-1 sm:flex-none sm:!w-auto">
+        <option value="">Both colours</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+      </select>
+      <p id="ts-count" class="ml-auto font-mono text-xs text-navy/50"></p>
+    </div>
+
+    <div class="card mt-4 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[960px] text-left text-sm">
+          <thead>
+            <tr class="border-b border-line bg-blush/50">
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Request</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Shirts</th>
+              <th class="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Amount</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">MoMo reference</th>
+              <th class="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Status</th>
+              <th class="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wider text-navy/50">Requested</th>
+              <th class="w-24 px-3 py-3"></th>
+            </tr>
+          </thead>
+          <tbody id="ts-rows"></tbody>
+        </table>
+      </div>
+      <p id="ts-empty" class="hidden flex-col items-center justify-center gap-1.5 px-4 py-14 text-navy/40">
+        <span class="ms !text-[28px]">checkroom</span>
+        <span class="font-mono text-sm">No t-shirt requests match.</span>
+      </p>
+    </div>
+  </div>
+
   <!-- detail drawer -->
   <div id="drawer" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-navy/40" onclick="closeDrawer()"></div>
@@ -152,7 +231,7 @@ tailwind.config = { theme: { extend: {
           <p class="h-display text-lg" id="d-title"></p>
         </div>
         <div class="flex shrink-0 items-center gap-1">
-          <button id="d-del" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-red-50 hover:text-red-600" aria-label="Delete this registration" title="Delete"><span class="ms">delete</span></button>
+          <button id="d-del" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-red-50 hover:text-red-600" aria-label="Delete this record" title="Delete"><span class="ms">delete</span></button>
           <button onclick="closeDrawer()" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/50 transition hover:bg-blush hover:text-navy" aria-label="Close"><span class="ms">close</span></button>
         </div>
       </div>
@@ -178,6 +257,16 @@ const ROLES = {
   other:       { full: 'Other guest', pill: 'bg-navy/10 text-navy/70' },
 };
 const roleOf = r => r.payload?.attendingAs || 'participant';
+const TSIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+const TSTATUS = {
+  new:       { full: 'New',              pill: 'bg-momo/25 text-momo-deep' },
+  paid:      { full: 'Payment verified', pill: 'bg-mint-soft text-mint-deep' },
+  collected: { full: 'Collected',        pill: 'bg-navy/10 text-navy/70' },
+};
+const TNET = { mtn: 'MTN MoMo', telecel: 'Telecel Cash', at: 'AT Money' };
+const TROLES = { participant: 'Participant', audience: 'Audience', sponsor: 'Sponsor', security: 'Security', volunteer: 'Volunteer', organiser: 'Organiser', other: 'Other guest' };
+const ghs = n => 'GH₵ ' + Number(n || 0).toLocaleString('en-GB');
+const swatch = c => `<span class="swatch" style="background:${c === 'black' ? '#22202a' : '#ffffff'}"></span>`;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtDate = s => {
   const d = new Date(s);
@@ -187,7 +276,10 @@ const fmtDate = s => {
     + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 };
 let all = [];
+let shirts = [];
+let tab = 'reg';
 let openId = null;
+let openKind = 'reg';
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { ...opts, headers: { 'X-Admin-Token': token, ...(opts.headers || {}) } });
@@ -215,21 +307,41 @@ $('#refresh').addEventListener('click', load);
 $('#q').addEventListener('input', render);
 $('#cat').addEventListener('change', render);
 $('#role').addEventListener('change', render);
+$('#ts-q').addEventListener('input', renderTs);
+$('#ts-status').addEventListener('change', renderTs);
+$('#ts-size').addEventListener('change', renderTs);
+$('#ts-color').addEventListener('change', renderTs);
+$('#tab-reg').addEventListener('click', () => setTab('reg'));
+$('#tab-ts').addEventListener('click', () => setTab('ts'));
+
+function setTab(t) {
+  tab = t;
+  $('#tab-reg').setAttribute('aria-selected', String(t === 'reg'));
+  $('#tab-ts').setAttribute('aria-selected', String(t === 'ts'));
+  $('#panel-reg').classList.toggle('hidden', t !== 'reg');
+  $('#panel-ts').classList.toggle('hidden', t !== 'ts');
+}
 
 async function load() {
-  all = await (await api('/api/registrations')).json();
+  const [regs, ts] = await Promise.all([api('/api/registrations'), api('/api/tshirts')]);
+  all = await regs.json();
+  shirts = await ts.json();
+  $('#tab-reg-n').textContent = all.length;
+  $('#tab-ts-n').textContent = shirts.length;
   render();
+  renderTs();
 }
 
 $('#csv').addEventListener('click', async e => {
   e.preventDefault();
+  const isTs = tab === 'ts';
   try {
-    const r = await api('/api/export.csv');
+    const r = await api(isTs ? '/api/tshirts.csv' : '/api/export.csv');
     if (!r.ok) return;
     const blob = await r.blob();
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'ifest2026-registrations.csv';
+    a.download = isTs ? 'ifest2026-tshirts.csv' : 'ifest2026-registrations.csv';
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -310,14 +422,198 @@ async function removeRegistration(id) {
     const out = await res.json().catch(() => ({}));
     if (!res.ok) { alert('Could not delete: ' + (out.error || res.status)); return; }
     all = all.filter(r => r.id !== id);
-    if (openId === id) closeDrawer();
+    $('#tab-reg-n').textContent = all.length;
+    if (openKind === 'reg' && openId === id) closeDrawer();
     render();
   } catch (e) {
     alert('Could not delete: ' + e.message);
   }
 }
 
-$('#d-del').addEventListener('click', () => { if (openId != null) removeRegistration(openId); });
+$('#d-del').addEventListener('click', () => {
+  if (openId == null) return;
+  if (openKind === 'ts') removeTs(openId); else removeRegistration(openId);
+});
+
+function renderTs() {
+  const q = $('#ts-q').value.trim().toLowerCase(), st = $('#ts-status').value,
+        sz = $('#ts-size').value, cl = $('#ts-color').value;
+  const rows = shirts.filter(r =>
+    (!st || r.status === st) &&
+    (!sz || r.items.some(i => i.size === sz)) &&
+    (!cl || r.items.some(i => i.color === cl)) &&
+    (!q || [r.name, r.email, r.phone, r.code, r.momoRef, r.org, r.teamCode, r.teamName].join(' ').toLowerCase().includes(q)));
+  $('#ts-count').textContent = rows.length + ' of ' + shirts.length + ' requests';
+
+  const run = Object.fromEntries(TSIZES.map(s => [s, 0]));
+  const colors = { black: 0, white: 0 };
+  let qty = 0, expected = 0, verified = 0, unchecked = 0;
+  shirts.forEach(r => {
+    qty += r.total; expected += r.amount;
+    if (r.status === 'new') unchecked++; else verified += r.amount;
+    r.items.forEach(i => { run[i.size] = (run[i.size] || 0) + i.qty; colors[i.color] = (colors[i.color] || 0) + i.qty; });
+  });
+  $('#ts-stats').innerHTML = `<div class="grid grid-cols-2 gap-3 sm:grid-cols-5">` + [
+    ['Requests', shirts.length, 'text-navy', 'text-3xl'],
+    ['Shirts ordered', qty, 'text-plum-deep', 'text-3xl'],
+    ['Expected via MoMo', ghs(expected), 'text-tang-deep', 'text-2xl sm:text-3xl'],
+    ['Verified + collected', ghs(verified), 'text-mint-deep', 'text-2xl sm:text-3xl'],
+    ['Awaiting check', unchecked, 'text-momo-deep', 'text-3xl'],
+  ].map(([label, value, color, size], j) => `<div class="card px-4 py-3.5 sm:px-5 sm:py-4${j === 4 ? ' col-span-2 sm:col-span-1' : ''}">
+      <p class="text-xs font-bold text-navy/50">${label}</p>
+      <p class="h-display mt-0.5 ${color} ${size} tabular-nums">${value}</p>
+    </div>`).join('') + '</div>';
+
+  const max = Math.max(1, ...TSIZES.map(s => run[s]));
+  $('#ts-run').innerHTML = TSIZES.map(s => `
+    <div class="flex items-center gap-3">
+      <span class="w-9 shrink-0 font-mono text-xs font-bold text-navy/60">${s}</span>
+      <span class="h-2.5 flex-1 overflow-hidden rounded-full bg-navy/5"><span class="block h-full rounded-full bg-plum" style="width:${(run[s] / max * 100).toFixed(1)}%"></span></span>
+      <span class="w-8 shrink-0 text-right font-mono text-sm font-bold tabular-nums">${run[s]}</span>
+    </div>`).join('');
+  $('#ts-colors').innerHTML = ['black', 'white'].map(c => `
+    <span class="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3 py-1 text-xs font-extrabold text-navy/70">
+      ${swatch(c)}${c === 'black' ? 'Black' : 'White'}
+      <span class="font-mono tabular-nums">${colors[c]}</span>
+    </span>`).join('') + `<span class="ml-auto font-mono text-xs text-navy/50">${qty} shirt${qty === 1 ? '' : 's'} total</span>`;
+
+  $('#ts-rows').innerHTML = rows.map(r => {
+    const k = TSTATUS[r.status] || TSTATUS.new;
+    const agg = {};
+    r.items.forEach(i => { const key = i.color + '|' + i.size; agg[key] = (agg[key] || 0) + i.qty; });
+    const pills = Object.entries(agg).map(([key, n]) => {
+      const [c, s] = key.split('|');
+      return `<span class="pill gap-1.5 bg-blush text-navy">${swatch(c)}${esc(s)} × ${n}</span>`;
+    }).join(' ');
+    return `
+    <tr class="cursor-pointer transition" onclick="openTsDetail(${r.id})">
+      <td class="px-5 py-3.5">
+        <p class="font-extrabold text-navy">${esc(r.name)}</p>
+        <p class="mt-0.5 font-mono text-[11px] font-bold tracking-wide text-navy/40">${esc(r.code)}</p>
+      </td>
+      <td class="px-5 py-3.5">
+        <div class="flex flex-wrap gap-1">${pills}</div>
+        <p class="mt-1 font-mono text-[11px] text-navy/40">${r.total} shirt${r.total === 1 ? '' : 's'}</p>
+      </td>
+      <td class="px-5 py-3.5 text-right font-mono text-sm font-bold tabular-nums text-navy">${ghs(r.amount)}</td>
+      <td class="px-5 py-3.5">
+        <p class="font-mono text-xs font-bold text-navy">${esc(r.momoRef)}</p>
+        <p class="mt-0.5 text-[11px] font-bold text-navy/40">${esc(TNET[r.momoNetwork] || r.momoNetwork || '—')}</p>
+      </td>
+      <td class="px-5 py-3.5"><span class="pill ${k.pill}">${esc(k.full)}</span></td>
+      <td class="px-5 py-3.5 text-right font-mono text-xs tabular-nums text-navy/50">${fmtDate(r.createdAt)}</td>
+      <td class="px-3 py-3.5">
+        <div class="flex items-center justify-end gap-0.5">
+          <button class="tsdel flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-navy/30 transition hover:bg-red-50 hover:text-red-600 focus-visible:text-red-600" data-id="${r.id}" aria-label="Delete request ${esc(r.code)}" title="Delete"><span class="ms !text-[19px]">delete</span></button>
+          <span class="ms !text-[20px] shrink-0 text-navy/30">chevron_right</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  $('#ts-empty').classList.toggle('hidden', rows.length > 0);
+  $('#ts-empty').classList.toggle('flex', rows.length === 0);
+}
+
+$('#ts-rows').addEventListener('click', e => {
+  const btn = e.target.closest('.tsdel');
+  if (!btn) return;
+  e.stopPropagation();
+  removeTs(Number(btn.dataset.id));
+}, true);
+
+async function removeTs(id) {
+  const rec = shirts.find(r => r.id === id);
+  if (!rec) return;
+  const ok = confirm(
+    `Delete ${rec.code} — ${rec.name}?\n\n` +
+    `${rec.total} shirt${rec.total === 1 ? '' : 's'}, ${ghs(rec.amount)}, MoMo ref ${rec.momoRef || '—'}.\n` +
+    'This only removes the request record. It cannot be undone.'
+  );
+  if (!ok) return;
+  try {
+    const res = await api('/api/tshirts/' + id, { method: 'DELETE' });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) { alert('Could not delete: ' + (out.error || res.status)); return; }
+    shirts = shirts.filter(r => r.id !== id);
+    $('#tab-ts-n').textContent = shirts.length;
+    if (openKind === 'ts' && openId === id) closeDrawer();
+    renderTs();
+  } catch (e) {
+    alert('Could not delete: ' + e.message);
+  }
+}
+
+function openTsDetail(id) {
+  const r = shirts.find(x => x.id === id);
+  if (!r) return;
+  openId = id;
+  openKind = 'ts';
+  const k = TSTATUS[r.status] || TSTATUS.new;
+  $('#d-code').textContent = r.code;
+  $('#d-title').textContent = r.name;
+  let html = block('Request',
+    fieldHtml('Status', `<span class="pill ${k.pill}">${esc(k.full)}</span>`) +
+    fieldHtml('Requested', fmtDate(r.createdAt)) +
+    field('Attending as', TROLES[r.role] || r.role) +
+    field('Team code', r.teamCode) + field('Team', r.teamName));
+  html += block('Contact',
+    field('Name', r.name) + field('Email', r.email) + field('Phone', r.phone) +
+    field('Institution / org', r.org));
+  html += block(`Shirts · ${r.total} × ${ghs(r.unitPrice)}`,
+    r.items.map(i => `
+    <div class="flex items-center justify-between gap-4 border-b border-line/70 py-2 last:border-0">
+      <span class="flex min-w-0 items-center gap-2">
+        ${swatch(i.color)}
+        <span class="truncate font-bold text-navy">${esc(i.name || r.name)}</span>
+        <span class="pill shrink-0 bg-blush text-navy">${i.color === 'black' ? 'Black' : 'White'} · ${esc(i.size)}</span>
+      </span>
+      <span class="shrink-0 font-mono text-xs tabular-nums text-navy/60">× ${i.qty} · ${ghs(i.qty * r.unitPrice)}</span>
+    </div>`).join('') +
+    `<div class="flex items-center justify-between pt-2.5"><span class="font-extrabold text-navy">Total</span><span class="h-display text-lg text-navy">${ghs(r.amount)}</span></div>`);
+  html += block('Payment · MoMo',
+    field('Network', TNET[r.momoNetwork] || r.momoNetwork) +
+    fieldHtml('Reference', `<span class="font-mono">${esc(r.momoRef)}</span>`) +
+    field('Sender number', r.momoSender) +
+    `<p class="mt-2 text-xs text-navy/50">Check this reference on the MoMo phone, then mark the request as verified. Mark it collected when the shirts are handed over.</p>
+    <div class="mt-3 flex flex-wrap gap-2">` +
+    ['new', 'paid', 'collected'].map(s => `
+      <button type="button" class="stbtn" data-id="${r.id}" data-status="${s}" aria-pressed="${r.status === s}">
+        <span class="ms !text-[15px]">${s === 'new' ? 'schedule' : s === 'paid' ? 'verified' : 'inventory_2'}</span>${TSTATUS[s].full}
+      </button>`).join('') + '</div>');
+  html += block('Collection',
+    field('Pickup', r.pickup === 'proxy' ? 'Someone else collects' : 'Requester collects') +
+    field('Collector', r.collector) + field('Notes', r.notes));
+  $('#d-body').innerHTML = html;
+  $('#drawer').classList.remove('hidden');
+}
+
+$('#d-body').addEventListener('click', e => {
+  const btn = e.target.closest('.stbtn');
+  if (btn) setTsStatus(Number(btn.dataset.id), btn.dataset.status);
+});
+
+async function setTsStatus(id, status) {
+  const rec = shirts.find(r => r.id === id);
+  if (!rec || rec.status === status) return;
+  const prev = rec.status;
+  rec.status = status;
+  renderTs();
+  openTsDetail(id);
+  try {
+    const res = await api('/api/tshirts/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(out.error || res.status);
+  } catch (e) {
+    rec.status = prev;
+    renderTs();
+    if (openKind === 'ts' && openId === id) openTsDetail(id);
+    alert('Could not update status: ' + e.message);
+  }
+}
 
 const field = (k, v) => v === '' || v == null ? '' :
   `<div class="flex items-baseline justify-between gap-6 border-b border-line/70 py-2 last:border-0"><span class="shrink-0 text-navy/50">${esc(k)}</span><span class="break-words text-right font-bold text-navy">${v === true ? 'Yes' : esc(v)}</span></div>`;
@@ -335,6 +631,7 @@ const STATUS = { enrolled: 'Enrolled', recent_grad: 'Recent graduate', non_terti
 async function openDetail(id) {
   const r = await (await api('/api/registrations/' + id)).json();
   openId = id;
+  openKind = 'reg';
   const p = r.payload || {};
   $('#d-code').textContent = r.code;
   $('#d-title').textContent = r.teamName;

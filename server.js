@@ -16,6 +16,21 @@ const ROUTES = [
   { method: 'GET', pattern: /^\/api\/check-member$/, file: 'api/check-member.js' },
   { method: 'GET', pattern: /^\/api\/registrations$/, file: 'api/registrations.js' },
   { method: 'GET', pattern: /^\/api\/export\.csv$/, file: 'api/export.csv.js' },
+  { method: 'POST', pattern: /^\/api\/tshirts$/, file: 'api/tshirts.js' },
+  { method: 'GET', pattern: /^\/api\/tshirts$/, file: 'api/tshirts.js' },
+  { method: 'GET', pattern: /^\/api\/tshirts\.csv$/, file: 'api/tshirts.csv.js' },
+  {
+    method: 'PATCH',
+    pattern: /^\/api\/tshirts\/(\d+)$/,
+    file: 'api/tshirts/[id].js',
+    params: m => ({ id: m[1] }),
+  },
+  {
+    method: 'DELETE',
+    pattern: /^\/api\/tshirts\/(\d+)$/,
+    file: 'api/tshirts/[id].js',
+    params: m => ({ id: m[1] }),
+  },
   {
     method: 'GET',
     pattern: /^\/api\/registrations\/(\d+)$/,
@@ -66,6 +81,8 @@ const STATIC_ROUTES = {
   '/index.html': 'index.html',
   '/admin': 'admin.html',
   '/admin.html': 'admin.html',
+  '/tshirts': 'tshirts.html',
+  '/tshirts.html': 'tshirts.html',
 };
 
 async function serveStatic(res, pathname) {

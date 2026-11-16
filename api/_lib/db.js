@@ -33,6 +33,31 @@ CREATE TABLE IF NOT EXISTS uploads (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (code, field_key)
 );
+CREATE TABLE IF NOT EXISTS tshirt_requests (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  org TEXT,
+  role TEXT NOT NULL DEFAULT 'other',
+  team_code TEXT,
+  team_name TEXT,
+  items JSONB NOT NULL,
+  total INT NOT NULL,
+  unit_price INT NOT NULL DEFAULT 75,
+  amount INT NOT NULL DEFAULT 0,
+  pickup TEXT NOT NULL DEFAULT 'self',
+  collector TEXT,
+  momo_network TEXT,
+  momo_ref TEXT,
+  momo_sender TEXT,
+  notes TEXT,
+  status TEXT NOT NULL DEFAULT 'new',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS tshirt_email ON tshirt_requests (lower(email));
+CREATE INDEX IF NOT EXISTS tshirt_status ON tshirt_requests (status);
 `;
 
 export function getPool() {

@@ -1,6 +1,7 @@
 # iFESTIVAL 2026 — Registration Portal
 
-Landing + documentation page and participant registration portal for **iFESTIVAL '26**
+Landing + documentation page, participant registration portal and t-shirt request
+portal for **iFESTIVAL '26**
 (The Tertiary Innovation & Technology Festival, SparkLab Africa · KAAF University · 16–20 Nov 2026),
 implementing the *Participant Registration Portal: Question Set* PDF.
 
@@ -13,7 +14,8 @@ npm start                      # listens on :8090 (override with PORT=:port)
 ```
 
 - Site: http://localhost:8090/
-- Admin (view registrations): http://localhost:8090/admin — unlock with `ADMIN_TOKEN`
+- T-shirt portal: http://localhost:8090/tshirts
+- Admin (registrations + t-shirt requests): http://localhost:8090/admin — unlock with `ADMIN_TOKEN`
   (admin routes return 401 while it is unset)
 
 ## Stack
@@ -21,7 +23,7 @@ npm start                      # listens on :8090 (override with PORT=:port)
 - **Backend:** single Node.js app. `server.js` serves `web/` statically and routes
   `/api/*` to the same handlers in `api/` used on Vercel. Database is
   **Neon Postgres** (`pg` pool in `api/_lib/db.js`): registrations, member-email
-  index, uploads as `bytea`. Schema is created automatically on first call.
+  index, uploads as `bytea`, t-shirt requests. Schema is created automatically on first call.
 - **Frontend:** static files in `web/` (Tailwind CDN + vanilla JS). No build step.
 
 ## Deploy to Vercel (Neon)
@@ -30,11 +32,11 @@ npm start                      # listens on :8090 (override with PORT=:port)
 2. Set env vars (see `.env.example`):
    `vercel env add DATABASE_URL` and `vercel env add ADMIN_TOKEN` (or the dashboard).
    `ADMIN_TOKEN` is required — the Node port refuses admin access without it.
-3. `vercel --prod`. `vercel.json` rewrites `/`, `/admin`, `/assets/*` to `web/`;
+3. `vercel --prod`. `vercel.json` rewrites `/`, `/admin`, `/tshirts`, `/assets/*` to `web/`;
    functions come from `api/`. `.vercelignore` keeps `data/` and env files out
    of the deploy. `server.js` is not used on Vercel (functions only).
-4. Schema (`registrations`, `member_emails`, `uploads`) is created automatically on
-   the first function call.
+4. Schema (`registrations`, `member_emails`, `uploads`, `tshirt_requests`) is created
+   automatically on the first function call.
 
 Behavior notes:
 - Uploads are stored in Neon (`bytea`) and served admin-side at
@@ -60,6 +62,19 @@ Behavior notes:
 | `GET /api/registrations/{id}` | admin | full detail incl. files |
 | `DELETE /api/registrations/{id}` | admin | delete a registration + its uploads, frees its member emails |
 | `GET /api/export.csv` | admin | CSV export (`X-Admin-Token` header) |
+| `POST /api/tshirts` | public | JSON t-shirt request → `{code: TS26-XXXXXX, amount}`; optional `teamCode` must match a registration |
+| `GET /api/tshirts` | admin | list all requests |
+| `PATCH /api/tshirts/{id}` | admin | set `status`: `new` → `paid` (MoMo reference verified) → `collected` |
+| `DELETE /api/tshirts/{id}` | admin | delete a request |
+| `GET /api/tshirts.csv` | admin | one row per shirt item, incl. MoMo reference + status |
+
+T-shirts: GH₵ 75 each (server-computed `qty × 75`, never client-supplied), black or
+white, S–XXL, up to 25 wearers / 60 shirts per request. Payment is manual MoMo:
+the portal shows the organisers' number, the requester sends the money and pastes
+the payment reference; organisers verify it on their phone and mark the request
+`paid`, then `collected` at hand-over. The MoMo number shown is a constant in
+`web/tshirts.html` (`#momo-number`) — currently the published festival contact
++233 249 332 626; change it there if a different MoMo line is used.
 
 Legacy `data/` (old Go/SQLite database + uploaded files) is no longer read by the
 app and remains git-ignored; the real IF26-YTDH2B registration lives there only.

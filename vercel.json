@@ -8,6 +8,8 @@
     { "source": "/index.html", "destination": "/web/index.html" },
     { "source": "/admin", "destination": "/web/admin.html" },
     { "source": "/admin.html", "destination": "/web/admin.html" },
+    { "source": "/tshirts", "destination": "/web/tshirts.html" },
+    { "source": "/tshirts.html", "destination": "/web/tshirts.html" },
     { "source": "/assets/(.*)", "destination": "/web/assets/$1" }
   ]
 }

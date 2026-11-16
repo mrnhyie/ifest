@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-shirts — iFESTIVAL '26 · GH₵ 75, pay by MoMo</title>
+<meta name="description" content="Request iFESTIVAL 2026 programme t-shirts — black or white, GH₵ 75 each, paid by mobile money. Pick sizes for your whole team, send the MoMo reference, collect on site.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      navy: '#171464', cream: '#fff8e9', blush: '#e7f4f1', sage: '#ecf6ea',
+      tang: { DEFAULT: '#4356c0', deep: '#2e3f9e' }, plum: { DEFAULT: '#12897f', deep: '#0c6b64' },
+      sky: { DEFAULT: '#4c82c4', deep: '#35659e' }, leaf: { DEFAULT: '#43a04f', deep: '#2e7d37' },
+      mint: { DEFAULT: '#1fd7a0', deep: '#0a7a5c', soft: '#e2f7ef' }, line: '#eadfc4',
+      momo: { DEFAULT: '#ffcc00', deep: '#8a6d00' }
+    },
+    fontFamily: {
+      sans: ['"Nunito Sans"','ui-sans-serif','system-ui'],
+      display: ['"Baloo 2"','"Nunito Sans"','ui-rounded','sans-serif'],
+      mono: ['"JetBrains Mono"','ui-monospace','SFMono-Regular']
+    },
+    boxShadow: { card: '0 12px 32px -12px rgba(23,20,100,.14)', soft: '0 6px 20px -8px rgba(23,20,100,.10)' }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style type="text/tailwindcss">
+  input[type="checkbox"], input[type="radio"] { accent-color: #171464; }
+  .wrap { @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10; }
+  .eyebrow { @apply inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 font-display text-sm font-bold text-navy shadow-soft; }
+  .h-display { @apply font-display font-extrabold tracking-tight; }
+  .btn { @apply inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3 font-display text-sm font-bold transition-transform hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:opacity-60; }
+  .btn .arw { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-white/95; }
+  html { background:#fff8e9; }
+  .card { @apply rounded-[24px] border border-white/70 bg-white/60 shadow-card backdrop-blur-md; }
+  .field { @apply w-full rounded-2xl border border-line bg-white/70 px-4 py-2.5 text-[15px] text-navy outline-none backdrop-blur-sm transition placeholder:text-navy/35 focus:border-navy focus:ring-[3px] focus:ring-navy/15; }
+  .field:focus-visible, select.field:focus { outline: none; }
+  select.field {
+    @apply cursor-pointer appearance-none pr-11;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23171464' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  .border, .border-2, .border-t, .border-b, .border-l, .border-r, .border-x, .border-y { border-style: dotted; }
+  .lbl { @apply mb-1.5 block text-[13px] font-bold text-navy/70; }
+  .hint { @apply text-xs font-normal text-navy/55; }
+  .req { @apply text-red-600; }
+  .chip { @apply inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-white/70 px-3.5 py-1.5 text-xs font-bold text-navy/70 backdrop-blur-sm transition hover:border-navy; }
+  .chip:has(input:checked) { @apply border-navy bg-navy text-white; }
+  .chip:has(input:checked) .tick { @apply opacity-100; }
+  .chip .tick { @apply text-[14px] opacity-0; }
+  .chip:has(input:focus-visible) { outline: 2px solid #171464; outline-offset: 2px; }
+  .chip input { @apply sr-only; }
+  .ms { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal; line-height:1; letter-spacing:normal; text-transform:none; white-space:nowrap; direction:ltr; display:inline-block; -webkit-font-smoothing:antialiased; font-variation-settings:'opsz' 20,'FILL' 0,'wght' 500,'GRAD' 0; }
+  .wm { position:absolute; right:-0.06em; bottom:-0.28em; font-family:'Baloo 2',sans-serif; font-weight:800; line-height:1; pointer-events:none; user-select:none; }
+  ::selection { background:#1fd7a0; color:#171464; }
+  :focus-visible { outline: 2px solid #171464; outline-offset: 2px; }
+  .on-dark :focus-visible { outline-color: #1fd7a0; }
+
+  /* themed scrollbars — the order list and the summary both scroll */
+  * { scrollbar-width: thin; scrollbar-color: #b9b2dd #fff8e9; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #fff8e9; }
+  ::-webkit-scrollbar-thumb { background: #b9b2dd; border: 2px solid #fff8e9; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #171464; }
+
+  .size-chip { @apply min-w-[52px] justify-center font-mono text-[13px] font-bold; }
+  .color-chip { @apply gap-2 font-display text-[13px]; }
+  .swatch { @apply h-3.5 w-3.5 shrink-0 rounded-full border border-navy/25; }
+  .qtybtn { @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-white text-navy transition hover:border-navy hover:bg-mint-soft disabled:opacity-30 disabled:hover:border-line disabled:hover:bg-white; }
+  .iconbtn { @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-navy/40 transition hover:bg-red-50 hover:text-red-600 disabled:pointer-events-none disabled:opacity-30; }
+  .cw-btn { @apply inline-flex items-center gap-2 rounded-full border-2 border-line bg-white/70 px-4 py-2 font-display text-sm font-bold text-navy/70 transition hover:border-navy; }
+  .cw-btn[aria-pressed="true"] { @apply border-navy bg-navy text-white; }
+  .person { animation: rise .3s both; }
+  .rise { animation: rise .45s both; }
+  .bar { @apply h-2.5 rounded-full transition-[width] duration-300 ease-out; }
+  .pop { animation: pop .32s ease-out; }
+  .tee-shot { @apply absolute inset-0 h-full w-full object-cover transition-opacity duration-300; }
+  /* transform-only keyframes: content stays visible even if animations never run */
+  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+  @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration:.01ms !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; }
+    .btn:hover { transform:none; }
+  }
+</style>
+</head>
+<body class="font-sans text-navy antialiased">
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -left-32 -top-32 h-[480px] w-[480px] rounded-full bg-mint/30 blur-3xl"></div>
+  <div class="absolute -right-40 top-1/3 h-[520px] w-[520px] rounded-full bg-sky/25 blur-3xl"></div>
+  <div class="absolute bottom-0 left-1/4 h-[440px] w-[440px] rounded-full bg-plum/20 blur-3xl"></div>
+  <div class="absolute left-0 top-2/3 h-[360px] w-[360px] rounded-full bg-tang/20 blur-3xl"></div>
+</div>
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 pt-4">
+  <div class="wrap">
+    <div class="card flex items-center justify-between gap-4 rounded-full px-4 py-2.5 sm:px-6">
+      <a href="/" class="flex shrink-0 items-center gap-2">
+        <img src="/assets/logo.png" alt="iFESTIVAL '26 logo" class="h-11 w-auto sm:h-14">
+      </a>
+      <nav class="hidden items-center gap-7 font-display text-[15px] font-semibold text-navy/70 lg:flex" aria-label="Primary">
+        <a href="/#tracks" class="transition-colors hover:text-navy">Competitions</a>
+        <a href="/#schedule" class="transition-colors hover:text-navy">Programme</a>
+        <a href="/#register" class="transition-colors hover:text-navy">Register</a>
+        <a href="/#faq" class="transition-colors hover:text-navy">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="#request" class="btn hidden !px-5 !py-2.5 bg-tang-deep text-white sm:inline-flex">Request shirts <span class="arw !h-5 !w-5 text-tang-deep"><span class="ms !text-[13px]">arrow_downward</span></span></a>
+        <button id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" class="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-navy lg:hidden"><span class="ms !text-[22px]">menu</span></button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="wrap mt-2 hidden lg:hidden">
+    <div class="card px-5 py-4">
+      <p class="font-display text-sm font-bold text-navy/70"><span class="text-navy">16–20 NOV 2026</span> · KAAF University · Sefwi</p>
+      <nav class="mt-2 divide-y divide-line text-[15px] font-bold" aria-label="Mobile">
+        <a href="/" class="block py-2.5">Festival home</a>
+        <a href="/#tracks" class="block py-2.5">Competitions</a>
+        <a href="/#schedule" class="block py-2.5">Programme</a>
+        <a href="/#register" class="block py-2.5">Register a team</a>
+        <a href="#request" class="block py-2.5 text-plum-deep">Request t-shirts</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="overflow-hidden">
+  <div class="wrap grid grid-cols-1 items-center gap-10 pb-12 pt-12 md:pt-16 lg:grid-cols-12">
+    <div class="rise lg:col-span-6">
+      <p class="eyebrow"><span class="ms !text-[16px] text-plum-deep">checkroom</span> Festival t-shirt · 16–20 Nov 2026</p>
+      <h1 class="h-display mt-5 text-4xl leading-[1.05] sm:text-6xl">Wear the <span class="text-plum-deep">festival</span>.</h1>
+      <p class="mt-4 font-mono text-xs font-bold uppercase tracking-[0.3em] text-tang-deep">Black or white · GH₵ 75 each · pay by MoMo</p>
+      <p class="mt-5 max-w-xl text-lg font-light leading-snug text-navy/80 sm:text-xl">The official iFESTIVAL '26 tee — Adinkra-tech print across the hem, festival wordmark on the chest. Order for yourself or your whole team, send the mobile money, and collect on site.</p>
+      <div class="mt-7 flex flex-wrap items-center gap-3" role="group" aria-label="Preview colourway">
+        <button type="button" id="cw-black" class="cw-btn" aria-pressed="true"><span class="swatch" style="background:#1c1c1e"></span>Black</button>
+        <button type="button" id="cw-white" class="cw-btn" aria-pressed="false"><span class="swatch" style="background:#ffffff"></span>White</button>
+        <span class="font-display text-xs font-bold text-navy/50">tap to preview · new lines start in this colour</span>
+      </div>
+      <ol class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-display text-[13px] font-bold text-navy/60">
+        <li class="inline-flex items-center gap-2 rounded-full bg-white/70 px-3.5 py-1.5 shadow-soft"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-plum font-mono text-[10px] text-white">1</span>Pick sizes</li>
+        <li class="ms !text-[16px] text-navy/30">arrow_forward</li>
+        <li class="inline-flex items-center gap-2 rounded-full bg-white/70 px-3.5 py-1.5 shadow-soft"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-momo-deep font-mono text-[10px] text-white">2</span>Send MoMo</li>
+        <li class="ms !text-[16px] text-navy/30">arrow_forward</li>
+        <li class="inline-flex items-center gap-2 rounded-full bg-white/70 px-3.5 py-1.5 shadow-soft"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-mint font-mono text-[10px] text-navy">3</span>Paste the reference</li>
+      </ol>
+      <div class="mt-8 flex flex-wrap items-center gap-5">
+        <a href="#request" class="btn bg-navy text-white">Start a request <span class="arw !bg-mint text-navy"><span class="ms !text-[15px]">arrow_downward</span></span></a>
+        <a href="/#register" class="font-display text-sm font-bold text-navy/60 underline decoration-line decoration-2 underline-offset-4 transition-colors hover:text-navy">Not registered yet? Do that first</a>
+      </div>
+    </div>
+    <div class="relative mx-auto w-full max-w-md lg:col-span-6 lg:max-w-none">
+      <div class="card relative overflow-hidden rounded-[32px] p-3">
+        <div class="relative aspect-[1060/1100] overflow-hidden rounded-[24px] bg-[#b9d5e7]">
+          <img id="hero-black" src="/assets/tshirt-black.jpg" alt="iFESTIVAL '26 t-shirt in black with white festival wordmark and Adinkra-tech hem print" width="1060" height="1100" class="tee-shot opacity-100">
+          <img id="hero-white" src="/assets/tshirt-white.jpg" alt="iFESTIVAL '26 t-shirt in white with navy festival wordmark and black hem print" width="1060" height="1100" class="tee-shot opacity-0">
+          <span class="absolute left-4 top-4 rounded-full bg-navy px-4 py-1.5 font-display text-sm font-extrabold text-mint shadow-card">GH₵ 75</span>
+          <span id="hero-cap" class="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-1.5 font-display text-xs font-extrabold uppercase tracking-wide text-navy backdrop-blur-sm">Black colourway</span>
+        </div>
+      </div>
+      <div class="absolute -bottom-4 -left-4 hidden items-center gap-3 rounded-full bg-white/90 px-5 py-3 shadow-card backdrop-blur-md sm:flex">
+        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-momo text-navy"><span class="ms !text-[20px]">smartphone</span></span>
+        <p class="font-display text-sm font-bold">MoMo payment <span class="font-sans font-normal text-navy/60">· reference checked at collection</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDER -->
+<section id="request" class="wrap scroll-mt-28 pb-16 md:pb-24">
+  <div id="builder">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="h-display text-3xl sm:text-4xl">Build your <span class="text-tang-deep">request</span></h2>
+      <p class="font-display text-sm font-bold text-navy/50">GH₵ 75 per shirt · total updates as you build</p>
+    </div>
+
+    <form id="ts-form" class="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_360px]" novalidate>
+      <div class="space-y-6">
+
+        <!-- people -->
+        <section class="card p-6 md:p-7">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 class="h-display text-xl">Who needs a shirt?</h3>
+              <p class="mt-1 text-xs text-navy/60">One line per person — name, colour, size. Ordering several for yourself? Use the quantity stepper.</p>
+            </div>
+            <p id="hdr-count" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-navy px-4 py-1.5 font-mono text-xs font-bold text-mint" aria-live="polite">0 shirts</p>
+          </div>
+
+          <div id="mini-run" class="mt-4 flex flex-wrap gap-1.5" aria-hidden="true"></div>
+
+          <div id="people" class="mt-4 space-y-3"></div>
+
+          <p id="people-err" class="mt-3 hidden items-center gap-1.5 text-sm font-bold text-red-600"><span class="ms !text-[18px]">error</span><span></span></p>
+
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+            <button type="button" id="add-person" class="btn !px-5 !py-2.5 border-2 border-dashed border-navy/30 bg-white/50 text-navy hover:border-navy hover:bg-mint-soft"><span class="ms !text-[18px]">add</span>Add another person</button>
+            <div class="flex items-center gap-2 rounded-full border border-line bg-white/60 py-1 pl-4 pr-1">
+              <label for="fill-size" class="font-display text-xs font-bold text-navy/60">Same size for all</label>
+              <select id="fill-size" class="field !w-[86px] !rounded-full !py-1.5 !text-xs">
+                <option value="">—</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+              </select>
+              <button type="button" id="fill-all" class="btn !bg-blush !px-4 !py-1.5 !text-xs !text-plum-deep hover:!bg-mint-soft">Apply</button>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-navy/55">Up to 25 people and 60 shirts per request — send a second request if you need more.</p>
+        </section>
+
+        <!-- details -->
+        <section class="card p-6 md:p-7">
+          <h3 class="h-display text-xl">Your details</h3>
+          <p class="mt-1 text-xs text-navy/60">We use these to confirm the request and tell you when and where to collect.</p>
+          <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <label class="block"><span class="lbl">Full name <span class="req">*</span></span><input id="c-name" name="name" class="field" autocomplete="name" required></label>
+            <label class="block"><span class="lbl">Email <span class="req">*</span></span><input id="c-email" name="email" type="email" class="field" autocomplete="email" required></label>
+            <label class="block"><span class="lbl">Phone / WhatsApp <span class="req">*</span></span><input id="c-phone" name="phone" class="field" placeholder="+233 …" autocomplete="tel" required></label>
+            <label class="block"><span class="lbl">Institution / organisation</span><input id="c-org" name="org" class="field" list="institutions" placeholder="e.g. KAAF University"></label>
+            <label class="block"><span class="lbl">I'm attending as <span class="req">*</span></span>
+              <select id="c-role" name="role" class="field" required>
+                <option value="participant">Participant — competing</option>
+                <option value="audience">Audience</option>
+                <option value="sponsor">Sponsor / partner</option>
+                <option value="security">Security</option>
+                <option value="volunteer">Volunteer / crew</option>
+                <option value="organiser">Organiser</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="block"><span class="lbl">Team code <span class="hint">(optional)</span></span><input id="c-team" name="teamCode" class="field font-mono uppercase" placeholder="IF26-XXXXXX" maxlength="11" autocomplete="off"></label>
+          </div>
+          <p class="mt-3 flex items-start gap-2 text-xs leading-relaxed text-navy/60"><span class="ms !text-[16px] mt-px shrink-0 text-plum-deep">link</span>Already registered? Add your team code and we'll match this request to your team. Leave it blank if you're not competing.</p>
+        </section>
+
+        <!-- payment -->
+        <section class="card overflow-hidden p-0">
+          <div class="on-dark relative bg-navy/90 px-6 py-5 text-white md:px-7">
+            <span class="wm !text-[7rem] text-white/10">₵</span>
+            <div class="relative z-10 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-mint">Payment · mobile money</p>
+                <h3 class="h-display mt-1 text-xl">Send <span id="pay-amount" class="text-momo">GH₵ 0</span> by MoMo</h3>
+              </div>
+              <p class="font-display text-xs font-bold text-white/70">GH₵ 75 × <span id="pay-qty" class="font-mono tabular-nums">0</span> shirt(s)</p>
+            </div>
+          </div>
+          <div class="p-6 md:p-7">
+            <ol class="space-y-3 text-sm leading-relaxed text-navy/80">
+              <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-momo font-mono text-[11px] font-bold text-navy">1</span>
+                <span>Send the exact amount above to this MoMo number:
+                  <span class="mt-2 flex flex-wrap items-center gap-2">
+                    <span id="momo-number" class="rounded-full bg-navy px-4 py-2 font-mono text-base font-bold tracking-wide text-mint">+233 249 332 626</span>
+                    <button type="button" id="copy-momo" class="btn !bg-blush !px-4 !py-2 !text-xs !text-plum-deep hover:!bg-mint-soft"><span class="ms !text-[16px]">content_copy</span><span id="copy-label">Copy number</span></button>
+                  </span>
+                  <span class="mt-2 block text-xs text-navy/60">Check the account name shown in your MoMo app before you confirm the transfer.</span>
+                </span>
+              </li>
+              <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-momo font-mono text-[11px] font-bold text-navy">2</span>
+                <span>Copy the <strong>reference / transaction ID</strong> from the confirmation SMS or your MoMo app history.</span>
+              </li>
+              <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-momo font-mono text-[11px] font-bold text-navy">3</span>
+                <span>Paste it below and send this request. We check the reference against our phone when you come to collect — shirts are handed over only after the payment is confirmed.</span>
+              </li>
+            </ol>
+            <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+              <label class="block"><span class="lbl">Network you paid from <span class="req">*</span></span>
+                <select id="c-network" name="momoNetwork" class="field" required>
+                  <option value="">Select…</option>
+                  <option value="mtn">MTN MoMo</option>
+                  <option value="telecel">Telecel Cash</option>
+                  <option value="at">AT Money</option>
+                </select>
+              </label>
+              <label class="block"><span class="lbl">Number you sent from <span class="hint">(if different from your phone)</span></span><input id="c-sender" name="momoSender" class="field font-mono" placeholder="+233 …" autocomplete="off"></label>
+              <label class="block md:col-span-2"><span class="lbl">MoMo payment reference / transaction ID <span class="req">*</span></span><input id="c-ref" name="momoRef" class="field font-mono" placeholder="e.g. MP261116.1234.A12345" minlength="4" maxlength="60" required autocomplete="off"></label>
+            </div>
+            <p id="pay-hint" class="mt-3 flex items-start gap-2 rounded-2xl border border-momo/60 bg-momo/15 px-4 py-3 text-xs leading-relaxed text-momo-deep"><span class="ms !text-[16px] mt-px shrink-0">info</span><span>Add at least one shirt to see the amount to send.</span></p>
+          </div>
+        </section>
+
+        <!-- collection -->
+        <section class="card p-6 md:p-7">
+          <h3 class="h-display text-xl">Collection</h3>
+          <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border-2 border-line bg-white/60 p-4 transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+              <input type="radio" name="pickup" value="self" class="mt-0.5 h-5 w-5" checked>
+              <span><span class="block font-display font-bold">I'll collect myself</span><span class="block text-xs text-navy/60">On site at KAAF University during the festival</span></span>
+            </label>
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border-2 border-line bg-white/60 p-4 transition has-[:checked]:border-navy has-[:checked]:bg-mint-soft">
+              <input type="radio" name="pickup" value="proxy" class="mt-0.5 h-5 w-5">
+              <span><span class="block font-display font-bold">Someone collects for me</span><span class="block text-xs text-navy/60">A team lead, friend or crew member</span></span>
+            </label>
+          </div>
+          <label id="collector-wrap" class="mt-4 hidden"><span class="lbl">Who is collecting? <span class="req">*</span></span><input id="c-collector" name="collector" class="field" placeholder="Their full name"></label>
+          <label class="mt-4 block"><span class="lbl">Anything else we should know?</span><textarea id="c-notes" name="notes" rows="3" class="field" placeholder="e.g. two spare shirts for the pit crew, name spelling for the handover list"></textarea></label>
+          <label class="mt-4 flex cursor-pointer items-start gap-3 rounded-2xl border border-line bg-[#e8f0fa]/60 p-4">
+            <input id="c-confirm" name="confirm" type="checkbox" class="mt-0.5 h-5 w-5" required>
+            <span class="text-sm leading-relaxed text-navy/80">The names, sizes and colours above are correct, and I have sent the MoMo payment shown with this reference. <span class="req">*</span></span>
+          </label>
+        </section>
+      </div>
+
+      <!-- live summary -->
+      <aside class="card p-6 lg:sticky lg:top-28">
+        <div class="flex items-center justify-between gap-3">
+          <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-plum-deep">Your request</p>
+          <button type="button" id="clear-form" class="font-display text-xs font-bold text-navy/45 underline decoration-line underline-offset-2 transition-colors hover:text-red-600">Clear</button>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <figure id="sum-black" class="relative overflow-hidden rounded-2xl bg-[#b9d5e7] transition-opacity">
+            <img src="/assets/tshirt-black.jpg" alt="" width="1060" height="1100" class="aspect-[1060/1100] w-full object-cover">
+            <figcaption class="absolute bottom-1.5 left-1.5 rounded-full bg-navy px-2.5 py-0.5 font-mono text-[11px] font-bold text-mint">Black ×<span id="n-black" class="tabular-nums">0</span></figcaption>
+          </figure>
+          <figure id="sum-white" class="relative overflow-hidden rounded-2xl bg-[#b9d5e7] transition-opacity">
+            <img src="/assets/tshirt-white.jpg" alt="" width="1060" height="1100" class="aspect-[1060/1100] w-full object-cover">
+            <figcaption class="absolute bottom-1.5 left-1.5 rounded-full bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold text-navy">White ×<span id="n-white" class="tabular-nums">0</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="mt-4 flex items-end justify-between gap-3 rounded-2xl bg-navy px-4 py-3 text-white">
+          <div>
+            <p class="font-mono text-[10px] font-bold uppercase tracking-widest text-white/60">Total to send</p>
+            <p id="sum-amount" class="h-display text-2xl leading-tight text-momo tabular-nums">GH₵ 0</p>
+          </div>
+          <p class="text-right font-mono text-xs text-white/70"><span id="shirt-total" class="h-display block text-2xl leading-none text-mint tabular-nums">0</span>shirts</p>
+        </div>
+
+        <div class="mt-5">
+          <p class="font-display text-xs font-extrabold uppercase tracking-wide text-navy/50">Size run</p>
+          <div id="run-bars" class="mt-2.5 space-y-2"></div>
+          <p id="run-empty" class="mt-2 text-xs text-navy/50">Pick a size on each line to build the run.</p>
+        </div>
+
+        <dl class="mt-5 space-y-1.5 border-t border-line pt-4 text-[13px]">
+          <div class="flex items-baseline justify-between gap-3"><dt class="text-navy/55">People</dt><dd id="sum-people" class="font-mono font-bold tabular-nums">1</dd></div>
+          <div class="flex items-baseline justify-between gap-3"><dt class="text-navy/55">Collection</dt><dd id="sum-pickup" class="text-right font-bold">Myself</dd></div>
+          <div class="flex items-baseline justify-between gap-3"><dt class="text-navy/55">Team</dt><dd id="sum-team" class="text-right font-bold text-navy/45">Not linked</dd></div>
+        </dl>
+
+        <button type="submit" id="submit" class="btn mt-5 w-full bg-mint text-navy hover:bg-mint/90"><span id="submit-label">Send request</span><span class="arw text-navy"><span class="ms !text-[15px]">send</span></span></button>
+        <p id="ts-err" class="mt-3 hidden items-start gap-1.5 rounded-2xl border border-red-300 bg-red-50 px-3.5 py-2.5 text-sm font-semibold text-red-700"><span class="ms !text-[18px] mt-px shrink-0">error</span><span></span></p>
+        <p class="mt-3 text-center text-xs text-navy/55">You'll get a <span class="font-mono font-bold">TS26-XXXXXX</span> request code to quote at collection.</p>
+      </aside>
+    </form>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success" class="hidden">
+    <div class="card mx-auto max-w-2xl p-8 text-center md:p-12">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-mint text-navy"><span class="ms !text-[32px]">check</span></div>
+      <h2 class="h-display mt-4 text-3xl">Request received</h2>
+      <p class="mt-2 text-sm text-navy/70">Quote this code when you collect, and in any message about the request:</p>
+      <p id="ts-code" class="mx-auto mt-4 inline-block rounded-full bg-navy px-6 py-3 font-mono text-2xl font-bold tracking-widest text-mint"></p>
+      <div id="success-run" class="mt-6 flex flex-wrap items-center justify-center gap-2"></div>
+      <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="rounded-2xl border border-line bg-blush/50 px-4 py-3 text-left">
+          <p class="font-mono text-[10px] font-bold uppercase tracking-widest text-navy/50">MoMo sent</p>
+          <p id="ok-amount" class="h-display text-xl text-plum-deep tabular-nums"></p>
+        </div>
+        <div class="rounded-2xl border border-line bg-blush/50 px-4 py-3 text-left">
+          <p class="font-mono text-[10px] font-bold uppercase tracking-widest text-navy/50">Your reference</p>
+          <p id="ok-ref" class="break-all font-mono text-sm font-bold text-navy"></p>
+        </div>
+      </div>
+      <p id="success-team" class="mt-4 hidden items-center justify-center gap-1.5 text-sm font-bold text-plum-deep"><span class="ms !text-[18px]">link</span><span></span></p>
+      <div class="mt-7 rounded-2xl border border-line bg-blush/50 p-5 text-left text-sm leading-relaxed text-navy/75">
+        <p class="font-display font-extrabold text-navy">What happens next</p>
+        <ul class="mt-2 space-y-1.5">
+          <li class="flex gap-2"><span class="ms !text-[17px] mt-px shrink-0 text-plum-deep">smartphone</span>We check your reference against our MoMo records and mark the payment verified.</li>
+          <li class="flex gap-2"><span class="ms !text-[17px] mt-px shrink-0 text-plum-deep">checkroom</span>Collect on site at KAAF University during the festival — bring this code and your ID.</li>
+          <li class="flex gap-2"><span class="ms !text-[17px] mt-px shrink-0 text-plum-deep">edit</span>Wrong size or reference? Send another request and mention this code in the notes.</li>
+        </ul>
+      </div>
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-4">
+        <button type="button" id="again" class="btn bg-navy text-white">Make another request <span class="arw !bg-mint text-navy"><span class="ms !text-[15px]">add</span></span></button>
+        <a href="/" class="font-display text-sm font-bold text-navy/60 underline decoration-line decoration-2 underline-offset-4 transition-colors hover:text-navy">Back to the festival</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HELP -->
+<section class="bg-blush/60 py-14">
+  <div class="wrap grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div class="card p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-full bg-plum text-white"><span class="ms !text-[20px]">groups</span></span>
+      <h3 class="h-display mt-3 text-lg">Ordering for a team?</h3>
+      <p class="mt-1.5 text-sm leading-relaxed text-navy/70">Add one line per member, mix black and white freely, and put your team code in the details. One MoMo transfer covers the whole request — the lead can collect for everyone.</p>
+    </div>
+    <div class="card p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-full bg-momo text-navy"><span class="ms !text-[20px]">smartphone</span></span>
+      <h3 class="h-display mt-3 text-lg">How payment works</h3>
+      <p class="mt-1.5 text-sm leading-relaxed text-navy/70">GH₵ 75 per shirt, sent by MTN MoMo, Telecel Cash or AT Money to the number on this page. Paste the reference here; we match it on our phone before handing over the shirts.</p>
+    </div>
+    <div class="card p-6">
+      <span class="flex h-10 w-10 items-center justify-center rounded-full bg-mint text-navy"><span class="ms !text-[20px]">support_agent</span></span>
+      <h3 class="h-display mt-3 text-lg">Stuck?</h3>
+      <p class="mt-1.5 text-sm leading-relaxed text-navy/70">Phone / WhatsApp <a href="tel:+233249332626" class="font-mono font-bold underline underline-offset-2">+233 249 332 626</a> or email <a href="mailto:info@sparklabafrica.com" class="font-semibold underline underline-offset-2">info@sparklabafrica.com</a>. Registration questions go through the <a href="/#register" class="font-semibold underline underline-offset-2">team portal</a>.</p>
+    </div>
+  </div>
+</section>
+
+<datalist id="institutions">
+  <option>KAAF University</option><option>University of Ghana, Legon</option><option>Kwame Nkrumah University of Science &amp; Technology</option>
+  <option>University of Cape Coast</option><option>University for Development Studies</option><option>Ghana Communication Technology University</option>
+  <option>Accra Technical University</option><option>Kumasi Technical University</option><option>Takoradi Technical University</option>
+  <option>Ho Technical University</option><option>Sunyani Technical University</option><option>University of Energy and Professional Studies</option>
+</datalist>
+
+<!-- FOOTER -->
+<footer class="on-dark rounded-t-[36px] bg-navy/85 text-white/75 backdrop-blur-lg">
+  <div class="wrap py-12">
+    <div class="flex flex-wrap items-center justify-between gap-8">
+      <div class="flex flex-wrap items-center gap-6">
+        <img src="/assets/logo.png" alt="iFESTIVAL '26 logo" class="h-14 w-auto brightness-0 invert sm:h-16">
+        <p class="max-w-sm text-[15px] leading-relaxed text-white/75">The Tertiary Innovation &amp; Technology Festival — organized by SparkLab Africa, hosted by KAAF University.</p>
+      </div>
+      <nav class="flex flex-wrap gap-x-6 gap-y-2 font-display text-sm font-bold" aria-label="Footer">
+        <a href="/" class="underline-offset-2 hover:text-white hover:underline">Festival home</a>
+        <a href="/#register" class="underline-offset-2 hover:text-white hover:underline">Register</a>
+        <a href="/#sponsors" class="underline-offset-2 hover:text-white hover:underline">Sponsors</a>
+        <a href="mailto:info@sparklabafrica.com" class="underline-offset-2 hover:text-white hover:underline">Contact</a>
+      </nav>
+    </div>
+  </div>
+  <p class="border-t border-white/15 py-5 text-center font-display text-xs font-bold text-white/75">© 2026 SparkLab Africa · iFESTIVAL '26</p>
+</footer>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+const COLORS = ['black', 'white'];
+const SIZE_COLOR = { S: '#4c82c4', M: '#12897f', L: '#4356c0', XL: '#43a04f', XXL: '#171464' };
+const SWATCH = { black: '#1c1c1e', white: '#ffffff' };
+const UNIT_PRICE = 75;
+const MAX_ROWS = 25, MAX_QTY = 10, MAX_TOTAL = 60;
+const ghs = n => 'GH₵ ' + Number(n).toLocaleString('en-GB');
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+const form = $('#ts-form');
+let people = [{ name: '', size: '', color: 'black', qty: 1 }];
+let defaultColor = 'black';
+let lastTotal = 0;
+
+// mobile menu
+const menuBtn = $('#menu-btn'), menuBox = $('#mobile-menu');
+menuBtn.addEventListener('click', () => {
+  const open = menuBox.classList.toggle('hidden') === false;
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.querySelector('.ms').textContent = open ? 'close' : 'menu';
+});
+$$('#mobile-menu a').forEach(a => a.addEventListener('click', () => {
+  menuBox.classList.add('hidden');
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.querySelector('.ms').textContent = 'menu';
+}));
+
+// colourway preview
+function setColorway(c) {
+  defaultColor = c;
+  $('#cw-black').setAttribute('aria-pressed', String(c === 'black'));
+  $('#cw-white').setAttribute('aria-pressed', String(c === 'white'));
+  $('#hero-black').classList.toggle('opacity-100', c === 'black');
+  $('#hero-black').classList.toggle('opacity-0', c !== 'black');
+  $('#hero-white').classList.toggle('opacity-100', c === 'white');
+  $('#hero-white').classList.toggle('opacity-0', c !== 'white');
+  $('#hero-cap').textContent = c === 'black' ? 'Black colourway' : 'White colourway';
+}
+$('#cw-black').addEventListener('click', () => setColorway('black'));
+$('#cw-white').addEventListener('click', () => setColorway('white'));
+
+function rowHtml(p, i) {
+  return `<div class="person rounded-2xl border border-line bg-white/70 p-4 backdrop-blur-sm" data-i="${i}">
+    <div class="flex items-center gap-3">
+      <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blush font-mono text-[11px] font-bold text-plum-deep">${i + 1}</span>
+      <input class="field p-name" value="${esc(p.name)}" placeholder="Full name" aria-label="Name for shirt ${i + 1}" required>
+      <button type="button" class="iconbtn p-del" aria-label="Remove person ${i + 1}" title="Remove"${people.length === 1 ? ' disabled' : ''}><span class="ms !text-[20px]">delete</span></button>
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <span class="mr-1 font-display text-xs font-extrabold uppercase tracking-wide text-navy/45">Colour</span>
+      ${COLORS.map(c => `<label class="chip color-chip"><input type="radio" name="color-${i}" value="${c}"${p.color === c ? ' checked' : ''} aria-label="${c} shirt for person ${i + 1}"><span class="swatch" style="background:${SWATCH[c]}"></span>${c === 'black' ? 'Black' : 'White'}</label>`).join('')}
+      <span class="mx-1 hidden h-5 w-px bg-line sm:block"></span>
+      <span class="mr-1 font-display text-xs font-extrabold uppercase tracking-wide text-navy/45">Size</span>
+      ${SIZES.map(s => `<label class="chip size-chip"><input type="radio" name="size-${i}" value="${s}"${p.size === s ? ' checked' : ''} aria-label="Size ${s} for person ${i + 1}"><span class="ms tick">check</span>${s}</label>`).join('')}
+      <div class="ml-auto flex items-center gap-1.5 rounded-full border border-line bg-white/80 px-1.5 py-1">
+        <button type="button" class="qtybtn q-minus" aria-label="One fewer shirt for person ${i + 1}"${p.qty <= 1 ? ' disabled' : ''}><span class="ms !text-[16px]">remove</span></button>
+        <span class="q-val w-6 text-center font-mono text-sm font-bold tabular-nums" aria-live="polite">${p.qty}</span>
+        <button type="button" class="qtybtn q-plus" aria-label="One more shirt for person ${i + 1}"${p.qty >= MAX_QTY ? ' disabled' : ''}><span class="ms !text-[16px]">add</span></button>
+      </div>
+    </div>
+    <p class="p-err mt-2 hidden text-xs font-bold text-red-600"></p>
+  </div>`;
+}
+
+function renderPeople() {
+  $('#people').innerHTML = people.map(rowHtml).join('');
+  $$('#people .person').forEach(row => {
+    const i = Number(row.dataset.i);
+    $('.p-name', row).addEventListener('input', e => { people[i].name = e.target.value; clearRowError(row); refresh(); });
+    $$('input[type=radio]', row).forEach(r => r.addEventListener('change', () => {
+      if (r.name.startsWith('color-')) people[i].color = r.value; else people[i].size = r.value;
+      clearRowError(row); refresh();
+    }));
+    $('.q-minus', row).addEventListener('click', () => setQty(i, people[i].qty - 1, row));
+    $('.q-plus', row).addEventListener('click', () => setQty(i, people[i].qty + 1, row));
+    $('.p-del', row).addEventListener('click', () => {
+      if (people.length === 1) return;
+      people.splice(i, 1);
+      renderPeople(); refresh();
+    });
+  });
+}
+
+function setQty(i, n, row) {
+  people[i].qty = Math.min(MAX_QTY, Math.max(1, n));
+  $('.q-val', row).textContent = people[i].qty;
+  $('.q-minus', row).disabled = people[i].qty <= 1;
+  $('.q-plus', row).disabled = people[i].qty >= MAX_QTY;
+  refresh();
+}
+
+function clearRowError(row) {
+  const e = $('.p-err', row);
+  e.classList.add('hidden'); e.textContent = '';
+  $('.p-name', row).classList.remove('!border-red-400');
+}
+
+function totals() {
+  const run = Object.fromEntries(SIZES.map(s => [s, 0]));
+  const colors = Object.fromEntries(COLORS.map(c => [c, 0]));
+  let total = 0;
+  for (const p of people) {
+    total += p.qty;
+    if (p.size) run[p.size] += p.qty;
+    colors[p.color] += p.qty;
+  }
+  return { run, colors, total, amount: total * UNIT_PRICE };
+}
+
+function refresh() {
+  const { run, colors, total, amount } = totals();
+  $('#hdr-count').textContent = total + (total === 1 ? ' shirt' : ' shirts') + ' · ' + people.length + (people.length === 1 ? ' person' : ' people');
+  $('#mini-run').innerHTML = SIZES.map(s => `<span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[11px] font-bold ${run[s] ? 'text-white' : 'bg-white/60 text-navy/35'}" style="${run[s] ? 'background:' + SIZE_COLOR[s] : ''}">${s}<span class="tabular-nums">${run[s]}</span></span>`).join('');
+
+  const max = Math.max(1, ...SIZES.map(s => run[s]));
+  $('#run-bars').innerHTML = SIZES.map(s => `<div class="flex items-center gap-2.5">
+      <span class="w-8 shrink-0 font-mono text-[11px] font-bold text-navy/60">${s}</span>
+      <span class="h-2.5 flex-1 overflow-hidden rounded-full bg-navy/10"><span class="bar block" style="width:${(run[s] / max) * 100}%;background:${SIZE_COLOR[s]}"></span></span>
+      <span class="w-6 shrink-0 text-right font-mono text-xs font-bold tabular-nums ${run[s] ? 'text-navy' : 'text-navy/30'}">${run[s]}</span>
+    </div>`).join('');
+  $('#run-empty').classList.toggle('hidden', total > 0);
+
+  $('#shirt-total').textContent = total;
+  $('#sum-amount').textContent = ghs(amount);
+  $('#pay-amount').textContent = ghs(amount);
+  $('#pay-qty').textContent = total;
+  $('#n-black').textContent = colors.black;
+  $('#n-white').textContent = colors.white;
+  $('#sum-black').classList.toggle('opacity-40', !colors.black);
+  $('#sum-white').classList.toggle('opacity-40', !colors.white);
+  const hint = $('#pay-hint');
+  if (total) {
+    $('span:last-child', hint).textContent = `Send exactly ${ghs(amount)} — ${total} shirt${total === 1 ? '' : 's'} at GH₵ ${UNIT_PRICE} each. Keep the reference SMS; we check it before handing over the shirts.`;
+    hint.classList.remove('border-momo/60', 'bg-momo/15', 'text-momo-deep');
+    hint.classList.add('border-mint/60', 'bg-mint-soft', 'text-mint-deep');
+  } else {
+    $('span:last-child', hint).textContent = 'Add at least one shirt to see the amount to send.';
+    hint.classList.add('border-momo/60', 'bg-momo/15', 'text-momo-deep');
+    hint.classList.remove('border-mint/60', 'bg-mint-soft', 'text-mint-deep');
+  }
+  if (total !== lastTotal) {
+    const badge = $('#sum-amount');
+    badge.classList.remove('pop');
+    void badge.offsetWidth;
+    badge.classList.add('pop');
+    lastTotal = total;
+  }
+  $('#sum-people').textContent = people.length;
+  $('#sum-pickup').textContent = $('input[name=pickup]:checked').value === 'proxy' ? 'By someone else' : 'Myself';
+  const tc = $('#c-team').value.trim().toUpperCase();
+  const teamEl = $('#sum-team');
+  teamEl.textContent = tc || 'Not linked';
+  teamEl.classList.toggle('text-navy/45', !tc);
+  teamEl.classList.toggle('font-mono', !!tc);
+  $('#submit-label').textContent = total ? `Send request · ${ghs(amount)}` : 'Send request';
+}
+
+$('#add-person').addEventListener('click', () => {
+  if (people.length >= MAX_ROWS) { showPeopleError(`One request holds up to ${MAX_ROWS} people — send a second request for the rest.`); return; }
+  hidePeopleError();
+  people.push({ name: '', size: '', color: defaultColor, qty: 1 });
+  renderPeople(); refresh();
+  const rows = $$('#people .person');
+  const last = rows[rows.length - 1];
+  $('.p-name', last).focus();
+  last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+$('#fill-all').addEventListener('click', () => {
+  const s = $('#fill-size').value;
+  if (!s) { $('#fill-size').focus(); return; }
+  people.forEach(p => { p.size = s; });
+  renderPeople(); refresh();
+});
+
+function resetForm() {
+  form.reset();
+  people = [{ name: '', size: '', color: defaultColor, qty: 1 }];
+  $('#collector-wrap').classList.add('hidden');
+  $('#c-collector').required = false;
+  hidePeopleError(); hideErr();
+  renderPeople(); refresh();
+}
+$('#clear-form').addEventListener('click', () => {
+  if (!confirm('Clear every line and field in this request?')) return;
+  resetForm();
+});
+
+// contact name seeds the first line, so a solo request needs no extra typing
+$('#c-name').addEventListener('input', e => {
+  if (people.length === 1 && !people[0].name) {
+    people[0].name = e.target.value;
+    const first = $('#people .person .p-name');
+    if (first && document.activeElement !== first) first.value = e.target.value;
+  }
+  refresh();
+});
+$('#c-team').addEventListener('input', refresh);
+$$('input[name=pickup]').forEach(r => r.addEventListener('change', () => {
+  const proxy = $('input[name=pickup]:checked').value === 'proxy';
+  $('#collector-wrap').classList.toggle('hidden', !proxy);
+  $('#c-collector').required = proxy;
+  if (!proxy) $('#c-collector').value = '';
+  refresh();
+}));
+
+$('#copy-momo').addEventListener('click', async () => {
+  const num = $('#momo-number').textContent.trim();
+  const label = $('#copy-label');
+  try {
+    await navigator.clipboard.writeText(num);
+    label.textContent = 'Copied';
+  } catch (_) {
+    const r = document.createRange();
+    r.selectNodeContents($('#momo-number'));
+    const sel = getSelection();
+    sel.removeAllRanges(); sel.addRange(r);
+    label.textContent = 'Selected — copy it';
+  }
+  setTimeout(() => { label.textContent = 'Copy number'; }, 2200);
+});
+
+function showPeopleError(msg) {
+  const box = $('#people-err');
+  $('span:last-child', box).textContent = msg;
+  box.classList.replace('hidden', 'flex');
+}
+function hidePeopleError() { $('#people-err').classList.replace('flex', 'hidden'); }
+function showErr(msg) {
+  const box = $('#ts-err');
+  $('span:last-child', box).textContent = msg;
+  box.classList.replace('hidden', 'flex');
+}
+function hideErr() { $('#ts-err').classList.replace('flex', 'hidden'); }
+
+function validate() {
+  hidePeopleError(); hideErr();
+  $$('#people .person').forEach(clearRowError);
+
+  const bad = $$('input,select,textarea', form).find(el =>
+    el.required && !el.disabled && !el.closest('.hidden') && !el.checkValidity());
+  if (bad) { bad.focus(); bad.reportValidity(); return false; }
+
+  let firstBad = null;
+  people.forEach((p, i) => {
+    const row = $(`#people .person[data-i="${i}"]`);
+    const msg = !p.name.trim() ? 'Add the name of the person wearing this shirt.'
+      : !p.size ? 'Choose a size for this person.' : '';
+    if (!msg) return;
+    const e = $('.p-err', row);
+    e.textContent = msg; e.classList.remove('hidden');
+    if (!p.name.trim()) $('.p-name', row).classList.add('!border-red-400');
+    if (!firstBad) firstBad = !p.name.trim() ? $('.p-name', row) : $('input[type=radio]', row);
+  });
+  if (firstBad) {
+    showPeopleError('Some lines are incomplete — fix the highlighted ones.');
+    firstBad.focus();
+    firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return false;
+  }
+  const { total } = totals();
+  if (total > MAX_TOTAL) { showPeopleError(`That's ${total} shirts — one request holds up to ${MAX_TOTAL}. Split it into two.`); return false; }
+  return true;
+}
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!validate()) return;
+  const { run, colors, total, amount } = totals();
+  const payload = {
+    name: $('#c-name').value.trim(),
+    email: $('#c-email').value.trim(),
+    phone: $('#c-phone').value.trim(),
+    org: $('#c-org').value.trim(),
+    role: $('#c-role').value,
+    teamCode: $('#c-team').value.trim().toUpperCase(),
+    items: people.map(p => ({ name: p.name.trim(), size: p.size, color: p.color, qty: p.qty })),
+    pickup: $('input[name=pickup]:checked').value,
+    collector: $('#c-collector').value.trim(),
+    momoNetwork: $('#c-network').value,
+    momoRef: $('#c-ref').value.trim(),
+    momoSender: $('#c-sender').value.trim(),
+    notes: $('#c-notes').value.trim(),
+    confirm: $('#c-confirm').checked,
+  };
+  const btn = $('#submit'), label = $('#submit-label');
+  btn.disabled = true; label.textContent = 'Sending…';
+  try {
+    const res = await fetch('/api/tshirts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(j.error || 'Request failed (' + res.status + ')');
+    $('#ts-code').textContent = j.code;
+    $('#success-run').innerHTML = SIZES.filter(s => run[s]).map(s =>
+      `<span class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-sm font-bold text-white" style="background:${SIZE_COLOR[s]}">${s}<span class="tabular-nums">×${run[s]}</span></span>`).join('')
+      + COLORS.filter(c => colors[c]).map(c =>
+        `<span class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-1.5 font-display text-sm font-bold text-navy"><span class="swatch" style="background:${SWATCH[c]}"></span>${c === 'black' ? 'Black' : 'White'} ×${colors[c]}</span>`).join('')
+      + `<span class="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-1.5 font-display text-sm font-bold text-mint">${total} shirt${total === 1 ? '' : 's'}</span>`;
+    $('#ok-amount').textContent = ghs(j.amount ?? amount);
+    $('#ok-ref').textContent = payload.momoRef;
+    const teamLine = $('#success-team');
+    if (j.teamName) {
+      $('span:last-child', teamLine).textContent = 'Linked to ' + j.teamName + (payload.teamCode ? ' · ' + payload.teamCode : '');
+      teamLine.classList.replace('hidden', 'flex');
+    } else {
+      teamLine.classList.replace('flex', 'hidden');
+    }
+    $('#builder').classList.add('hidden');
+    $('#success').classList.remove('hidden');
+    $('#success').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (ex) {
+    showErr(ex.message);
+    $('#ts-err').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } finally {
+    btn.disabled = false; refresh();
+  }
+});
+
+$('#again').addEventListener('click', () => {
+  resetForm();
+  $('#success').classList.add('hidden');
+  $('#builder').classList.remove('hidden');
+  $('#request').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+renderPeople();
+refresh();
+</script>
+</body>
+</html>
